@@ -9,6 +9,27 @@ var users = require('./routes/users');
 
 var app = express();
 
+var dao = require('./utils/dao');
+
+// Initializing global functions
+getTimestamp = function() {
+	return require('fecha').format(Date.now(), 'YYYY-MM-DD HH:mm:ss');
+};
+
+exists = function(obj) {
+	if (typeof obj !== 'undefined') {
+		if (obj !== null && obj !== undefined) {
+			if (typeof obj === 'string') {
+				return obj !== '';
+			} else if (typeof obj === 'number') {
+				return obj !== 0;
+			} else {
+				return JSON.stringify(obj) !== '{}';
+			}
+		}
+	}
+	return false;
+};
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -36,7 +57,10 @@ app.use(function(err, req, res, next) {
 
 	// render the error page
 	res.status(err.status || 500);
-	res.render('error');
+	res.send({
+		'status_code': err.status || 500,
+		'message': 'Not Found'
+	});
 });
 
 module.exports = app;
