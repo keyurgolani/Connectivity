@@ -4,7 +4,6 @@ var logger = require("../utils/logger");
 
 
 module.exports.register = function(email, password, firstname, lastname, screenname, res) {
-	var status_code = 200;
 	var salt = bcrypt.genSaltSync(10);
 
 	dao.insertData("account_details", {
@@ -62,7 +61,9 @@ module.exports.signin = function(email, password, req, res) {
 };
 
 module.exports.checkEmailAvailability = function(email, res) {
-	dao.executeQuery("SELECT COUNT(email) as count FROM user_account WHERE email like ?", [email], function(result) {
+	dao.fetchData('COUNT(email) as count', 'account_details', {
+		'email': email
+	}, function(result) {
 		if (result[0].count === 0) {
 			res.send({
 				"available": true
@@ -73,4 +74,23 @@ module.exports.checkEmailAvailability = function(email, res) {
 			});
 		}
 	});
+};
+
+module.exports.handleForgotRequest = function(email, res) {
+	email_validator = new RegExp("^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,24})$");
+	if (email.match(email_validator) !== null) {
+		dao.fetchData("count(user_id) as matches", "user_account", {
+			"email": email
+		}, function(rows) {
+			if (Number(rows[0].matches) > 0) {
+				// TODO: Send an email to user -- Not going to implement
+			} else {
+				error_messages.push("Email ID not found in our records.");
+				status_code = 400;
+			}
+		});
+	} else {
+		error_messages.push("Not valid Email ID");
+		status_code = 400;
+	}
 };
