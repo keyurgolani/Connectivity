@@ -1,10 +1,11 @@
+/*jshint esversion: 6 */
+
 var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 
 
 module.exports.register = function(email, password, firstname, lastname, screenname, res) {
-	var status_code = 200;
 	var salt = bcrypt.genSaltSync(10);
 
 	dao.insertData("account_details", {
@@ -42,7 +43,9 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 };
 
 module.exports.signin = function(email, password, req, res) {
-	dao.executeQuery("SELECT user_id, secret, salt FROM account_details WHERE email = ?", [email], function(credentials_details) {
+	dao.fetchData('user_id, secret, salt', 'account_details', {
+		'email': email
+	}, function(credentials_details) {
 		if (bcrypt.hashSync(password, credentials_details[0].salt) === credentials_details[0].secret) {
 			res.send({
 				'status_code': 200,
@@ -57,4 +60,51 @@ module.exports.signin = function(email, password, req, res) {
 			});
 		}
 	});
+};
+
+module.exports.checkEmailAvailability = function(email, res) {
+	dao.fetchData('COUNT(email) as count', 'account_details', {
+		'email': email
+	}, function(result) {
+		if (result[0].count === 0) {
+			res.send({
+				"available": true
+			});
+		} else {
+			res.send({
+				"available": false
+			});
+		}
+	});
+};
+
+module.exports.handleForgotRequest = function(email, res) {
+	if (email.match(email_validator) !== null) {
+		dao.fetchData("count(user_id) as matches", "account_details", {
+			"email": email
+		}, function(rows) {
+			if (Number(rows[0].matches) > 0) {
+				// TODO: Generate a reset code, store it to the DB and send that in email.
+				let resetCode = '103EX120A4FB91'
+				sendEmail(email, 'ConnActivity - Password Reset', resetCode, function(result) {
+					// TODO: Log the results properly to logger rather than to console directly
+					console.log(result);
+					res.send({
+						'status_code': 200,
+						'message': 'Reset Link Sent'
+					})
+				})
+			} else {
+				res.send({
+					'status_code': 404,
+					'message': 'Email not found'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 400,
+			'message': 'Bad Email ID'
+		});
+	}
 };

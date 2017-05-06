@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var mysql = require("mysql");
 var logger = require("../utils/logger");
 var properties = require('properties-reader')('properties.properties');
@@ -68,7 +69,7 @@ module.exports = {
 	fetchData: function(selectFields, tableName, queryParameters, processResult) {
 		connectionPool.get(function(connectionNumber, connection) {
 			var queryString = "SELECT " + selectFields + " FROM " + tableName;
-			if (queryParameters !== null) {
+			if (exists(queryParameters)) {
 				queryString = "SELECT " + selectFields + " FROM " + tableName + " WHERE ?";
 			}
 			var query = connection.query(queryString, queryParameters, function(error, rows) {

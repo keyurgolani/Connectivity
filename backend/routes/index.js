@@ -6,33 +6,59 @@ var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 
-// var common_bo = require('../bos/common_bo');
-// var homepage_bo = require('../bos/homepage_bo');
-var accounts_bo = require('../bos/accounts_bo');
-// var sell_bo = require('../bos/sell_bo');
-// var cart_bo = require('../bos/cart_bo');
-// var profile_bo = require('../bos/profile_bo');
-// var item_bo = require('../bos/item_bo');
 
-/* GET home page. */
+var accounts_bo = require('../bos/accounts_bo');
+
+// Dummy Homepage GET route
 router.get('/', function(req, res, next) {
 	res.send({});
 });
 
+
+// Account Related Routes
 router.post('/register', function(req, res, next) {
-	let password_validator = RegExp(/^[a-z0-9_-]{6,18}$/);
-	if (exists(req.body.password) && req.body.password.match(password_validator) !== null) {
+	if (exists(req.body.password) &&
+		exists(req.body.email) &&
+		req.body.password.match(password_validator) !== null &&
+		req.body.email.match(email_validator) !== null) {
 		accounts_bo.register(req.body.email, req.body.password, req.body.fname, req.body.lname, req.body.screenname, res);
 	} else {
 		res.send({
 			'status_code': 400,
-			'message': 'Bad Password'
+			'message': 'Bad Details'
 		});
 	}
 });
 
 router.post('/signin', function(req, res, next) {
-	accounts_bo.signin(req.body.email, req.body.password, req, res);
+	if (exists(req.body.password) &&
+		exists(req.body.email) &&
+		req.body.password.match(password_validator) !== null &&
+		req.body.email.match(email_validator) !== null) {
+		accounts_bo.signin(req.body.email, req.body.password, req, res);
+	} else {
+		res.send({
+			'status_code': 400,
+			'message': 'Bad Credentials'
+		});
+	}
+
+});
+
+router.post('/emailAvailable', function(req, res, next) {
+	accounts_bo.checkEmailAvailability(req.body.email, res);
+});
+
+router.post('/forgot', function(req, res, next) {
+	if (exists(req.body.email) &&
+		req.body.email.match(email_validator) !== null) {
+		accounts_bo.handleForgotRequest(req.body.email, res);
+	} else {
+		res.send({
+			'status_code': 400,
+			'message': 'Bad Email'
+		});
+	}
 });
 
 module.exports = router;
