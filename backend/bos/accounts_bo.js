@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
@@ -78,11 +80,20 @@ module.exports.checkEmailAvailability = function(email, res) {
 
 module.exports.handleForgotRequest = function(email, res) {
 	if (email.match(email_validator) !== null) {
-		dao.fetchData("count(user_id) as matches", "user_account", {
+		dao.fetchData("count(user_id) as matches", "account_details", {
 			"email": email
 		}, function(rows) {
 			if (Number(rows[0].matches) > 0) {
-				// TODO: Send an email to user -- Not going to implement
+				// TODO: Generate a reset code, store it to the DB and send that in email.
+				let resetCode = '103EX120A4FB91'
+				sendEmail(email, 'ConnActivity - Password Reset', resetCode, function(result) {
+					// TODO: Log the results properly to logger rather than to console directly
+					console.log(result);
+					res.send({
+						'status_code': 200,
+						'message': 'Reset Link Sent'
+					})
+				})
 			} else {
 				res.send({
 					'status_code': 404,

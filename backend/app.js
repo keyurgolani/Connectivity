@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -12,9 +14,6 @@ var app = express();
 var dao = require('./utils/dao');
 
 require('./utils/global').init();
-console.log(email_validator);
-console.log(getTimestamp);
-console.log(exists);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
