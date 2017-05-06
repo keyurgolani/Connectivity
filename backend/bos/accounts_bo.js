@@ -42,7 +42,9 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 };
 
 module.exports.signin = function(email, password, req, res) {
-	dao.executeQuery("SELECT user_id, secret, salt FROM account_details WHERE email = ?", [email], function(credentials_details) {
+	dao.fetchData('user_id, secret, salt', 'account_details', {
+		'email': email
+	}, function(credentials_details) {
 		if (bcrypt.hashSync(password, credentials_details[0].salt) === credentials_details[0].secret) {
 			res.send({
 				'status_code': 200,
@@ -54,6 +56,20 @@ module.exports.signin = function(email, password, req, res) {
 			res.send({
 				'status_code': 401,
 				'message': 'Invalid Credentials'
+			});
+		}
+	});
+};
+
+module.exports.checkEmailAvailability = function(email, res) {
+	dao.executeQuery("SELECT COUNT(email) as count FROM user_account WHERE email like ?", [email], function(result) {
+		if (result[0].count === 0) {
+			res.send({
+				"available": true
+			});
+		} else {
+			res.send({
+				"available": false
 			});
 		}
 	});

@@ -6,13 +6,8 @@ var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 
-// var common_bo = require('../bos/common_bo');
-// var homepage_bo = require('../bos/homepage_bo');
+
 var accounts_bo = require('../bos/accounts_bo');
-// var sell_bo = require('../bos/sell_bo');
-// var cart_bo = require('../bos/cart_bo');
-// var profile_bo = require('../bos/profile_bo');
-// var item_bo = require('../bos/item_bo');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
