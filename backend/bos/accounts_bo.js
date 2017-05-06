@@ -77,7 +77,6 @@ module.exports.checkEmailAvailability = function(email, res) {
 };
 
 module.exports.handleForgotRequest = function(email, res) {
-	email_validator = new RegExp("^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,24})$");
 	if (email.match(email_validator) !== null) {
 		dao.fetchData("count(user_id) as matches", "user_account", {
 			"email": email
@@ -85,12 +84,16 @@ module.exports.handleForgotRequest = function(email, res) {
 			if (Number(rows[0].matches) > 0) {
 				// TODO: Send an email to user -- Not going to implement
 			} else {
-				error_messages.push("Email ID not found in our records.");
-				status_code = 400;
+				res.send({
+					'status_code': 404,
+					'message': 'Email not found'
+				});
 			}
 		});
 	} else {
-		error_messages.push("Not valid Email ID");
-		status_code = 400;
+		res.send({
+			'status_code': 400,
+			'message': 'Bad Email ID'
+		});
 	}
 };
