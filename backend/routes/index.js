@@ -31,4 +31,8 @@ router.post('/register', function(req, res, next) {
 	}
 });
 
+router.post('/signin', function(req, res, next) {
+	accounts_bo.signin(req.body.email, req.body.password, req, res);
+});
+
 module.exports = router;
