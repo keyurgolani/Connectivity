@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="56dp"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
+
+    <!-- Title message -->
+    <TextView
+        android:id="@+id/title_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Enter the code form the email we just sent you on" />
+
+    <TextView
+        android:id="@+id/msg_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="abc@xyz.com"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+    <!--  Verification code  -->
+    <LinearLayout android:id="@+id/pin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <EditText
+            android:id="@+id/pin_first_edittext"
+            style="@style/pin_edittext_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/pin_content_desc" />
+
+        <EditText android:id="@+id/pin_second_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/pin_content_desc"
+            style="@style/pin_edittext_style" />
+
+        <EditText android:id="@+id/pin_third_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/pin_content_desc"
+            style="@style/pin_edittext_style" />
+
+        <EditText android:id="@+id/pin_forth_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/pin_content_desc"
+            style="@style/pin_edittext_style" />
+
+    </LinearLayout>
+
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:padding="12dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="Verify Me"/>
+
+    <TextView android:id="@+id/link_send_code"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Resend the Code."
+        android:gravity="center"
+        android:textSize="16dip"/>
+
+</LinearLayout>

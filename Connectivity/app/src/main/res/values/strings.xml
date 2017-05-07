@@ -13,4 +13,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="pin_content_desc">PIN input field</string>
 </resources>

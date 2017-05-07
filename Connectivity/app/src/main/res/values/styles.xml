@@ -26,4 +26,14 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="pin_edittext_style">
+        <item name="android:gravity">center</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:minEms">1</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:digits">0123456789</item>
+        <item name="android:textSize">48sp</item>
+    </style>
+
 </resources>
