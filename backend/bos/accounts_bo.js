@@ -11,7 +11,8 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 	dao.insertData("account_details", {
 		"email": email,
 		"secret": bcrypt.hashSync(password, salt),
-		"salt": salt
+		"salt": salt,
+		"verification_code": getRandom(4, 3)
 	}, function(account_result) {
 		if (account_result.affectedRows === 1) {
 			dao.insertData("profile_details", {
@@ -68,11 +69,13 @@ module.exports.checkEmailAvailability = function(email, res) {
 	}, function(result) {
 		if (result[0].count === 0) {
 			res.send({
-				"available": true
+				"status_code": 200,
+				"message": "Available"
 			});
 		} else {
 			res.send({
-				"available": false
+				"status_code": 404,
+				"message": "Unavailable"
 			});
 		}
 	});
