@@ -8,7 +8,7 @@ CREATE TABLE `account_details` (
   `email` varchar(255) NULL,
   `secret` varchar(255) NULL,
   `salt` varchar(255) NULL,
-  `verification_code` varchar(255) NULL,
+  `verification_code` INT(4) NULL,
   PRIMARY KEY (`user_id`)
 );
 

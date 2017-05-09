@@ -12,10 +12,6 @@ module.exports.init = function() {
 		return require('fecha').format(Date.now(), 'YYYY-MM-DD HH:mm:ss');
 	};
 
-	isFunc = function(obj) {
-		return typeof obj === 'function';
-	};
-
 	exists = function(obj) {
 		if (typeof obj !== 'undefined') {
 			if (obj !== null && obj !== undefined) {
@@ -23,12 +19,46 @@ module.exports.init = function() {
 					return obj !== '';
 				} else if (typeof obj === 'number') {
 					return obj !== 0;
-				} else {
+				} else if (typeof obj === 'object') {
 					return JSON.stringify(obj) !== '{}';
+				} else {
+					return true;
 				}
 			}
 		}
 		return false;
+	};
+
+	isFunc = function(obj) {
+		return exists(obj) && typeof obj === 'function';
+	};
+
+	isNum = function(obj) {
+		return exists(obj) && typeof obj === 'number';
+	}
+
+	isStr = function(obj) {
+		return exists(obj) && typeof obj === 'string';
+	}
+
+	isObj = function(obj) {
+		return exists(obj) && typeof obj === 'object';
+	}
+
+	getRandom = function(length, type) {
+		var generatedString = "";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		if (isNum(type) && type === 1) {
+			possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		} else if (isNum(type) && type === 2) {
+			possible = "abcdefghijklmnopqrstuvwxyz";
+		} else if (isNum(type) && type === 3) {
+			possible = '0123456789'
+		}
+		for (var i = 0; i < length; i++) {
+			generatedString += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
+		return generatedString;
 	};
 
 	sendEmail = function(recepiant, subject, content, htmlContent, processResult) {
