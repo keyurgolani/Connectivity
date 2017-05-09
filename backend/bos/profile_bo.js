@@ -21,7 +21,7 @@ module.exports.fetchProfile = function(params, res) {
 			});
 		} else {
 			res.send({
-				"status_code": 401,
+				"status_code": 500,
 				"message": "Internal Error"
 			});
 		}
@@ -68,7 +68,7 @@ module.exports.updateProfile = function(params, res) {
 			});
 		} else {
 			res.send({
-				"status_code": 401,
+				"status_code": 500,
 				"message": "Internal Error"
 			});
 		}
