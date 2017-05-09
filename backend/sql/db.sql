@@ -23,6 +23,8 @@ CREATE TABLE `profile_details` (
   `profession` varchar(255) NULL,
   `about_me` varchar(255) NULL,
   `screen_name` varchar(255) NULL,
+  `dob` DATE NULL,
+  `mycol` VARCHAR(10) NULL CHECK (`mycol` IN('Male', 'Female', 'Other')),
   `timestamp` TIMESTAMP NOT NULL,
   PRIMARY KEY (`profile_id`)
 );
