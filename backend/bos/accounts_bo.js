@@ -63,6 +63,37 @@ module.exports.signin = function(email, password, req, res) {
 	});
 };
 
+module.exports.verifyAccount = function(email, code, res) {
+	dao.fetchData('verification_code', 'account_details', {
+		'email': email
+	}, function(verification_result) {
+		if (verification_result[0].verification_code == code) {
+			dao.updateData('account_details', {
+				'verification_code': ''
+			}, {
+				'email': email
+			}, function(reset_verification_result) {
+				if (reset_verification_result.affectedRows === 1) {
+					res.send({
+						'status_code': 200,
+						'message': 'Account Verified'
+					});
+				} else {
+					res.send({
+						'status_code': 500,
+						'message': 'Internal Error'
+					});
+				}
+			})
+		} else {
+			res.send({
+				'status_code': 401,
+				'message': 'Invalid Code'
+			});
+		}
+	});
+};
+
 module.exports.checkEmailAvailability = function(email, res) {
 	dao.fetchData('COUNT(email) as count', 'account_details', {
 		'email': email

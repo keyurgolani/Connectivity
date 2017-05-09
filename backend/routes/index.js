@@ -31,6 +31,19 @@ router.post('/register', function(req, res, next) {
 	}
 });
 
+router.post('/verifyAccount', function(req, res, next) {
+	if (exists(req.body.code) && isNum(req.body.code) &&
+		exists(req.body.email) &&
+		req.body.email.match(email_validator) !== null) {
+		accounts_bo.verifyAccount(req.body.email, req.body.code, res);
+	} else {
+		res.send({
+			'status_code': 400,
+			'message': 'Bad Details'
+		});
+	}
+});
+
 router.post('/signin', function(req, res, next) {
 	if (exists(req.body.password) &&
 		exists(req.body.email) &&
