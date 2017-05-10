@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -123,6 +135,17 @@ public class VerificationActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        btnVerify.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //verifying the code on click
+                //TODO: logic to verify the code
+                verifyCode();
+
+            }
+        });
     }
 
 
@@ -146,4 +169,50 @@ public class VerificationActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    private void verifyCode(){
+        //-----------------------------------------------------------------------------------------
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://10.0.0.17:3000/verifyAccount";
+        final String pincode_string = etPin0.getText().toString()
+                +etPin1.getText().toString()
+                +etPin2.getText().toString()
+                +etPin3.getText();
+
+        StringRequest strRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                        Log.d("--------------------",response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("email","naikrushin@gmail.com");
+                params.put("code", pincode_string);
+                return params;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(strRequest);
+//-----------------------------------------------------------------------------------------
+
+    }
+
 }

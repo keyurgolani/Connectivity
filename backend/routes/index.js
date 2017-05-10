@@ -32,7 +32,8 @@ router.post('/register', function(req, res, next) {
 });
 
 router.post('/verifyAccount', function(req, res, next) {
-	if (exists(req.body.code) && isNum(req.body.code) &&
+	if (exists(req.body.code) &&
+		// isNum(req.body.code) &&
 		exists(req.body.email) &&
 		req.body.email.match(email_validator) !== null) {
 		accounts_bo.verifyAccount(req.body.email, req.body.code, res);

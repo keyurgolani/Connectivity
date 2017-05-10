@@ -70,6 +70,9 @@ public class SignUpActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 // TODO: Implement successful signup logic here
+
+
+
                 // By default we just finish the Activity and log them in automatically
                 this.finish();
             }
@@ -97,7 +100,9 @@ public class SignUpActivity extends AppCompatActivity {
         String emailId = etEmailId.getText().toString();
         String password = etPassword.getText().toString();
 
-        // TODO: SignUp Logic - Progress anim to be diosplayed
+        // TODO: SignUp Logic - Progress anim to be displayed
+
+
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -182,12 +187,8 @@ public class SignUpActivity extends AppCompatActivity {
     private void onSignupFailed() {
         //TODO: Failed SignUp
         Toast.makeText(getBaseContext(), "SignUp failed", Toast.LENGTH_LONG).show();
-
         btnSignUp.setEnabled(true);
     }
-
-
-
 
     //UI validation for signup details
     private boolean validateSignUpDetails() {
