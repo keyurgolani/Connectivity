@@ -11,6 +11,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
@@ -106,7 +116,56 @@ public class SignUpActivity extends AppCompatActivity {
     private void onSignupSuccess() {
 
         //TODO: Save User details to the DB
+//-----------------------------------------------------------------------------------------
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://10.0.0.17:3000/register";
+
+        StringRequest strRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                        Log.d("--------------------",response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("email",etEmailId.getText().toString());
+                params.put("password",etPassword.getText().toString());
+                params.put("fname",etFirstName.getText().toString());
+                params.put("lname",etLastName.getText().toString());
+                params.put("screenname","Screen Name");
+                return params;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(strRequest);
+//-----------------------------------------------------------------------------------------
+
         //TODO: Successful signup - e.g. sending the verification code/link
+
+        // This will be done from node at signup time
+
+
+
+
+
+
         btnSignUp.setEnabled(true);
 
         // Start the Signup activity
