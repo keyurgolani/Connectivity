@@ -115,8 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void onSignupSuccess() {
 
-        //TODO: Save User details to the DB
-//-----------------------------------------------------------------------------------------
+        //TODO: REST Call Done. Implement Full Logic and separate the REST Call code to a module
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://10.0.0.17:3000/register";
 
@@ -127,7 +126,6 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onResponse(String response)
                     {
                         Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                        Log.d("--------------------",response);
                     }
                 },
                 new Response.ErrorListener()
@@ -155,7 +153,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         queue.add(strRequest);
-//-----------------------------------------------------------------------------------------
 
         //TODO: Successful signup - e.g. sending the verification code/link
 

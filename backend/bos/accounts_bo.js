@@ -3,34 +3,51 @@
 var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
+var async = require("async");
 
 
 module.exports.register = function(email, password, firstname, lastname, screenname, res) {
 	var salt = bcrypt.genSaltSync(10);
+	var verificationCode = getRandom(4, 3);
 
 	dao.insertData("account_details", {
 		"email": email,
 		"secret": bcrypt.hashSync(password, salt),
 		"salt": salt,
-		"verification_code": getRandom(4, 3)
+		"verification_code": verificationCode
 	}, function(account_result) {
 		if (account_result.affectedRows === 1) {
-			dao.insertData("profile_details", {
-				'account': account_result.insertId,
-				'f_name': firstname,
-				'l_name': lastname,
-				'screen_name': screenname,
-				'timestamp': getTimestamp()
-			}, function(profile_result) {
-				if (profile_result.affectedRows === 1) {
-					res.send({
-						'status_code': 200,
-						'message': 'User ' + firstname + ' created successfully !'
+			async.parallel([
+				function(callback) {
+					sendEmail(email, "ConnActivity - Account Verification", verificationCode, function(email_result) {
+						callback(null, email_result);
 					});
-				} else {
+				},
+				function(callback) {
+					dao.insertData("profile_details", {
+						'account': account_result.insertId,
+						'f_name': firstname,
+						'l_name': lastname,
+						'screen_name': screenname,
+						'timestamp': getTimestamp()
+					}, function(profile_result) {
+						if (profile_result.affectedRows === 1) {
+							callback(null, true);
+						} else {
+							callback(true, null)
+						}
+					});
+				}
+			], function(error, results) {
+				if (error) {
 					res.send({
 						'status_code': 400,
 						'message': 'Bad Request'
+					});
+				} else {
+					res.send({
+						'status_code': 200,
+						'message': 'User ' + firstname + ' created successfully !'
 					});
 				}
 			});

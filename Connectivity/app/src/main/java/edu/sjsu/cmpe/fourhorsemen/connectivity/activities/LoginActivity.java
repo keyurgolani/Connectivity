@@ -90,44 +90,6 @@ public class LoginActivity extends AppCompatActivity {
     private void doLogin() {
         Log.d(TAG, "doLogin");
 
-        // Testing REST Calls ---------
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://10.0.0.92:3000/emailAvailable";
-
-        StringRequest strRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("email", "keyurrgolani@gmail.com");
-                return params;
-            }
-        };
-
-        // Add the request to the RequestQueue.
-        queue.add(strRequest);
-
-
-        //-----------------------------
-
         if (!validateCredentialInput()) {
             Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
             btnLogin.setEnabled(true);
