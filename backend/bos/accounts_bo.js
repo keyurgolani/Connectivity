@@ -3,16 +3,19 @@
 var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
+var async = require("async");
 
 
 module.exports.register = function(email, password, firstname, lastname, screenname, res) {
 	var salt = bcrypt.genSaltSync(10);
+	var uniqueID = getRandom(25);
 
 	dao.insertData("account_details", {
 		"email": email,
 		"secret": bcrypt.hashSync(password, salt),
 		"salt": salt,
-		"verification_code": getRandom(4, 3)
+		"verification_code": getRandom(4, 3),
+		"unique_id": uniqueID
 	}, function(account_result) {
 		if (account_result.affectedRows === 1) {
 			dao.insertData("profile_details", {
@@ -25,7 +28,7 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 				if (profile_result.affectedRows === 1) {
 					res.send({
 						'status_code': 200,
-						'message': 'User ' + firstname + ' created successfully !'
+						'message': 'User' + firstname + 'created!'
 					});
 				} else {
 					res.send({
@@ -44,16 +47,24 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 };
 
 module.exports.signin = function(email, password, req, res) {
+	var uniqueID = getRandom(25);
 	dao.fetchData('user_id, secret, salt', 'account_details', {
 		'email': email
 	}, function(credentials_details) {
 		if (bcrypt.hashSync(password, credentials_details[0].salt) === credentials_details[0].secret) {
-			res.send({
-				'status_code': 200,
-				'message': {
-					'user_id': credentials_details[0].user_id
-				}
-			});
+			dao.updateData('account_details', {
+				'unique_id': uniqueID
+			}, {
+				'user_id': credentials_details[0].user_id
+			}, function(unique_id_result) {
+				res.send({
+					'status_code': 200,
+					'message': {
+						'user_id': credentials_details[0].user_id,
+						'unique_id': uniqueID
+					}
+				});
+			})
 		} else {
 			res.send({
 				'status_code': 401,
@@ -64,7 +75,7 @@ module.exports.signin = function(email, password, req, res) {
 };
 
 module.exports.verifyAccount = function(email, code, res) {
-	dao.fetchData('verification_code', 'account_details', {
+	dao.fetchData('verification_code, unique_id', 'account_details', {
 		'email': email
 	}, function(verification_result) {
 		if (verification_result[0].verification_code == code) {
@@ -76,7 +87,9 @@ module.exports.verifyAccount = function(email, code, res) {
 				if (reset_verification_result.affectedRows === 1) {
 					res.send({
 						'status_code': 200,
-						'message': 'Account Verified'
+						'message': {
+							'unique_id': verification_result[0].unique_id
+						}
 					});
 				} else {
 					res.send({
@@ -119,14 +132,28 @@ module.exports.handleForgotRequest = function(email, res) {
 		}, function(rows) {
 			if (Number(rows[0].matches) > 0) {
 				// TODO: Generate a reset code, store it to the DB and send that in email.
-				let resetCode = '103EX120A4FB91'
-				sendEmail(email, 'ConnActivity - Password Reset', resetCode, function(result) {
-					// TODO: Log the results properly to logger rather than to console directly
-					console.log(result);
+				let resetCode = getRandom(4, 3);
+				async.parallel([
+					function(callback) {
+						sendEmail(email, 'ConnActivity - Password Reset', resetCode, function(result) {
+							// TODO: Log the results properly to logger rather than to console directly
+							callback(null, result);
+						})
+					},
+					function(callback) {
+						dao.updateData('account_details', {
+							'verification_code': resetCode
+						}, {
+							'email': email
+						}, function(result) {
+							callback(null, result);
+						})
+					}
+				], function(error, results) {
 					res.send({
 						'status_code': 200,
 						'message': 'Reset Link Sent'
-					})
+					});
 				})
 			} else {
 				res.send({

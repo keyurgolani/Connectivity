@@ -9,6 +9,7 @@ CREATE TABLE `account_details` (
   `secret` varchar(255) NULL,
   `salt` varchar(255) NULL,
   `verification_code` INT(4) NULL,
+  `unique_id` varchar(50) NULL,
   PRIMARY KEY (`user_id`)
 );
 

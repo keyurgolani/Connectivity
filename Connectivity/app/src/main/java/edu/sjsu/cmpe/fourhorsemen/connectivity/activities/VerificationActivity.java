@@ -22,6 +22,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +31,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.customviews.PINEditText;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
 /**
  * Created by gauravchodwadia on 5/7/17.
@@ -36,22 +40,34 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.customviews.PINEditText;
 
 public class VerificationActivity extends AppCompatActivity {
 
-    private static final String TAG = "VerificationActivity";
+    private static final String TAG = VerificationActivity.class.getSimpleName();
 
-    @Bind(R.id.msg_email) TextView msgEmail;
-    @Bind(R.id.pin_first_edittext) EditText etPin0;
-    @Bind(R.id.pin_second_edittext) EditText etPin1;
-    @Bind(R.id.pin_third_edittext) EditText etPin2;
-    @Bind(R.id.pin_forth_edittext) EditText etPin3;
-    @Bind(R.id.btn_verify) Button btnVerify;
-    @Bind(R.id.link_send_code) TextView linkResendCode;
+    @Bind(R.id.msg_email)
+    TextView msgEmail;
+    @Bind(R.id.pin_first_edittext)
+    EditText etPin0;
+    @Bind(R.id.pin_second_edittext)
+    EditText etPin1;
+    @Bind(R.id.pin_third_edittext)
+    EditText etPin2;
+    @Bind(R.id.pin_forth_edittext)
+    EditText etPin3;
+    @Bind(R.id.btn_verify)
+    Button btnVerify;
+    @Bind(R.id.link_send_code)
+    TextView linkResendCode;
+    private static final String baseURL = "http://10.0.0.17:3000/";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_verification);
+
         ButterKnife.bind(this);
+
+        Intent receiveIntent = getIntent();
+        final String email = receiveIntent.getStringExtra("email");
+        msgEmail.setText(email.toString());
 
         setFocusOnPinPos(0);
 
@@ -60,6 +76,7 @@ public class VerificationActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -67,7 +84,7 @@ public class VerificationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equals("")){
+                if (!s.toString().equals("")) {
                     setFocusOnPinPos(1);
                 }
             }
@@ -78,6 +95,7 @@ public class VerificationActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -85,9 +103,9 @@ public class VerificationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equals("")){
+                if (!s.toString().equals("")) {
                     setFocusOnPinPos(2);
-                }else{
+                } else {
                     setFocusOnPinPos(0);
                 }
             }
@@ -98,6 +116,7 @@ public class VerificationActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -105,9 +124,9 @@ public class VerificationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equals("")){
+                if (!s.toString().equals("")) {
                     setFocusOnPinPos(3);
-                }else{
+                } else {
                     setFocusOnPinPos(1);
                 }
             }
@@ -118,6 +137,7 @@ public class VerificationActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -125,34 +145,49 @@ public class VerificationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equals("")){
+                if (!s.toString().equals("")) {
                     etPin3.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput (InputMethodManager.SHOW_FORCED, 0);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                     btnVerify.requestFocus();
-                }else{
+                } else {
                     setFocusOnPinPos(2);
                 }
             }
         });
 
 
-        btnVerify.setOnClickListener(new View.OnClickListener(){
+        btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //verifying the code on click
-                //TODO: logic to verify the code
-                verifyCode();
+                final String pincode_string = etPin0.getText().toString()
+                        + etPin1.getText().toString()
+                        + etPin2.getText().toString()
+                        + etPin3.getText();
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("email", email);
+                params.put("code", pincode_string);
+                RequestHandler.HTTPRequest(getApplicationContext(), baseURL, "verifyAccount", params, new ResponseHandler() {
+                    @Override
+                    public void handleSuccess(JSONObject response) {
+                        Toast.makeText(getApplicationContext(), "Verified", Toast.LENGTH_LONG);
+                    }
+
+                    @Override
+                    public void handleError(Exception e) {
+                        Toast.makeText(getApplicationContext(), "Code Not Matched", Toast.LENGTH_LONG);
+                    }
+                });
 
             }
         });
     }
 
 
-
     private void setFocusOnPinPos(int pinPos) {
 
-        switch (pinPos){
+        switch (pinPos) {
             case 0:
                 etPin0.requestFocus();
                 break;
@@ -168,51 +203,6 @@ public class VerificationActivity extends AppCompatActivity {
             default:
                 break;
         }
-    }
-
-    private void verifyCode(){
-        //-----------------------------------------------------------------------------------------
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://10.0.0.17:3000/verifyAccount";
-        final String pincode_string = etPin0.getText().toString()
-                +etPin1.getText().toString()
-                +etPin2.getText().toString()
-                +etPin3.getText();
-
-        StringRequest strRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                        Log.d("--------------------",response);
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("email","naikrushin@gmail.com");
-                params.put("code", pincode_string);
-                return params;
-            }
-        };
-
-        // Add the request to the RequestQueue.
-        queue.add(strRequest);
-//-----------------------------------------------------------------------------------------
-
     }
 
 }
