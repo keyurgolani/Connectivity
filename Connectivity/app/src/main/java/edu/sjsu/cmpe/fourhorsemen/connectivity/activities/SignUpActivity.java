@@ -37,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG = SignUpActivity.class.getSimpleName();
     private static final int REQUEST_VERIFICATION = 0;
-    private static final String baseURL = "http://10.0.0.92:3000/";
+    private static final String baseURL = "http://10.0.0.17:3000/";
     @Bind(R.id.et_emailid)
     EditText etEmailId;
     @Bind(R.id.et_first_name)
@@ -103,7 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
         password = etPassword.getText().toString();
 
         if (!validateSignUpDetails()) {
-            onSignupFailed();
+            onDetailValidationFailed();
             return;
         }
 
@@ -115,7 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        // TODO: SignUp Logic - Progress anim to be displayed
+
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("email", emailId);
         params.put("password", password);
@@ -126,14 +126,16 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void handleSuccess(JSONObject response) {
                 Log.d(TAG, response.toString());
-                progressDialog.hide();
+                progressDialog.dismiss();
                 onSignupSuccess();
+
             }
 
             @Override
             public void handleError(Exception e) {
                 e.printStackTrace();
-                progressDialog.hide();
+                Log.e(TAG,e.getMessage());
+                progressDialog.dismiss();
                 onSignupFailed();
             }
         });
@@ -150,14 +152,18 @@ public class SignUpActivity extends AppCompatActivity {
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
-
         setResult(RESULT_OK, null);
         finish();
     }
 
+
+    private void onDetailValidationFailed(){
+        Toast.makeText(getBaseContext(), "Please check the details that you entered!!!", Toast.LENGTH_LONG).show();
+        btnSignUp.setEnabled(true);
+    }
     private void onSignupFailed() {
-        //TODO: Failed SignUp
-        Toast.makeText(getBaseContext(), "SignUp failed", Toast.LENGTH_LONG).show();
+
+        Toast.makeText(getBaseContext(), "Something went wrong! Please try again.", Toast.LENGTH_LONG).show();
         btnSignUp.setEnabled(true);
     }
 

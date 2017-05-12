@@ -171,12 +171,15 @@ public class VerificationActivity extends AppCompatActivity {
                 RequestHandler.HTTPRequest(getApplicationContext(), baseURL, "verifyAccount", params, new ResponseHandler() {
                     @Override
                     public void handleSuccess(JSONObject response) {
+                        Log.i("Verification Response", response.toString());
                         Toast.makeText(getApplicationContext(), "Verified", Toast.LENGTH_LONG);
                     }
 
                     @Override
                     public void handleError(Exception e) {
+                        Log.e("Verification Error", "error in verifying the code");
                         Toast.makeText(getApplicationContext(), "Code Not Matched", Toast.LENGTH_LONG);
+
                     }
                 });
 
