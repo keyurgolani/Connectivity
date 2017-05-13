@@ -225,7 +225,6 @@ Temporary Items
 .apdisk
 
 ### Node ###
-# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
