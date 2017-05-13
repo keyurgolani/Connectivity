@@ -29,10 +29,13 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.Bind;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private static final String baseURL = "http://10.0.0.17:3000/";
 
     @Bind(R.id.et_emailid) EditText etEmailID;
     @Bind(R.id.et_password) EditText etPassword;
@@ -107,68 +110,53 @@ public class LoginActivity extends AppCompatActivity {
         String email = etEmailID.getText().toString();
         String password = etPassword.getText().toString();
 
-        // TODO: Authentication logic - Remove the following runnable.
+        //Authentication logic - Remove the following runnable.
 
-        //-----------------------------------------------------------------------------
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("email", email);
+        params.put("password", password);
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://10.0.0.17:3000/signin";
-
-        StringRequest strRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
+        RequestHandler.HTTPRequest(getApplicationContext(), baseURL, "register", params, new ResponseHandler() {
                     @Override
-                    public void onResponse(String response)
-                    {
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                        Log.d("--------------------",response);
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("email", etEmailID.getText().toString());
-                params.put("password", etPassword.getText().toString());
-                return params;
-            }
-        };
-
-        // Add the request to the RequestQueue.
-        queue.add(strRequest);
-        //-----------------------------------------------------------------------------
-
-
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
+                    public void handleSuccess(JSONObject response) {
+                        Log.i("OnLogin Info",response.toString());
                         onLoginSuccess();
-                        //onLoginFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+
+                    @Override
+                    public void handleError(Exception e) {
+                        Log.e("OnLogin Error",e.getMessage());
+                        onLoginFailed();
+                        progressDialog.dismiss();
+                    }
+                });
+
+
+
+
+//
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onLoginSuccess or onLoginFailed
+//                        onLoginSuccess();
+//                        //onLoginFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 3000);
     }
 
 
     private void onLoginSuccess() {
         btnLogin.setEnabled(true);
+        Toast.makeText(getBaseContext(), "Login Successful", Toast.LENGTH_LONG).show();
         finish();
     }
 
     private void onLoginFailed() {
         etPassword.setText("");
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Login Failed", Toast.LENGTH_LONG).show();
         btnLogin.setEnabled(true);
     }
 
