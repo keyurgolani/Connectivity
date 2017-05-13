@@ -5,6 +5,7 @@ var router = express.Router();
 var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
+var properties = require('properties-reader')('properties.properties');
 
 
 var accounts_bo = require('../bos/accounts_bo');
@@ -13,6 +14,13 @@ var profile_bo = require('../bos/profile_bo');
 // Dummy Homepage GET route
 router.get('/', function(req, res, next) {
 	res.send({});
+});
+
+// Version Checking
+router.post('/version', function(req, res, next) {
+	res.send({
+		'version': properties.get('version.oldest_compatible')
+	});
 });
 
 

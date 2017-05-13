@@ -24,6 +24,9 @@ import java.util.HashMap;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.LoginActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 
 /**
  * Created by gauravchodwadia on 5/6/17.
@@ -32,13 +35,32 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 public class MainActivity extends AppCompatActivity {
 
     static final int REQUEST_LOGIN = 0;
+    static final String TAG = MainActivity.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PreferenceHandler.initSharedPreferences(getApplicationContext());
-        //TODO: check if the user is logged in or not
+        PreferenceHandler.putVersion("1.0.0");
+        // Check for app backward compatibility
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("version", PreferenceHandler.getVersion());
+        RequestHandler.HTTPRequest(getApplicationContext(), "version", params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) throws Exception {
+                if(Utilities.getVersionDiff(response.getString("version"), PreferenceHandler.getVersion()) > 0) {
+                    // Open App Store for Latest Update
+                }
+            }
+
+            @Override
+            public void handleError(Exception e) throws Exception {
+
+            }
+        });
+        // Check if logged in
         if(PreferenceHandler.getAccessKey() == null) {
             requestLogin(getApplicationContext());
         }
