@@ -26,7 +26,7 @@ module.exports.fetchProfile = function(params, res) {
 			});
 		}
 	})
-}
+};
 
 module.exports.isUniqueIDProfile = function(uniqueID, profile_id, processResult) {
 	dao.executeQuery('SELECT count(user_id) as count from account_details, profile_details where account = user_id and unique_id = ? and profile_id = ?', [uniqueID, profile_id], function(combination_result) {
@@ -36,6 +36,12 @@ module.exports.isUniqueIDProfile = function(uniqueID, profile_id, processResult)
 			processResult(false);
 		}
 	})
+};
+
+module.exports.getIDFromUniqueID = function(uniqueID, processResult) {
+	dao.executeQuery('select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = ?', [uniqueID], function(profile_results) {
+		processResult(profile_results[0].user_id, profile_results[0].profile_id);
+	});
 };
 
 module.exports.updateProfile = function(params, res) {

@@ -73,3 +73,46 @@
 {"@message":"Query: SELECT user_id, secret, salt FROM account_details WHERE `email` = 'keyurrgolani@gmail.com'","@timestamp":"2017-05-13T09:34:55.382Z","@fields":{"level":"debug"}}
 {"@message":"Query: UPDATE account_details SET `unique_id` = 'pFUbjPatLFJjnkGehMqLjqss6' WHERE `user_id` = 12","@timestamp":"2017-05-13T09:34:55.482Z","@fields":{"level":"debug"}}
 {"@message":"Query: SELECT verification_code FROM account_details WHERE `user_id` = 12","@timestamp":"2017-05-13T09:34:55.489Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO account_details SET `email` = 'keyurrgolani@gmail.com', `secret` = '$2a$10$bkNQcTOyAxam60HewWGE6ORctAdLfHiaAKf/cvRWvRTj6bLv7LBNq', `salt` = '$2a$10$bkNQcTOyAxam60HewWGE6O', `verification_code` = '2870', `unique_id` = 'vo66t3HutD478zKpqFv7kVKoM'","@timestamp":"2017-05-13T22:48:23.000Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO profile_details SET `account` = 21, `f_name` = 'Keyur', `l_name` = 'Golani', `screen_name` = 'KeyurGolani', `timestamp` = '2017-05-13 15:48:23'","@timestamp":"2017-05-13T22:48:23.028Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT verification_code, unique_id FROM account_details WHERE `email` = 'keyurrgolani@gmail.com'","@timestamp":"2017-05-13T22:49:51.885Z","@fields":{"level":"debug"}}
+{"@message":"Query: UPDATE account_details SET `verification_code` = NULL WHERE `email` = 'keyurrgolani@gmail.com'","@timestamp":"2017-05-13T22:49:51.891Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'vo66t3HutD478zKpqFv7kVKoM'","@timestamp":"2017-05-13T22:52:10.622Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM profile_details WHERE `account` = 21","@timestamp":"2017-05-13T22:52:10.633Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'vo66t3HutD478zKpqFv7kVKoM'","@timestamp":"2017-05-13T22:53:24.523Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id from profile_details, account_details where account = user_id and unique_id = 'vo66t3HutD478zKpqFv7kVKoM'","@timestamp":"2017-05-13T22:53:24.524Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM message_details WHERE `profile` = 21","@timestamp":"2017-05-13T22:53:24.528Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM message_details WHERE `to` = 21","@timestamp":"2017-05-13T22:53:24.529Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO account_details SET `email` = 'keyur.golani@sjsu.edu', `secret` = '$2a$10$N1WLHBNU.jNggFq/3zsXBu823FlNR9PWGPHVsUCDIkfBA9y6soXA2', `salt` = '$2a$10$N1WLHBNU.jNggFq/3zsXBu', `verification_code` = '6796', `unique_id` = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:12:30.772Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO profile_details SET `account` = 22, `f_name` = 'Keyur', `l_name` = 'Golani', `screen_name` = 'SJSU Account', `timestamp` = '2017-05-13 16:12:30'","@timestamp":"2017-05-13T23:12:30.800Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT verification_code, unique_id FROM account_details WHERE `email` = 'keyur.golani@sjsu.edu'","@timestamp":"2017-05-13T23:12:51.841Z","@fields":{"level":"debug"}}
+{"@message":"Query: UPDATE account_details SET `verification_code` = NULL WHERE `email` = 'keyur.golani@sjsu.edu'","@timestamp":"2017-05-13T23:12:51.844Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:13:00.483Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM profile_details WHERE `account` = 22","@timestamp":"2017-05-13T23:13:00.486Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:13:08.632Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:15:02.906Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:15:02.924Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM message_details WHERE `profile` = 22","@timestamp":"2017-05-13T23:15:02.929Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM message_details WHERE `to` = 22","@timestamp":"2017-05-13T23:15:02.930Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:17:40.617Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:17:40.621Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO message_details SET `profile` = 22, `to` = '21', `subject` = 'Hi, How are you', `message` = 'This is the Testing Message for Post Message API', `timestamp` = '2017-05-13 16:17:40'","@timestamp":"2017-05-13T23:17:40.626Z","@fields":{"level":"debug"}}
+{"@message":"Query: select email, screen_name from account_details, profile_details where account = user_id and profile_id = '21'","@timestamp":"2017-05-13T23:17:40.629Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:19:49.679Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:19:49.681Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM message_details WHERE `profile` = 22","@timestamp":"2017-05-13T23:19:49.682Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM message_details WHERE `to` = 22","@timestamp":"2017-05-13T23:19:49.682Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO account_details SET `email` = 'naikrushin@gmail.com', `secret` = '$2a$10$9Hq4W5629YveFUOWIhba3eCIlVSmX2tN3A.87t0ONuKAKA.SUGVH.', `salt` = '$2a$10$9Hq4W5629YveFUOWIhba3e', `verification_code` = '0815', `unique_id` = '7QIJ50LB9xg0UU2wVSFMm2KUG'","@timestamp":"2017-05-13T23:50:57.515Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO profile_details SET `account` = 23, `f_name` = 'Rushin', `l_name` = 'Naik', `screen_name` = 'Rushin Naik', `timestamp` = '2017-05-13 16:50:57'","@timestamp":"2017-05-13T23:50:57.547Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT verification_code, unique_id FROM account_details WHERE `email` = 'naikrushin@gmail.com'","@timestamp":"2017-05-13T23:51:18.429Z","@fields":{"level":"debug"}}
+{"@message":"Query: UPDATE account_details SET `verification_code` = NULL WHERE `email` = 'naikrushin@gmail.com'","@timestamp":"2017-05-13T23:51:18.432Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = '7QIJ50LB9xg0UU2wVSFMm2KUG'","@timestamp":"2017-05-13T23:51:26.143Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM profile_details WHERE `account` = 23","@timestamp":"2017-05-13T23:51:26.146Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:51:39.186Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:51:39.188Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO message_details SET `profile` = 22, `to` = '23', `subject` = 'Hi, How are you', `message` = 'This is the Testing Message for Post Message API', `timestamp` = '2017-05-13 16:51:39'","@timestamp":"2017-05-13T23:51:39.191Z","@fields":{"level":"debug"}}
+{"@message":"Query: select email, screen_name from account_details, profile_details where account = user_id and profile_id = '23'","@timestamp":"2017-05-13T23:51:39.199Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:51:44.601Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'cfRjLXk7vOeUDLZjcGY7SBPZ2'","@timestamp":"2017-05-13T23:51:44.603Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM message_details WHERE `profile` = 22","@timestamp":"2017-05-13T23:51:44.607Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM message_details WHERE `to` = 22","@timestamp":"2017-05-13T23:51:44.607Z","@fields":{"level":"debug"}}

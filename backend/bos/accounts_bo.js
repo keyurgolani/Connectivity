@@ -74,6 +74,14 @@ module.exports.isUniqueIDValid = function(uniqueID, processResult) {
 	});
 };
 
+module.exports.getUserIDFromUniqueID = function(uniqueID, processResult) {
+	dao.fetchData('user_id', 'account_details', {
+		'unique_id': uniqueID
+	}, function(user_results) {
+		processResult(user_results[0].user_id);
+	});
+};
+
 module.exports.isUniqueIDAccount = function(uniqueID, user_id, processResult) {
 	dao.executeQuery('SELECT count(user_id) as count from account_details where unique_id = ? and user_id = ?', [uniqueID, user_id], function(combination_result) {
 		if (combination_result[0].count === 1) {

@@ -10,6 +10,7 @@ var properties = require('properties-reader')('properties.properties');
 
 var accounts_bo = require('../bos/accounts_bo');
 var profile_bo = require('../bos/profile_bo');
+var message_bo = require('../bos/message_bo');
 
 // Dummy Homepage GET route
 router.get('/', function(req, res, next) {
@@ -141,6 +142,58 @@ router.post('/fetchProfile', function(req, res, next) {
 						'message': 'Bad Request'
 					})
 				}
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				})
+			}
+		})
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		})
+	}
+});
+
+// Message Related Routes
+router.post('/messages', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					message_bo.getMessages(profile_id, res);
+				})
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				})
+			}
+		})
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		})
+	}
+});
+
+router.post('/sendMessage', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					if (exists(req.body.to)) {
+						message_bo.postMessage(profile_id, user_id, req.body.to, req.body.subject, req.body.message, res);
+					} else {
+						res.send({
+							'status_code': 400,
+							'message': 'Bad Request'
+						})
+					}
+				})
 			} else {
 				res.send({
 					'status_code': 403,
