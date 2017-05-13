@@ -117,7 +117,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         //TODO: REST Call Done. Implement Full Logic and separate the REST Call code to a module
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://10.0.0.17:3000/register";
+        String url = "http://10.0.0.92:3000/register";
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
