@@ -8,12 +8,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +28,6 @@ public class RequestHandler {
     private static final String baseURL = "http://10.0.0.92:3000/";
 
     public static void HTTPRequest(Context context, final String method, final HashMap<String, String> params, final ResponseHandler rh) {
-        boolean status = false;
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = baseURL + method;
 
