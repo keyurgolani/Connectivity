@@ -109,8 +109,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // TODO: Authentication logic - Remove the following runnable.
 
-        //-----------------------------------------------------------------------------
-
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://10.0.0.17:3000/signin";
 
@@ -146,8 +144,6 @@ public class LoginActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(strRequest);
         //-----------------------------------------------------------------------------
-
-
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
