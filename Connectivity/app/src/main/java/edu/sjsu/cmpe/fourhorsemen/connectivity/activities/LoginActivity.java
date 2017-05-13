@@ -29,15 +29,20 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.Bind;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
-    private static final int REQUEST_SIGNUP = 0;
+    private static final int REQUEST_SIGNUP = 1;
+    private static final int REQUEST_VERIFICATION = 0;
 
     @Bind(R.id.et_emailid) EditText etEmailID;
     @Bind(R.id.et_password) EditText etPassword;
     @Bind(R.id.btn_login) Button btnLogin;
     @Bind(R.id.link_signup) TextView linkSignUp;
+    String email;
+    String password;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,13 +73,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
+        if ((requestCode == REQUEST_SIGNUP || requestCode == REQUEST_VERIFICATION) && resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            this.finish();
         }
     }
 
@@ -88,10 +89,13 @@ public class LoginActivity extends AppCompatActivity {
     //Private Methods
 
     private void doLogin() {
-        Log.d(TAG, "doLogin");
+        Log.d(TAG, "Method Entry: Inside doLogin Method");
+
+        password = etPassword.getText().toString();
+        email = etEmailID.getText().toString();
 
         if (!validateCredentialInput()) {
-            Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Please enter valid details !", Toast.LENGTH_LONG).show();
             btnLogin.setEnabled(true);
             return;
         }
@@ -104,40 +108,64 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String email = etEmailID.getText().toString();
-        String password = etPassword.getText().toString();
+        //Authentication logic - Remove the following runnable.
 
-        // TODO: Authentication logic - Remove the following runnable.
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("email", email);
+        params.put("password", password);
 
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        //onLoginFailed();
+        RequestHandler.HTTPRequest(getApplicationContext(), "signin", params, new ResponseHandler() {
+                    @Override
+                    public void handleSuccess(JSONObject response) throws JSONException {
+                        switch (response.getInt("status_code")) {
+                            case 200:
+                                onLoginSuccess();
+                                break;
+                            case 301:
+                                redirectToVerify();
+                                break;
+                            case 400:
+                                Toast.makeText(getApplicationContext(), "Please enter valid details.", Toast.LENGTH_SHORT);
+                                break;
+                            case 401:
+                                Toast.makeText(getApplicationContext(), "Invalid Credentials. Please try again.", Toast.LENGTH_SHORT);
+                                break;
+                            default:
+                                Toast.makeText(getApplicationContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT);
+                        }
                         progressDialog.dismiss();
                     }
-                }, 3000);
+
+                    @Override
+                    public void handleError(Exception e) {
+                        onLoginFailed();
+                        progressDialog.dismiss();
+                    }
+                });
+    }
+
+    private void redirectToVerify() {
+        Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
+        intent.putExtra("email", email);
+        startActivityForResult(intent, REQUEST_VERIFICATION);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
 
     private void onLoginSuccess() {
         btnLogin.setEnabled(true);
+        Toast.makeText(getBaseContext(), "Login Successful", Toast.LENGTH_LONG).show();
         finish();
     }
 
     private void onLoginFailed() {
         etPassword.setText("");
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "An Error Occured. Please try again later.", Toast.LENGTH_LONG).show();
         btnLogin.setEnabled(true);
     }
 
     private boolean validateCredentialInput() {
         boolean valid = true;
-
-        String email = etEmailID.getText().toString();
-        String password = etPassword.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             etEmailID.setError("Enter a valid email address");
@@ -146,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
             etEmailID.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+        if (password.isEmpty() || password.length() < 6 || password.length() > 10) {
             etPassword.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {

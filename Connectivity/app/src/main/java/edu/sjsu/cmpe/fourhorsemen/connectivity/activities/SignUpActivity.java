@@ -18,12 +18,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
 /**
  * Created by gauravchodwadia on 5/6/17.
@@ -31,14 +35,24 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private static final String TAG = "SignUpActivity";
+    private static final String TAG = SignUpActivity.class.getSimpleName();
     private static final int REQUEST_VERIFICATION = 0;
-    @Bind(R.id.et_emailid) EditText etEmailId;
-    @Bind(R.id.et_first_name) EditText etFirstName;
-    @Bind(R.id.et_last_name) EditText etLastName;
-    @Bind(R.id.et_password) EditText etPassword;
-    @Bind(R.id.btn_signup) Button btnSignUp;
-    @Bind(R.id.link_login) TextView linkLogin;
+    @Bind(R.id.et_emailid)
+    EditText etEmailId;
+    @Bind(R.id.et_first_name)
+    EditText etFirstName;
+    @Bind(R.id.et_last_name)
+    EditText etLastName;
+    @Bind(R.id.et_password)
+    EditText etPassword;
+    @Bind(R.id.btn_signup)
+    Button btnSignUp;
+    @Bind(R.id.link_login)
+    TextView linkLogin;
+    String firstName;
+    String lastName;
+    String emailId;
+    String password;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +71,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Remove the Signup screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -66,21 +80,23 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_VERIFICATION) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
+        if (requestCode == REQUEST_VERIFICATION && resultCode == RESULT_OK) {
+            // By default we just finish the Activity and log them in automatically
+            setResult(RESULT_OK);
+            this.finish();
         }
     }
 
     private void doSignUp() {
-        Log.d(TAG, "doSignUp");
+        Log.d(TAG, "Method Entry: Inside doSignUp Method");
+
+        firstName = etFirstName.getText().toString();
+        lastName = etLastName.getText().toString();
+        emailId = etEmailId.getText().toString();
+        password = etPassword.getText().toString();
 
         if (!validateSignUpDetails()) {
-            onSignupFailed();
+            onDetailValidationFailed();
             return;
         }
 
@@ -92,112 +108,66 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String firstName = etFirstName.getText().toString();
-        String lastName = etLastName.getText().toString();
-        String emailId = etEmailId.getText().toString();
-        String password = etPassword.getText().toString();
 
-        // TODO: SignUp Logic - Progress anim to be diosplayed
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("email", emailId);
+        params.put("password", password);
+        params.put("fname", firstName);
+        params.put("lname", lastName);
+        params.put("screenname", "Screen Name");
+        RequestHandler.HTTPRequest(getApplicationContext(), "register", params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) {
+                progressDialog.dismiss();
+                onSignupSuccess();
+            }
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+            @Override
+            public void handleError(Exception e) {
+                e.printStackTrace();
+                progressDialog.dismiss();
+                onSignupFailed();
+            }
+        });
     }
 
 
-
     private void onSignupSuccess() {
-
-        //TODO: REST Call Done. Implement Full Logic and separate the REST Call code to a module
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://10.0.0.92:3000/register";
-
-        StringRequest strRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("email",etEmailId.getText().toString());
-                params.put("password",etPassword.getText().toString());
-                params.put("fname",etFirstName.getText().toString());
-                params.put("lname",etLastName.getText().toString());
-                params.put("screenname","Screen Name");
-                return params;
-            }
-        };
-
-        // Add the request to the RequestQueue.
-        queue.add(strRequest);
-
-        //TODO: Successful signup - e.g. sending the verification code/link
-
-        // This will be done from node at signup time
-
-
-
-
-
-
         btnSignUp.setEnabled(true);
 
         // Start the Signup activity
         Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
+        intent.putExtra("email", emailId);
         startActivityForResult(intent, REQUEST_VERIFICATION);
-        finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-
-        setResult(RESULT_OK, null);
-        finish();
     }
 
-    private void onSignupFailed() {
-        //TODO: Failed SignUp
-        Toast.makeText(getBaseContext(), "SignUp failed", Toast.LENGTH_LONG).show();
 
+    private void onDetailValidationFailed() {
+        Toast.makeText(getBaseContext(), "Please check the details that you entered !", Toast.LENGTH_LONG).show();
         btnSignUp.setEnabled(true);
     }
 
-
-
+    private void onSignupFailed() {
+        // TODO: Add a message saying you're offline.
+        Toast.makeText(getBaseContext(), "Something went wrong! Please try again.", Toast.LENGTH_LONG).show();
+        btnSignUp.setEnabled(true);
+    }
 
     //UI validation for signup details
     private boolean validateSignUpDetails() {
 
         boolean valid = true;
 
-        String firstName = etFirstName.getText().toString();
-        String lastName = etLastName.getText().toString();
-        String emailId = etEmailId.getText().toString();
-        String password = etPassword.getText().toString();
-
         if (firstName.isEmpty() || firstName.length() < 3) {
             etFirstName.setError("at least 3 characters");
+            valid = false;
+        } else {
+            etFirstName.setError(null);
+        }
+
+        if(Character.isDigit(firstName.charAt(0))) {
+            etFirstName.setError("starts with alphabet only");
             valid = false;
         } else {
             etFirstName.setError(null);
@@ -210,6 +180,12 @@ public class SignUpActivity extends AppCompatActivity {
             etLastName.setError(null);
         }
 
+        if(Character.isDigit(lastName.charAt(0))) {
+            etLastName.setError("starts with alphabet only");
+            valid = false;
+        } else {
+            etLastName.setError(null);
+        }
 
         if (emailId.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailId).matches()) {
             etEmailId.setError("enter a valid email address");
@@ -219,7 +195,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+        if (password.isEmpty() || password.length() < 6 || password.length() > 10 || password.matches("^.*[^a-zA-Z0-9 ].*$")) {
             etPassword.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {

@@ -32,7 +32,8 @@ router.post('/register', function(req, res, next) {
 });
 
 router.post('/verifyAccount', function(req, res, next) {
-	if (exists(req.body.code) && isNum(req.body.code) &&
+	if (exists(req.body.code) &&
+		// isNum(req.body.code) &&
 		exists(req.body.email) &&
 		req.body.email.match(email_validator) !== null) {
 		accounts_bo.verifyAccount(req.body.email, req.body.code, res);
@@ -78,38 +79,71 @@ router.post('/forgot', function(req, res, next) {
 
 // Account Related Routes
 router.post('/updateProfile', function(req, res, next) {
-	if ((exists(req.body.profile_id) && isNum(req.body.profile_id)) ||
-		(exists(req.body.account_id) && isNum(req.body.account_id))) {
-		profile_bo.updateProfile({
-			'profile_id': req.body.profile_id,
-			'account': req.body.account_id,
-			'f_name': req.body.f_name,
-			'l_name': req.body.l_name,
-			'profile_pic': req.body.profile_pic,
-			'location': req.body.location,
-			'profession': req.body.profession,
-			'about_me': req.body.about_me,
-			'screen_name': req.body.screen_name
-		}, res);
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				if ((exists(req.body.profile_id) && isNum(req.body.profile_id)) ||
+					(exists(req.body.account_id) && isNum(req.body.account_id))) {
+					profile_bo.updateProfile({
+						'profile_id': req.body.profile_id,
+						'account': req.body.account_id,
+						'f_name': req.body.f_name,
+						'l_name': req.body.l_name,
+						'profile_pic': req.body.profile_pic,
+						'location': req.body.location,
+						'profession': req.body.profession,
+						'about_me': req.body.about_me,
+						'screen_name': req.body.screen_name,
+						'uniqueID': req.body.unique_id
+					}, res);
+				} else {
+					res.send({
+						'status_code': 400,
+						'message': 'Bad Request'
+					});
+				}
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				})
+			}
+		})
 	} else {
 		res.send({
-			'status_code': 400,
-			'message': 'Bad Request'
-		});
+			'status_code': 403,
+			'message': 'Forbidden'
+		})
 	}
 });
 
 router.post('/fetchProfile', function(req, res, next) {
-	if ((exists(req.body.profile_id) && isNum(req.body.profile_id)) ||
-		(exists(req.body.account_id) && isNum(req.body.account_id))) {
-		profile_bo.fetchProfile({
-			'profile_id': req.body.profile_id,
-			'account': req.body.account_id
-		}, res);
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				if ((exists(req.body.profile_id) && isNum(req.body.profile_id)) ||
+					(exists(req.body.account_id) && isNum(req.body.account_id))) {
+					profile_bo.fetchProfile({
+						'profile_id': req.body.profile_id,
+						'account': req.body.account_id
+					}, res);
+				} else {
+					res.send({
+						'status_code': 400,
+						'message': 'Bad Request'
+					})
+				}
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				})
+			}
+		})
 	} else {
 		res.send({
-			'status_code': 400,
-			'message': 'Bad Request'
+			'status_code': 403,
+			'message': 'Forbidden'
 		})
 	}
 });
