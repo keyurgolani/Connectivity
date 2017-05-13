@@ -29,6 +29,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.Bind;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
@@ -119,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void handleSuccess(JSONObject response) throws JSONException {
                         switch (response.getInt("status_code")) {
                             case 200:
-                                onLoginSuccess();
+                                onLoginSuccess(response.getJSONObject("message").getString("unique_id"));
                                 break;
                             case 301:
                                 redirectToVerify();
@@ -152,8 +153,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void onLoginSuccess() {
+    private void onLoginSuccess(String uniqueID) {
         btnLogin.setEnabled(true);
+        PreferenceHandler.putAccessKey(uniqueID);
         Toast.makeText(getBaseContext(), "Login Successful", Toast.LENGTH_LONG).show();
         finish();
     }
