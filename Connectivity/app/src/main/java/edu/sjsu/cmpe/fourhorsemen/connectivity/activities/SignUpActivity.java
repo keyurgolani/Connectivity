@@ -37,7 +37,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG = SignUpActivity.class.getSimpleName();
     private static final int REQUEST_VERIFICATION = 0;
-    private static final String baseURL = "http://10.0.0.17:3000/";
     @Bind(R.id.et_emailid)
     EditText etEmailId;
     @Bind(R.id.et_first_name)
@@ -95,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void doSignUp() {
-        Log.d(TAG, "doSignUp");
+        Log.d(TAG, "Method Entry: Inside doSignUp Method");
 
         firstName = etFirstName.getText().toString();
         lastName = etLastName.getText().toString();
@@ -122,10 +121,9 @@ public class SignUpActivity extends AppCompatActivity {
         params.put("fname", firstName);
         params.put("lname", lastName);
         params.put("screenname", "Screen Name");
-        RequestHandler.HTTPRequest(getApplicationContext(), baseURL, "register", params, new ResponseHandler() {
+        RequestHandler.HTTPRequest(getApplicationContext(), "register", params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) {
-                Log.d(TAG, response.toString());
                 progressDialog.dismiss();
                 onSignupSuccess();
 
@@ -134,7 +132,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void handleError(Exception e) {
                 e.printStackTrace();
-                Log.e(TAG,e.getMessage());
+                Log.e(TAG, e.getMessage());
                 progressDialog.dismiss();
                 onSignupFailed();
             }
@@ -157,10 +155,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    private void onDetailValidationFailed(){
-        Toast.makeText(getBaseContext(), "Please check the details that you entered!!!", Toast.LENGTH_LONG).show();
+    private void onDetailValidationFailed() {
+        Toast.makeText(getBaseContext(), "Please check the details that you entered !", Toast.LENGTH_LONG).show();
         btnSignUp.setEnabled(true);
     }
+
     private void onSignupFailed() {
 
         Toast.makeText(getBaseContext(), "Something went wrong! Please try again.", Toast.LENGTH_LONG).show();
@@ -179,6 +178,13 @@ public class SignUpActivity extends AppCompatActivity {
             etFirstName.setError(null);
         }
 
+        if(Character.isDigit(firstName.charAt(0))) {
+            etFirstName.setError("starts with alphabet only");
+            valid = false;
+        } else {
+            etFirstName.setError(null);
+        }
+
         if (lastName.isEmpty() || lastName.length() < 3) {
             etLastName.setError("at least 3 characters");
             valid = false;
@@ -186,6 +192,12 @@ public class SignUpActivity extends AppCompatActivity {
             etLastName.setError(null);
         }
 
+        if(Character.isDigit(lastName.charAt(0))) {
+            etLastName.setError("starts with alphabet only");
+            valid = false;
+        } else {
+            etLastName.setError(null);
+        }
 
         if (emailId.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailId).matches()) {
             etEmailId.setError("enter a valid email address");
@@ -195,7 +207,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
 
-        if (password.isEmpty() || password.length() < 6 || password.length() > 10) {
+        if (password.isEmpty() || password.length() < 6 || password.length() > 10 || password.matches("^.*[^a-zA-Z0-9 ].*$")) {
             etPassword.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {

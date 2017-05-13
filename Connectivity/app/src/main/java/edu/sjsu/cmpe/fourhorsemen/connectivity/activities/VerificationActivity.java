@@ -56,7 +56,6 @@ public class VerificationActivity extends AppCompatActivity {
     Button btnVerify;
     @Bind(R.id.link_send_code)
     TextView linkResendCode;
-    private static final String baseURL = "http://10.0.0.17:3000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,7 +167,7 @@ public class VerificationActivity extends AppCompatActivity {
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("email", email);
                 params.put("code", pincode_string);
-                RequestHandler.HTTPRequest(getApplicationContext(), baseURL, "verifyAccount", params, new ResponseHandler() {
+                RequestHandler.HTTPRequest(getApplicationContext(), "verifyAccount", params, new ResponseHandler() {
                     @Override
                     public void handleSuccess(JSONObject response) {
                         Log.i("Verification Response", response.toString());

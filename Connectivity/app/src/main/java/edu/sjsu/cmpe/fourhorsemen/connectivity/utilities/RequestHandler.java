@@ -22,7 +22,10 @@ import java.util.Map;
  */
 
 public class RequestHandler {
-    public static void HTTPRequest(Context context, final String baseURL, final String method, final HashMap<String, String> params, final ResponseHandler rh) {
+
+    private static final String baseURL = "http://10.0.0.92:3000/";
+
+    public static void HTTPRequest(Context context, final String method, final HashMap<String, String> params, final ResponseHandler rh) {
         boolean status = false;
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = baseURL + method;

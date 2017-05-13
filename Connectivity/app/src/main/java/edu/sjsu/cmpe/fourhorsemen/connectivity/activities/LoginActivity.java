@@ -35,7 +35,6 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-    private static final String baseURL = "http://10.0.0.17:3000/";
 
     @Bind(R.id.et_emailid) EditText etEmailID;
     @Bind(R.id.et_password) EditText etPassword;
@@ -116,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         params.put("email", email);
         params.put("password", password);
 
-        RequestHandler.HTTPRequest(getApplicationContext(), baseURL, "register", params, new ResponseHandler() {
+        RequestHandler.HTTPRequest(getApplicationContext(), "register", params, new ResponseHandler() {
                     @Override
                     public void handleSuccess(JSONObject response) {
                         Log.i("OnLogin Info",response.toString());
