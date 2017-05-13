@@ -8,12 +8,17 @@ var async = require("async");
 
 module.exports.register = function(email, password, firstname, lastname, screenname, res) {
 	var salt = bcrypt.genSaltSync(10);
+<<<<<<< HEAD
 	var uniqueID = getRandom(25);
+=======
+	var verificationCode = getRandom(4, 3);
+>>>>>>> 245dfd21ec43c711a6e2f71274cba7dd031ef920
 
 	dao.insertData("account_details", {
 		"email": email,
 		"secret": bcrypt.hashSync(password, salt),
 		"salt": salt,
+<<<<<<< HEAD
 		"verification_code": getRandom(4, 3),
 		"unique_id": uniqueID
 	}, function(account_result) {
@@ -29,11 +34,42 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 					res.send({
 						'status_code': 200,
 						'message': 'User' + firstname + 'created!'
+=======
+		"verification_code": verificationCode
+	}, function(account_result) {
+		if (account_result.affectedRows === 1) {
+			async.parallel([
+				function(callback) {
+					sendEmail(email, "ConnActivity - Account Verification", verificationCode, function(email_result) {
+						callback(null, email_result);
+>>>>>>> 245dfd21ec43c711a6e2f71274cba7dd031ef920
 					});
-				} else {
+				},
+				function(callback) {
+					dao.insertData("profile_details", {
+						'account': account_result.insertId,
+						'f_name': firstname,
+						'l_name': lastname,
+						'screen_name': screenname,
+						'timestamp': getTimestamp()
+					}, function(profile_result) {
+						if (profile_result.affectedRows === 1) {
+							callback(null, true);
+						} else {
+							callback(true, null)
+						}
+					});
+				}
+			], function(error, results) {
+				if (error) {
 					res.send({
 						'status_code': 400,
 						'message': 'Bad Request'
+					});
+				} else {
+					res.send({
+						'status_code': 200,
+						'message': 'User ' + firstname + ' created successfully !'
 					});
 				}
 			});

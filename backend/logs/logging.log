@@ -1,0 +1,2 @@
+{"@message":"Query: INSERT INTO account_details SET `email` = 'keyurrgolani@gmail.com', `secret` = '$2a$10$ZIAwR1YJuTujo5/dmA1T0.ZvLPOwiAZaJkt0vhwFcbk6Q0CmzQO6G', `salt` = '$2a$10$ZIAwR1YJuTujo5/dmA1T0.', `verification_code` = '3422'","@timestamp":"2017-05-13T02:12:15.032Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO profile_details SET `account` = 8, `f_name` = 'Keyur', `l_name` = 'Golani', `screen_name` = 'Screen Name', `timestamp` = '2017-05-12 19:12:15'","@timestamp":"2017-05-13T02:12:15.076Z","@fields":{"level":"debug"}}
