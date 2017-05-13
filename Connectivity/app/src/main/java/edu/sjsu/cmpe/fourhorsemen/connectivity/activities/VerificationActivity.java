@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -31,6 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.customviews.PINEditText;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
@@ -64,6 +67,7 @@ public class VerificationActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        // Getting the email ID from invoking Intent
         Intent receiveIntent = getIntent();
         final String email = receiveIntent.getStringExtra("email");
         msgEmail.setText(email.toString());
@@ -167,18 +171,26 @@ public class VerificationActivity extends AppCompatActivity {
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("email", email);
                 params.put("code", pincode_string);
+                Log.d(TAG, email + " -> " + pincode_string);
                 RequestHandler.HTTPRequest(getApplicationContext(), "verifyAccount", params, new ResponseHandler() {
                     @Override
-                    public void handleSuccess(JSONObject response) {
-                        Log.i("Verification Response", response.toString());
-                        Toast.makeText(getApplicationContext(), "Verified", Toast.LENGTH_LONG);
+                    public void handleSuccess(JSONObject response) throws JSONException {
+                        Log.d(TAG, "Verification Result: " + response.toString());
+                        if(response.getInt("status_code") == 200) {
+                            String uniqueID = response.getJSONObject("message").getString("unique_id");
+                            PreferenceHandler.putAccessKey(uniqueID);
+                            setResult(RESULT_OK);
+                            finish();
+                            // TODO: Start the profile activity.
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Code Not Matched", Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
                     public void handleError(Exception e) {
-                        Log.e("Verification Error", "error in verifying the code");
-                        Toast.makeText(getApplicationContext(), "Code Not Matched", Toast.LENGTH_LONG);
-
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Something went wrong! Please try again later.", Toast.LENGTH_LONG).show();
                     }
                 });
 

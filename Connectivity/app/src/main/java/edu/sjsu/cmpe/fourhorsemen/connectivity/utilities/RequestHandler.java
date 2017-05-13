@@ -38,13 +38,19 @@ public class RequestHandler {
                             rh.handleSuccess(new JSONObject(response));
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        rh.handleError(error);
+                        try {
+                            rh.handleError(error);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }) {
             @Override

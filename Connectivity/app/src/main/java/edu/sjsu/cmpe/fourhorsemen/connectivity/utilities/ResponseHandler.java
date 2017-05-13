@@ -7,7 +7,7 @@ import org.json.JSONObject;
  */
 
 public interface ResponseHandler {
-    void handleSuccess(JSONObject response);
+    void handleSuccess(JSONObject response) throws Exception;
 
-    void handleError(Exception e);
+    void handleError(Exception e) throws Exception;
 }

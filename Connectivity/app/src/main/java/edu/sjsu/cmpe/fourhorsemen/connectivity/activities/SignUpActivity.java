@@ -80,16 +80,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_VERIFICATION) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // Don't know what to do on the signup activity after signup is successful.
-                // Think should remain empty.
-
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
+        if (requestCode == REQUEST_VERIFICATION && resultCode == RESULT_OK) {
+            // By default we just finish the Activity and log them in automatically
+            setResult(RESULT_OK);
+            this.finish();
         }
     }
 
@@ -126,13 +120,11 @@ public class SignUpActivity extends AppCompatActivity {
             public void handleSuccess(JSONObject response) {
                 progressDialog.dismiss();
                 onSignupSuccess();
-
             }
 
             @Override
             public void handleError(Exception e) {
                 e.printStackTrace();
-                Log.e(TAG, e.getMessage());
                 progressDialog.dismiss();
                 onSignupFailed();
             }
@@ -147,11 +139,7 @@ public class SignUpActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
         intent.putExtra("email", emailId);
         startActivityForResult(intent, REQUEST_VERIFICATION);
-        finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-        setResult(RESULT_OK, null);
-        finish();
     }
 
 
@@ -161,7 +149,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void onSignupFailed() {
-
+        // TODO: Add a message saying you're offline.
         Toast.makeText(getBaseContext(), "Something went wrong! Please try again.", Toast.LENGTH_LONG).show();
         btnSignUp.setEnabled(true);
     }

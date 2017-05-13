@@ -62,6 +62,28 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 	});
 };
 
+module.exports.isUniqueIDValid = function(uniqueID, processResult) {
+	dao.fetchData('count(user_id) as count', 'account_details', {
+		'unique_id': uniqueID
+	}, function(combination_result) {
+		if (combination_result[0].count === 1) {
+			processResult(true);
+		} else {
+			processResult(false);
+		}
+	});
+};
+
+module.exports.isUniqueIDAccount = function(uniqueID, user_id, processResult) {
+	dao.executeQuery('SELECT count(user_id) as count from account_details where unique_id = ? and user_id = ?', [uniqueID, user_id], function(combination_result) {
+		if (combination_result[0].count === 1) {
+			processResult(true);
+		} else {
+			processResult(false);
+		}
+	})
+};
+
 module.exports.signin = function(email, password, req, res) {
 	var uniqueID = getRandom(25);
 	dao.fetchData('user_id, secret, salt', 'account_details', {
@@ -73,13 +95,24 @@ module.exports.signin = function(email, password, req, res) {
 			}, {
 				'user_id': credentials_details[0].user_id
 			}, function(unique_id_result) {
-				res.send({
-					'status_code': 200,
-					'message': {
-						'user_id': credentials_details[0].user_id,
-						'unique_id': uniqueID
+				dao.fetchData('verification_code', 'account_details', {
+					'user_id': credentials_details[0].user_id
+				}, function(verification_result) {
+					if (exists(verification_result[0].verification_code)) {
+						res.send({
+							'status_code': 301,
+							'message': 'Verify'
+						});
+					} else {
+						res.send({
+							'status_code': 200,
+							'message': {
+								'user_id': credentials_details[0].user_id,
+								'unique_id': uniqueID
+							}
+						});
 					}
-				});
+				})
 			})
 		} else {
 			res.send({
@@ -96,7 +129,7 @@ module.exports.verifyAccount = function(email, code, res) {
 	}, function(verification_result) {
 		if (verification_result[0].verification_code == code) {
 			dao.updateData('account_details', {
-				'verification_code': ''
+				'verification_code': null
 			}, {
 				'email': email
 			}, function(reset_verification_result) {
