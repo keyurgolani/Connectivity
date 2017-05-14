@@ -87,6 +87,12 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        // Disable going back to the LoginActiviy
+        moveTaskToBack(true);
+    }
+
     private void doSignUp() {
         Log.d(TAG, "Method Entry: Inside doSignUp Method");
 

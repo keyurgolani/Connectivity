@@ -3,6 +3,10 @@ package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TabHost;
@@ -22,18 +26,51 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import android.view.MenuItem;
+import android.content.Intent;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.LoginActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 
-/**
- * Created by gauravchodwadia on 5/6/17.
- */
+public class MainActivity extends AppCompatActivity implements PostFragment.OnListFragmentInteractionListener {
 
-public class MainActivity extends AppCompatActivity {
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Fragment selectedFragment = null;
+
+            switch (item.getItemId()) {
+                case R.id.navigation_timeline:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                case R.id.navigation_notifications:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                case R.id.navigation_profile:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                case R.id.navigation_chat:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                default:
+                    selectedFragment = PostFragment.newInstance(1);
+
+            }
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, selectedFragment);
+            transaction.commit();
+            return true;
+        }
+
+    };
 
     static final int REQUEST_LOGIN = 0;
     static final String TAG = MainActivity.class.getSimpleName();
@@ -67,33 +104,6 @@ public class MainActivity extends AppCompatActivity {
             requestLogin(getApplicationContext());
         }
 
-        TabHost tab_host = (TabHost)findViewById(R.id.tabHost);
-        tab_host.setup();
-
-        //Tab 1
-        TabHost.TabSpec tab1 = tab_host.newTabSpec("Tab One");
-        tab1.setContent(R.id.tab1);
-        tab1.setIndicator("", getApplicationContext().getResources().getDrawable(R.drawable.icon_timeline));
-        tab_host.addTab(tab1);
-
-
-        //Tab 2
-        TabHost.TabSpec tab2 = tab_host.newTabSpec("Tab Two");
-        tab2.setContent(R.id.tab2);
-        tab2.setIndicator("",getApplicationContext().getResources().getDrawable(R.drawable.icon_msg));
-        tab_host.addTab(tab2);
-
-        //Tab 3
-        TabHost.TabSpec tab3 = tab_host.newTabSpec("Tab Three");
-        tab3.setContent(R.id.tab3);
-        tab3.setIndicator("",getApplicationContext().getResources().getDrawable(R.drawable.icon_friends));
-        tab_host.addTab(tab3);
-
-        //Tab 4
-        TabHost.TabSpec tab4 = tab_host.newTabSpec("Tab Four");
-        tab4.setContent(R.id.tab4);
-        tab4.setIndicator("",getApplicationContext().getResources().getDrawable(R.drawable.icon_profile));
-        tab_host.addTab(tab4);
     }
 
     private void requestLogin(Context applicationContext) {
@@ -111,5 +121,22 @@ public class MainActivity extends AppCompatActivity {
                 requestLogin(getApplicationContext());
             }
         }
+
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        //Manually displaying the first fragment - one time only
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, PostFragment.newInstance(1));
+        transaction.commit();
+
+        //Used to select an item programmatically
+        //bottomNavigationView.getMenu().getItem(2).setChecked(true);
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyPost item) {
+
     }
 }
