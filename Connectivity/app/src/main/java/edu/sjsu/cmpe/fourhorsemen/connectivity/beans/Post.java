@@ -12,39 +12,6 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 
 public class Post {
 
-    // Testing Part. Dummy List of Posts
-    public static final List<Post> POSTS = new ArrayList<Post>();
-
-    private static final int COUNT = 20;
-
-    static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyPost(i));
-        }
-    }
-
-    private static void addItem(Post post) {
-        POSTS.add(post);
-    }
-
-    private static Post createDummyPost(int position) {
-        return new Post(position, "Keyur Golani", 1, generateRandomContent(position), "Now");
-    }
-
-    private static String generateRandomContent(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("This post is about ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
-    }
-
-
-
-
-
     private int postID;
     private String userScreenName;
     private int userPhotoID;

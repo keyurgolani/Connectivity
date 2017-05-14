@@ -222,10 +222,7 @@ router.post('/timeline', function(req, res, next) {
 							timeline_bo.fetchFriendTimeline(profile_id, req.body.profile, res)
 						}
 					} else {
-						res.send({
-							'status_code': 500,
-							'message': 'Bad Request'
-						})
+						timeline_bo.fetchOwnTimeline(profile_id, res)
 					}
 				})
 			} else {
