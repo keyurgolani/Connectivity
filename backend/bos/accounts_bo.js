@@ -34,13 +34,20 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 						'timestamp': getTimestamp()
 					}, function(profile_result) {
 						if (profile_result.affectedRows === 1) {
-							callback(null, true);
+							dao.insertData('', {
+								'profile': profile_result.insertId,
+								'notfiication': 1,
+								'notification_method': 1,
+								'public': 1,
+								'timestamp': getTimestamp()
+							}, function(preferences_result) {
+								callback(null, true);
+							})
 						} else {
 							callback(true, null)
 						}
 					});
 				}
-				// TODO: Add Default Values to Preferences Table
 			], function(error, results) {
 				if (error) {
 					res.send({

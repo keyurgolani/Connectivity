@@ -160,3 +160,21 @@
 {"@message":"Query: INSERT INTO profile_details SET `account` = 1, `f_name` = 'rushin', `l_name` = 'naik', `screen_name` = 'Screen Name', `timestamp` = '2017-05-13 20:47:23'","@timestamp":"2017-05-14T03:47:23.833Z","@fields":{"level":"debug"}}
 {"@message":"Query: SELECT verification_code, unique_id FROM account_details WHERE `email` = 'naikrushin@gmail.com'","@timestamp":"2017-05-14T03:47:40.562Z","@fields":{"level":"debug"}}
 {"@message":"Query: UPDATE account_details SET `verification_code` = NULL WHERE `email` = 'naikrushin@gmail.com'","@timestamp":"2017-05-14T03:47:40.569Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT user_id, secret, salt FROM account_details WHERE `email` = 'keyurrgolani@gmail.com'","@timestamp":"2017-05-14T09:14:03.771Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO account_details SET `email` = 'keyurrgolani@gmail.com', `secret` = '$2a$10$a8VQX7GgmfdvVvGrxYcSJeJazgs7f1EwkYgFh5RaJZIcfWA0EgnfK', `salt` = '$2a$10$a8VQX7GgmfdvVvGrxYcSJe', `verification_code` = '7792', `unique_id` = 'dwyvz2RZauPWXvH5hq3EmRjJq'","@timestamp":"2017-05-14T09:16:25.870Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO profile_details SET `account` = 24, `f_name` = 'Keyur', `l_name` = 'Golani', `screen_name` = 'Screen Name', `timestamp` = '2017-05-14 02:16:25'","@timestamp":"2017-05-14T09:16:25.886Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT verification_code, unique_id FROM account_details WHERE `email` = 'keyurrgolani@gmail.com'","@timestamp":"2017-05-14T09:16:38.252Z","@fields":{"level":"debug"}}
+{"@message":"Query: UPDATE account_details SET `verification_code` = NULL WHERE `email` = 'keyurrgolani@gmail.com'","@timestamp":"2017-05-14T09:16:38.254Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO account_details SET `email` = 'naikrushin@gmail.com', `secret` = '$2a$10$70d4Zbb2DI/dpWmC7yaJluYDxjOFHsX1cL5CSdrI.LDO0C.wbDNjS', `salt` = '$2a$10$70d4Zbb2DI/dpWmC7yaJlu', `verification_code` = '9205', `unique_id` = 'A1mpj1513g9Ht9cZ6u5PcKHy1'","@timestamp":"2017-05-14T09:17:19.857Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO profile_details SET `account` = 25, `f_name` = 'Rushin', `l_name` = 'Naik', `screen_name` = 'Screen Name', `timestamp` = '2017-05-14 02:17:19'","@timestamp":"2017-05-14T09:17:19.861Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT user_id, secret, salt FROM account_details WHERE `email` = 'naikrushin@gmail.com'","@timestamp":"2017-05-14T09:17:46.486Z","@fields":{"level":"debug"}}
+{"@message":"Query: UPDATE account_details SET `unique_id` = 'R5wznGgp9JboqmflRoSZKIbWU' WHERE `user_id` = 25","@timestamp":"2017-05-14T09:17:46.570Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT verification_code FROM account_details WHERE `user_id` = 25","@timestamp":"2017-05-14T09:17:46.573Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT verification_code, unique_id FROM account_details WHERE `email` = 'naikrushin@gmail.com'","@timestamp":"2017-05-14T09:17:58.056Z","@fields":{"level":"debug"}}
+{"@message":"Query: UPDATE account_details SET `verification_code` = NULL WHERE `email` = 'naikrushin@gmail.com'","@timestamp":"2017-05-14T09:17:58.056Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT user_id, secret, salt FROM account_details WHERE `email` = 'keyurrgolani@gmail.com'","@timestamp":"2017-05-14T09:20:00.763Z","@fields":{"level":"debug"}}
+{"@message":"Query: UPDATE account_details SET `unique_id` = 'sTte5JRFDn0cpvXfn2DaBE4CX' WHERE `user_id` = 24","@timestamp":"2017-05-14T09:20:00.847Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT verification_code FROM account_details WHERE `user_id` = 24","@timestamp":"2017-05-14T09:20:00.852Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT user_id, secret, salt FROM account_details WHERE `email` = 'keyurrgolani@gmail.com'","@timestamp":"2017-05-14T09:31:56.415Z","@fields":{"level":"debug"}}
+{"@message":"Query: UPDATE account_details SET `unique_id` = 'RpykEljxKQGitNkOJNKu3SAqb' WHERE `user_id` = 24","@timestamp":"2017-05-14T09:31:56.501Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT verification_code FROM account_details WHERE `user_id` = 24","@timestamp":"2017-05-14T09:31:56.503Z","@fields":{"level":"debug"}}

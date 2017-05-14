@@ -43,7 +43,6 @@ router.post('/register', function(req, res, next) {
 
 router.post('/verifyAccount', function(req, res, next) {
 	if (exists(req.body.code) &&
-		// isNum(req.body.code) &&
 		exists(req.body.email) &&
 		req.body.email.match(email_validator) !== null) {
 		accounts_bo.verifyAccount(req.body.email, req.body.code, res);
@@ -241,6 +240,28 @@ router.post('/timeline', function(req, res, next) {
 			'status_code': 403,
 			'message': 'Forbidden'
 		})
+	}
+});
+
+router.post('/post', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					timeline_bo.addPost(profile_id, req.body.post, req.body.photo, res);
+				});
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		});
 	}
 });
 

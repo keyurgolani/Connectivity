@@ -38,3 +38,17 @@ module.exports.fetchFriendTimeline = function(profile, friend, res) {
 		}
 	})
 };
+
+module.exports.addPost = function(profile, post, photo, res) {
+	dao.insertData('post_details', {
+		'profile': profile,
+		'post': post,
+		'photo': photo,
+		'timestamp': getTimestamp()
+	}, function(post_result) {
+		res.send({
+			'status_code': 200,
+			'message': 'Post Added Successfully'
+		})
+	});
+};

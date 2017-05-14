@@ -1,23 +1,23 @@
 {
-  "name": "backend",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "nodemon ./bin/www"
-  },
-  "dependencies": {
-    "async": "^2.4.0",
-    "bcrypt": "^1.0.2",
-    "body-parser": "~1.17.1",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.3",
-    "express": "~4.15.2",
-    "fecha": "^2.3.0",
-    "morgan": "~1.8.1",
-    "mysql": "^2.13.0",
-    "nodemailer": "^4.0.1",
-    "nodemon": "^1.11.0",
-    "properties-reader": "0.0.15",
-    "winston": "^2.3.1"
-  }
+    "name": "backend",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "nodemon ./bin/www"
+    },
+    "dependencies": {
+        "async": "^2.4.0",
+        "bcrypt": "^1.0.2",
+        "body-parser": "~1.17.1",
+        "cookie-parser": "~1.4.3",
+        "debug": "~2.6.3",
+        "express": "~4.15.2",
+        "fecha": "^2.3.0",
+        "morgan": "~1.8.1",
+        "mysql": "^2.13.0",
+        "nodemailer": "^4.0.1",
+        "nodemon": "^1.11.0",
+        "properties-reader": "0.0.15",
+        "winston": "^2.3.1"
+    }
 }
