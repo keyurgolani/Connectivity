@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent.DummyPost;
 
@@ -68,7 +69,7 @@ public class PostFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(DummyContent.POSTS, mListener));
+            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(Post.POSTS, mListener));
         }
         return view;
     }
