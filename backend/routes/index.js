@@ -11,6 +11,7 @@ var properties = require('properties-reader')('properties.properties');
 var accounts_bo = require('../bos/accounts_bo');
 var profile_bo = require('../bos/profile_bo');
 var message_bo = require('../bos/message_bo');
+var timeline_bo = require('../bos/timeline_bo');
 
 // Dummy Homepage GET route
 router.get('/', function(req, res, next) {
@@ -190,6 +191,40 @@ router.post('/sendMessage', function(req, res, next) {
 					} else {
 						res.send({
 							'status_code': 400,
+							'message': 'Bad Request'
+						})
+					}
+				})
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				})
+			}
+		})
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		})
+	}
+});
+
+// Timeline Related Routes
+router.post('/timeline', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					if (exists(req.body.profile)) {
+						if (req.body.profile == profile_id) {
+							timeline_bo.fetchOwnTimeline(req.body.profile, res)
+						} else {
+							timeline_bo.fetchFriendTimeline(profile_id, req.body.profile, res)
+						}
+					} else {
+						res.send({
+							'status_code': 500,
 							'message': 'Bad Request'
 						})
 					}

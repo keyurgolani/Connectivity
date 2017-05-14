@@ -40,6 +40,7 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 						}
 					});
 				}
+				// TODO: Add Default Values to Preferences Table
 			], function(error, results) {
 				if (error) {
 					res.send({
