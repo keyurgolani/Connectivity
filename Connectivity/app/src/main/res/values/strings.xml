@@ -14,4 +14,13 @@
         completions."
     </string>
     <string name="pin_content_desc">PIN input field</string>
+    <string name="title_activity_time_line">TimeLine</string>
+    <string name="title_timeline">Timeline</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_timeline">Conactivity</string>
+    <string name="title_chat">Chat</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,12 +1,10 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
-import android.content.res.Configuration;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.customviews.PINEditText;
 
 /**
  * Created by gauravchodwadia on 5/7/17.
@@ -123,6 +120,18 @@ public class VerificationActivity extends AppCompatActivity {
                 }
             }
         });
+
+        View.OnClickListener btnListner = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+                return;
+            }
+        };
+
+        btnVerify.setOnClickListener(btnListner);
+
     }
 
 
