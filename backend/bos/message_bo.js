@@ -8,17 +8,13 @@ var async = require("async");
 module.exports.getMessages = function(profile_id, res) {
 	async.parallel([
 		function(callback) {
-			dao.fetchData('*', 'message_details', {
-				'profile': profile_id
-			}, function(from_results) {
+			dao.executeQuery('SELECT * FROM message_details, profile_details WHERE `profile` = ? and message_details.to = profile_details.profile_id', [profile_id], function(from_results) {
 				callback(null, from_results);
 			});
 		},
 		function(callback) {
-			dao.fetchData('*', 'message_details', {
-				'to': profile_id
-			}, function(from_results) {
-				callback(null, from_results);
+			dao.executeQuery('SELECT * FROM message_details, profile_details WHERE `to` = ? and message_details.profile = profile_details.profile_id', [profile_id], function(to_results) {
+				callback(null, to_results);
 			});
 		}
 	], function(error, results) {
