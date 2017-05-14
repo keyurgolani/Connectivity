@@ -6,13 +6,26 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent.DummyPost;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
 /**
  * A fragment representing a list of Items.
@@ -22,11 +35,13 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent.Dumm
  */
 public class PostFragment extends Fragment {
 
+    private final static String TAG = PostFragment.class.getSimpleName();
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,13 +77,36 @@ public class PostFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(DummyContent.POSTS, mListener));
+            final List<Post> personalTimeline = new ArrayList<Post>();
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("unique_id", PreferenceHandler.getAccessKey());
+            RequestHandler.HTTPRequest(getContext(), "timeline", params, new ResponseHandler() {
+                @Override
+                public void handleSuccess(JSONObject response) throws Exception {
+                    if(response.getInt("status_code") == 200) {
+                        JSONArray posts = response.getJSONArray("message");
+                        for(int i  = 0; i < posts.length(); i++) {
+                            JSONObject currentObj = posts.getJSONObject(i);
+                            personalTimeline.add(new Post(currentObj.getInt("post_id"), currentObj.getString("screen_name"), currentObj.getInt("photo"), currentObj.getString("post"), currentObj.getString("timestamp")));
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
+                    }
+                    Log.d(TAG, response.toString());
+                }
+
+                @Override
+                public void handleError(Exception e) throws Exception {
+                    e.printStackTrace();
+                }
+            });
+            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(personalTimeline, mListener));
         }
         return view;
     }

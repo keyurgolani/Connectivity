@@ -1,7 +1,10 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment.OnListFragmentInteractionListener;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent.DummyPost;
 
@@ -21,10 +25,10 @@ import java.util.List;
  */
 public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<MyPostRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyPost> posts;
+    private final List<Post> posts;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyPostRecyclerViewAdapter(List<DummyPost> posts, OnListFragmentInteractionListener listener) {
+    public MyPostRecyclerViewAdapter(List<Post> posts, OnListFragmentInteractionListener listener) {
         this.posts = posts;
         mListener = listener;
     }
@@ -32,6 +36,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<MyPostRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView userName;
+        TextView timestamp;
         TextView postContent;
         ImageView userPhoto;
 
@@ -39,6 +44,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<MyPostRecycl
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv_post);
             userName = (TextView)itemView.findViewById(R.id.user_name);
+            timestamp = (TextView)itemView.findViewById(R.id.timestamp);
             postContent = (TextView)itemView.findViewById(R.id.post_content);
             userPhoto = (ImageView)itemView.findViewById(R.id.user_photo);
         }
@@ -53,9 +59,11 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<MyPostRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.userName.setText(posts.get(position).userName);
-        holder.postContent.setText(posts.get(position).postContent);
-        holder.userPhoto.setImageResource(posts.get(position).userPhotoResID);
+        holder.userName.setText(posts.get(position).getUserScreenName());
+        holder.timestamp.setText(posts.get(position).getTimestamp());
+        holder.postContent.setText(posts.get(position).getContent());
+        byte[] decodedString = Base64.decode(posts.get(position).getUserPhoto(), Base64.DEFAULT);
+        holder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 
 //        holder.mView.setOnClickListener(new View.OnClickListener() {
 //            @Override
