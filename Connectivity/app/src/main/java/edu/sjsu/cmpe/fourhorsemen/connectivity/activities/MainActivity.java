@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         PreferenceHandler.initSharedPreferences(getApplicationContext());
         PreferenceHandler.putVersion("1.0.0");
         // Check for app backward compatibility
@@ -64,6 +66,34 @@ public class MainActivity extends AppCompatActivity {
         if(PreferenceHandler.getAccessKey() == null) {
             requestLogin(getApplicationContext());
         }
+
+        TabHost tab_host = (TabHost)findViewById(R.id.tabHost);
+        tab_host.setup();
+
+        //Tab 1
+        TabHost.TabSpec tab1 = tab_host.newTabSpec("Tab One");
+        tab1.setContent(R.id.tab1);
+        tab1.setIndicator("", getApplicationContext().getResources().getDrawable(R.drawable.icon_timeline));
+        tab_host.addTab(tab1);
+
+
+        //Tab 2
+        TabHost.TabSpec tab2 = tab_host.newTabSpec("Tab Two");
+        tab2.setContent(R.id.tab2);
+        tab2.setIndicator("",getApplicationContext().getResources().getDrawable(R.drawable.icon_msg));
+        tab_host.addTab(tab2);
+
+        //Tab 3
+        TabHost.TabSpec tab3 = tab_host.newTabSpec("Tab Three");
+        tab3.setContent(R.id.tab3);
+        tab3.setIndicator("",getApplicationContext().getResources().getDrawable(R.drawable.icon_friends));
+        tab_host.addTab(tab3);
+
+        //Tab 4
+        TabHost.TabSpec tab4 = tab_host.newTabSpec("Tab Four");
+        tab4.setContent(R.id.tab4);
+        tab4.setIndicator("",getApplicationContext().getResources().getDrawable(R.drawable.icon_profile));
+        tab_host.addTab(tab4);
     }
 
     private void requestLogin(Context applicationContext) {
