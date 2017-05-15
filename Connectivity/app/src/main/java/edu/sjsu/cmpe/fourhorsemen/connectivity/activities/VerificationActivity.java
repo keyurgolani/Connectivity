@@ -33,6 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
@@ -171,7 +172,7 @@ public class VerificationActivity extends AppCompatActivity {
                 params.put("email", email);
                 params.put("code", pincode_string);
                 Log.d(TAG, email + " -> " + pincode_string);
-                RequestHandler.HTTPRequest(getApplicationContext(), "verifyAccount", params, new ResponseHandler() {
+                RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_VERIFY_ACCOUNT, params, new ResponseHandler() {
                     @Override
                     public void handleSuccess(JSONObject response) throws JSONException {
                         Log.d(TAG, "Verification Result: " + response.toString());

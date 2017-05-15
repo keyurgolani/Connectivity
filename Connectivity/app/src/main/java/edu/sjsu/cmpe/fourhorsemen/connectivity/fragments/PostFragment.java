@@ -24,6 +24,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent.DummyPost;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
@@ -86,7 +87,7 @@ public class PostFragment extends Fragment {
             final List<Post> personalTimeline = new ArrayList<Post>();
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("unique_id", PreferenceHandler.getAccessKey());
-            RequestHandler.HTTPRequest(getContext(), "timeline", params, new ResponseHandler() {
+            RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
                 @Override
                 public void handleSuccess(JSONObject response) throws Exception {
                     if(response.getInt("status_code") == 200) {
