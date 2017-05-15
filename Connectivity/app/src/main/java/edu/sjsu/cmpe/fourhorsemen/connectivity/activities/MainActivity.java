@@ -8,28 +8,15 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.TabHost;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
 import android.view.MenuItem;
-import android.content.Intent;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.LoginActivity;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
@@ -41,7 +28,39 @@ public class MainActivity extends AppCompatActivity implements PostFragment.OnLi
 
     static final int REQUEST_LOGIN = 0;
     static final String TAG = MainActivity.class.getSimpleName();
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Fragment selectedFragment = null;
+
+            switch (item.getItemId()) {
+                case R.id.navigation_timeline:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                case R.id.navigation_notifications:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                case R.id.navigation_profile:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                case R.id.navigation_chat:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                default:
+                    selectedFragment = PostFragment.newInstance(1);
+
+            }
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, selectedFragment);
+            transaction.commit();
+            return true;
+        }
+
+    };
 
 
     @Override
@@ -71,41 +90,15 @@ public class MainActivity extends AppCompatActivity implements PostFragment.OnLi
         // Check if logged in
         if(PreferenceHandler.getAccessKey() == null) {
             requestLogin(getApplicationContext());
+        }else{
+            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+            //Manually displaying the first fragment - one time only
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, PostFragment.newInstance(1));
+            transaction.commit();
         }
-
-        // If Already logged in, go for home screen
-        mOnNavigationItemSelectedListener
-                = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                Fragment selectedFragment = null;
-
-                switch (item.getItemId()) {
-                    case R.id.navigation_timeline:
-                        selectedFragment = PostFragment.newInstance(1);
-                        break;
-                    case R.id.navigation_notifications:
-                        selectedFragment = PostFragment.newInstance(1);
-                        break;
-                    case R.id.navigation_profile:
-                        selectedFragment = PostFragment.newInstance(1);
-                        break;
-                    case R.id.navigation_chat:
-                        selectedFragment = PostFragment.newInstance(1);
-                        break;
-                    default:
-                        selectedFragment = PostFragment.newInstance(1);
-
-                }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, selectedFragment);
-                transaction.commit();
-                return true;
-            }
-
-        };
 
     }
 
@@ -139,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements PostFragment.OnLi
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyPost item) {
+    public void onListFragmentInteraction(Post item) {
 
     }
 }
