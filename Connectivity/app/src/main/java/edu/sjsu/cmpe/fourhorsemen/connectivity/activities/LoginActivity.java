@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.Bind;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
@@ -115,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         params.put("email", email);
         params.put("password", password);
 
-        RequestHandler.HTTPRequest(getApplicationContext(), "signin", params, new ResponseHandler() {
+        RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_SIGNIN, params, new ResponseHandler() {
                     @Override
                     public void handleSuccess(JSONObject response) throws JSONException {
                         switch (response.getInt("status_code")) {

@@ -26,6 +26,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
@@ -121,7 +122,7 @@ public class SignUpActivity extends AppCompatActivity {
         params.put("fname", firstName);
         params.put("lname", lastName);
         params.put("screenname", "Screen Name");
-        RequestHandler.HTTPRequest(getApplicationContext(), "register", params, new ResponseHandler() {
+        RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_REGISTER, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) {
                 progressDialog.dismiss();
