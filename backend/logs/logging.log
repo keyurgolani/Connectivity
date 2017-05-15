@@ -277,3 +277,8 @@
 {"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'Q8aek79RuCcmlnrvUQB1b2Jky'","@timestamp":"2017-05-15T01:18:32.769Z","@fields":{"level":"debug"}}
 {"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'Q8aek79RuCcmlnrvUQB1b2Jky'","@timestamp":"2017-05-15T01:19:26.788Z","@fields":{"level":"debug"}}
 {"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'Q8aek79RuCcmlnrvUQB1b2Jky'","@timestamp":"2017-05-15T01:23:15.910Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'Q8aek79RuCcmlnrvUQB1b2Jky'","@timestamp":"2017-05-15T01:42:51.976Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'Q8aek79RuCcmlnrvUQB1b2Jky'","@timestamp":"2017-05-15T01:47:15.859Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'Q8aek79RuCcmlnrvUQB1b2Jky'","@timestamp":"2017-05-15T01:47:31.593Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'Q8aek79RuCcmlnrvUQB1b2Jky'","@timestamp":"2017-05-15T01:47:40.035Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'Q8aek79RuCcmlnrvUQB1b2Jky'","@timestamp":"2017-05-15T01:48:42.288Z","@fields":{"level":"debug"}}

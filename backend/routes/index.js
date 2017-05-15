@@ -262,11 +262,11 @@ router.post('/post', function(req, res, next) {
 	}
 });
 
-router.post('/saveImageString', function(req, res, next) {
+router.post('/savePhoto', function(req, res, next) {
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
-				req.db.get('property_photos')
+				req.db.get('photos')
 				.insert({
 						'photos' : req.body.photo
 				})
@@ -277,9 +277,9 @@ router.post('/saveImageString', function(req, res, next) {
 							'status_code': 200,
 							'message': photo_result._id
 						});
-				})
-				.catch(function(err){
-						console.log(err);
+				}, function(error) {
+					console.log(error);
+					throw error;
 				}
 				);
 			} else {
@@ -296,6 +296,42 @@ router.post('/saveImageString', function(req, res, next) {
 		});
 	}
 });
+
+
+router.post('/getPhoto', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				req.db.get('photos').find({
+					'_id': req.body.photo_id
+				})
+				.then(function(photo_result){
+					res.send({
+						'status_code': 200,
+						'message': photo_result[0].photos
+					});
+				}, function(error) {
+					console.log(error);
+					throw error;
+				}
+				);
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		});
+	}
+});
+
+
+
 
 
 
