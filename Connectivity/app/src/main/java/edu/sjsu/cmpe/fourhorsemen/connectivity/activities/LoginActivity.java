@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void handleError(Exception e) {
+                        e.printStackTrace();
                         onLoginFailed();
                         progressDialog.dismiss();
                     }

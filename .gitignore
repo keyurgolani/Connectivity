@@ -1,6 +1,10 @@
 
 # Created by https://www.gitignore.io/api/java,node,macos,linux,android,windows,androidstudio
 
+### Project Specific ###
+properties.properties
+
+
 ### Android ###
 # Built application files
 *.apk
