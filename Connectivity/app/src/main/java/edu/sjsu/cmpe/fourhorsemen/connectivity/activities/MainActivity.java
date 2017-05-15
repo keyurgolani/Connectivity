@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements
                     selectedFragment = PostFragment.newInstance(1);
                     break;
                 case R.id.navigation_chat:
-                    selectedFragment = PostFragment.newInstance(1);
+                    selectedFragment = MessageFragment.newInstance(1);
                     break;
                 default:
                     selectedFragment = PostFragment.newInstance(1);
