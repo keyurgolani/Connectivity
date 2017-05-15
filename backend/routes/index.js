@@ -262,4 +262,45 @@ router.post('/post', function(req, res, next) {
 	}
 });
 
+router.post('/saveImageString', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				req.db.get('property_photos')
+				.insert({
+						'photos' : req.body.photo
+				})
+				.then(function(photo_result) {
+
+						console.log(photo_result._id);
+						res.send({
+							'status_code': 200,
+							'message': photo_result._id
+						});
+				})
+				.catch(function(err){
+						console.log(err);
+				}
+				);
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		});
+	}
+});
+
+
+
+
+
+
+
 module.exports = router;
