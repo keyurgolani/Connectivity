@@ -99,7 +99,6 @@ public class PostFragment extends Fragment {
                     } else {
                         Toast.makeText(getContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
                     }
-                    Log.d(TAG, response.toString());
                 }
 
                 @Override

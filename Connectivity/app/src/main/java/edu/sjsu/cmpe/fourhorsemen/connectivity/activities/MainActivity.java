@@ -41,6 +41,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 public class MainActivity extends AppCompatActivity implements PostFragment.OnListFragmentInteractionListener {
 
     static final int REQUEST_LOGIN = 0;
+    static final int REQUEST_APP_INTRO = 1;
     static final String TAG = MainActivity.class.getSimpleName();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements PostFragment.OnLi
 
             @Override
             public void handleError(Exception e) throws Exception {
-
+                // Do Nothing
             }
         });
 
@@ -108,6 +109,16 @@ public class MainActivity extends AppCompatActivity implements PostFragment.OnLi
 
         };
 
+        if(PreferenceHandler.getFirstLaunch() == null) {
+            openAppIntro(getApplicationContext());
+        }
+
+    }
+
+    private void openAppIntro(Context applicationContext) {
+        Intent intent = new Intent(applicationContext, AppIntro.class);
+        startActivityForResult(intent, REQUEST_APP_INTRO);
+        PreferenceHandler.putFirstLaunch();
     }
 
     private void requestLogin(Context applicationContext) {
@@ -118,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements PostFragment.OnLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_APP_INTRO) {
+            PreferenceHandler.putFirstLaunch();
+        }
         if(requestCode == REQUEST_LOGIN && resultCode == RESULT_OK) {
             if(PreferenceHandler.getAccessKey() != null) {
                 Toast.makeText(getApplicationContext(), "Successful Login", Toast.LENGTH_LONG);
