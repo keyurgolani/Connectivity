@@ -20,7 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -32,9 +33,9 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PostFragment extends Fragment {
+public class MessageFragment extends Fragment {
 
-    private final static String TAG = PostFragment.class.getSimpleName();
+    private final static String TAG = MessageFragment.class.getSimpleName();
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -46,13 +47,13 @@ public class PostFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PostFragment() {
+    public MessageFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PostFragment newInstance(int columnCount) {
-        PostFragment fragment = new PostFragment();
+    public static MessageFragment newInstance(int columnCount) {
+        MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -71,7 +72,7 @@ public class PostFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_post_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_message_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -82,17 +83,24 @@ public class PostFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            final List<Post> personalTimeline = new ArrayList<Post>();
+            final List<Message> personalTimeline = new ArrayList<Message>();
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("unique_id", PreferenceHandler.getAccessKey());
-            RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
+            RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_MESSAGES, params, new ResponseHandler() {
                 @Override
                 public void handleSuccess(JSONObject response) throws Exception {
                     if(response.getInt("status_code") == 200) {
-                        JSONArray posts = response.getJSONArray("message");
-                        for(int i  = 0; i < posts.length(); i++) {
-                            JSONObject currentObj = posts.getJSONObject(i);
-                            personalTimeline.add(new Post(currentObj.getInt("post_id"), currentObj.getString("screen_name"), currentObj.getInt("photo"), currentObj.getString("post"), currentObj.getString("timestamp")));
+                        JSONArray sentMessages = response.getJSONObject("message").getJSONArray("from_messages");
+                        for(int i  = 0; i < sentMessages.length(); i++) {
+                            JSONObject currentObj = sentMessages.getJSONObject(i);
+                            personalTimeline.add(new Message(currentObj.getInt("message_id"),
+                                    new Profile(),
+                                    new Profile(currentObj.getInt("to"),
+                                            currentObj.getString("profile_pic"),
+                                            currentObj.getString("screen_name")),
+                                    currentObj.getString("subject"),
+                                    currentObj.getString("message"),
+                                    currentObj.getString("timestamp")));
                         }
                     } else {
                         Toast.makeText(getContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
@@ -104,7 +112,7 @@ public class PostFragment extends Fragment {
                     e.printStackTrace();
                 }
             });
-            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(personalTimeline, mListener));
+            recyclerView.setAdapter(new MyMessageRecyclerViewAdapter(personalTimeline, mListener));
         }
         return view;
     }
@@ -139,6 +147,6 @@ public class PostFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Post item);
+        void onListFragmentInteraction(Message item);
     }
 }

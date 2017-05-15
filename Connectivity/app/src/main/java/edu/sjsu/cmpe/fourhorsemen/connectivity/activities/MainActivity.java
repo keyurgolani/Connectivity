@@ -30,6 +30,9 @@ import android.view.MenuItem;
 import android.content.Intent;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.LoginActivity;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -38,7 +41,9 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 
-public class MainActivity extends AppCompatActivity implements PostFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements
+        PostFragment.OnListFragmentInteractionListener,
+        MessageFragment.OnListFragmentInteractionListener {
 
     static final int REQUEST_LOGIN = 0;
     static final int REQUEST_APP_INTRO = 1;
@@ -95,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements PostFragment.OnLi
                         selectedFragment = PostFragment.newInstance(1);
                         break;
                     case R.id.navigation_chat:
-                        selectedFragment = PostFragment.newInstance(1);
+                        selectedFragment = MessageFragment.newInstance(1);
                         break;
                     default:
                         selectedFragment = PostFragment.newInstance(1);
@@ -154,7 +159,12 @@ public class MainActivity extends AppCompatActivity implements PostFragment.OnLi
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyPost item) {
+    public void onListFragmentInteraction(Post item) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(Message item) {
 
     }
 }

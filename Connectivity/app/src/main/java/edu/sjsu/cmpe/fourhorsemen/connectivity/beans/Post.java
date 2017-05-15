@@ -12,6 +12,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 
 public class Post {
 
+    // TODO: Use Profile bean for all the profile details and make relevant changes to Controller logic. - Keyur
     private int postID;
     private String userScreenName;
     private int userPhotoID;
