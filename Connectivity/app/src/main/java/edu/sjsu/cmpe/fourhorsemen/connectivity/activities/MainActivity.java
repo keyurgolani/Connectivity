@@ -48,7 +48,39 @@ public class MainActivity extends AppCompatActivity implements
     static final int REQUEST_LOGIN = 0;
     static final int REQUEST_APP_INTRO = 1;
     static final String TAG = MainActivity.class.getSimpleName();
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Fragment selectedFragment = null;
+
+            switch (item.getItemId()) {
+                case R.id.navigation_timeline:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                case R.id.navigation_notifications:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                case R.id.navigation_profile:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                case R.id.navigation_chat:
+                    selectedFragment = PostFragment.newInstance(1);
+                    break;
+                default:
+                    selectedFragment = PostFragment.newInstance(1);
+
+            }
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, selectedFragment);
+            transaction.commit();
+            return true;
+        }
+
+        };
 
 
     @Override
@@ -78,41 +110,17 @@ public class MainActivity extends AppCompatActivity implements
         // Check if logged in
         if(PreferenceHandler.getAccessKey() == null) {
             requestLogin(getApplicationContext());
+        }else{
+            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+            //Manually displaying the first fragment - one time only
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, PostFragment.newInstance(1));
+            transaction.commit();
         }
 
-        // If Already logged in, go for home screen
-        mOnNavigationItemSelectedListener
-                = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                Fragment selectedFragment = null;
-
-                switch (item.getItemId()) {
-                    case R.id.navigation_timeline:
-                        selectedFragment = PostFragment.newInstance(1);
-                        break;
-                    case R.id.navigation_notifications:
-                        selectedFragment = PostFragment.newInstance(1);
-                        break;
-                    case R.id.navigation_profile:
-                        selectedFragment = PostFragment.newInstance(1);
-                        break;
-                    case R.id.navigation_chat:
-                        selectedFragment = MessageFragment.newInstance(1);
-                        break;
-                    default:
-                        selectedFragment = PostFragment.newInstance(1);
-
-                }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, selectedFragment);
-                transaction.commit();
-                return true;
-            }
-
-        };
 
         if(PreferenceHandler.getFirstLaunch() == null) {
             openAppIntro(getApplicationContext());

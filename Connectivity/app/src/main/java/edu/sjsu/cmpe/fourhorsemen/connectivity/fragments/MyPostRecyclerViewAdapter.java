@@ -14,12 +14,11 @@ import android.widget.TextView;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment.OnListFragmentInteractionListener;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent.DummyPost;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyPost} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Post} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
