@@ -31,6 +31,7 @@ import android.content.Intent;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.LoginActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
@@ -48,13 +49,13 @@ public class MainActivity extends AppCompatActivity implements PostFragment.OnLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ProjectProperties.init(getBaseContext());
         PreferenceHandler.initSharedPreferences(getApplicationContext());
         PreferenceHandler.putVersion("1.0.0");
         // Check for app backward compatibility
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("version", PreferenceHandler.getVersion());
-        RequestHandler.HTTPRequest(getApplicationContext(), "version", params, new ResponseHandler() {
+        RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_VERSION, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws Exception {
                 if(Utilities.getVersionDiff(response.getString("version"), PreferenceHandler.getVersion()) > 0) {
