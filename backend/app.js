@@ -13,6 +13,15 @@ var app = express();
 
 var dao = require('./utils/dao');
 
+var mongo = require('mongodb');
+//Reference for monk usage and documentation: https://automattic.github.io/monk/
+var monk = require('monk');
+var properties = require('properties-reader')('properties.properties');
+// MongoDB Config
+var db = monk(properties.get('paths.mongoDBHosting')); // TODO: Fetch Properties like URL from Properties File on load!
+
+
+
 require('./utils/global').init();
 
 app.use(logger('dev'));
@@ -22,6 +31,14 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use(function(req, res, next) {
+	req.db = db;
+	next();
+});
+
+
 
 app.use('/', index);
 app.use('/users', users);

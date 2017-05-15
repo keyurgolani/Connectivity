@@ -82,7 +82,7 @@ CREATE TABLE `post_details` (
   `post_id` INT(10) NOT NULL AUTO_INCREMENT,
   `profile` INT(10) NOT NULL,
   `post` VARCHAR(10000) NOT NULL,
-  `photo` INT(10) NOT NULL,
+  `photo` VARCHAR(255) NOT NULL,
   `timestamp` TIMESTAMP NOT NULL,
   PRIMARY KEY (`post_id`)
 );
