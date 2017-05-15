@@ -105,7 +105,7 @@ public class PostFragment extends Fragment {
                     e.printStackTrace();
                 }
             });
-            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(personalTimeline, mListener));    //DummyContent.POSTS
+            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(DummyContent.POSTS, mListener));    //DummyContent.POSTS
         }
         return view;
     }
