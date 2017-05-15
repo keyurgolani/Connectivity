@@ -22,7 +22,6 @@ import java.util.List;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent.DummyPost;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -106,7 +105,7 @@ public class PostFragment extends Fragment {
                     e.printStackTrace();
                 }
             });
-            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(personalTimeline, mListener));
+            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(personalTimeline, mListener));    //DummyContent.POSTS
         }
         return view;
     }
@@ -141,6 +140,6 @@ public class PostFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyPost item);
+        void onListFragmentInteraction(Post post);
     }
 }
