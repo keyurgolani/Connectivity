@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -33,9 +34,9 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PostFragment extends Fragment {
+public class MessageFragment extends Fragment {
 
-    private final static String TAG = PostFragment.class.getSimpleName();
+    private final static String TAG = MessageFragment.class.getSimpleName();
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -48,13 +49,13 @@ public class PostFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PostFragment() {
+    public MessageFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PostFragment newInstance(int columnCount) {
-        PostFragment fragment = new PostFragment();
+    public static MessageFragment newInstance(int columnCount) {
+        MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -73,7 +74,7 @@ public class PostFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_post_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_message_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -84,24 +85,44 @@ public class PostFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
-            recyclerView.setAdapter(mAdapter);    //DummyContent.POSTS
+            mAdapter = new MyMessageRecyclerViewAdapter(getMessages(getContext()).first, mListener);
+            recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
 
-    private List<Post> getPersonalTimeline(Context context) {
-        final List<Post> personalTimeline = new ArrayList<Post>();
+    private Pair<List<Message>, List<Message>> getMessages(Context context) {
+        final List<Message> received = new ArrayList<Message>();
+        final List<Message> sent = new ArrayList<Message>();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());
-        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
+        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_MESSAGES, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws Exception {
                 if(response.getInt("status_code") == 200) {
-                    JSONArray posts = response.getJSONArray("message");
-                    for(int i  = 0; i < posts.length(); i++) {
-                        JSONObject currentObj = posts.getJSONObject(i);
-                        personalTimeline.add(new Post(currentObj.getInt("post_id"), currentObj.getString("screen_name"), currentObj.getInt("photo"), currentObj.getString("post"), currentObj.getString("timestamp")));
+                    JSONArray sentMessages = response.getJSONObject("message").getJSONArray("from_messages");
+                    JSONArray receivedMessages = response.getJSONObject("message").getJSONArray("to_messages");
+                    for(int i  = 0; i < sentMessages.length(); i++) {
+                        JSONObject currentObj = sentMessages.getJSONObject(i);
+                        sent.add(new Message(currentObj.getInt("message_id"),
+                                new Profile(),
+                                new Profile(currentObj.getInt("to"),
+                                        currentObj.getString("profile_pic"),
+                                        currentObj.getString("screen_name")),
+                                currentObj.getString("subject"),
+                                currentObj.getString("message"),
+                                currentObj.getString("timestamp")));
+                    }
+                    for(int i  = 0; i < receivedMessages.length(); i++) {
+                        JSONObject currentObj = receivedMessages.getJSONObject(i);
+                        sent.add(new Message(currentObj.getInt("message_id"),
+                                new Profile(currentObj.getInt("from"),
+                                        currentObj.getString("profile_pic"),
+                                        currentObj.getString("screen_name")),
+                                new Profile(),
+                                currentObj.getString("subject"),
+                                currentObj.getString("message"),
+                                currentObj.getString("timestamp")));
                     }
                     mAdapter.notifyDataSetChanged();
                 } else {
@@ -114,7 +135,7 @@ public class PostFragment extends Fragment {
                 e.printStackTrace();
             }
         });
-        return personalTimeline;
+        return new Pair<List<Message>, List<Message>>(sent, received);
     }
 
 
@@ -147,6 +168,6 @@ public class PostFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Post post);
+        void onListFragmentInteraction(Message item);
     }
 }

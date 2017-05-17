@@ -53,7 +53,7 @@ public class AppIntro extends IntroActivity {
                 .build());
         setButtonBackFunction(BUTTON_BACK_FUNCTION_SKIP);
         setButtonNextFunction(BUTTON_NEXT_FUNCTION_NEXT_FINISH);
-        setPageScrollDuration(500);
+        setPageScrollDuration(100);
     }
 
     @Override
