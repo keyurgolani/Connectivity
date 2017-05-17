@@ -32,7 +32,6 @@
             android:layout_toEndOf="@id/user_photo"
             android:layout_alignParentTop="true"
             android:textSize="18sp"
-            android:textColor="@color/black"
             />
 
         <TextView

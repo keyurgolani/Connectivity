@@ -13,17 +13,17 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Intros" />
         <activity
             android:name=".activities.SignUpActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Intros" />
         <activity
             android:name=".activities.VerificationActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Intros" />
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_timeline"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
