@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -16,15 +17,15 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 public class DummyContent {
 
     //Array of dummy posts
-    public static final List<DummyPost> POSTS = new ArrayList<DummyPost>();
+    public static final List<Post> POSTS = new ArrayList<Post>();
 
     private static int userPhotoResIDs[] = {R.drawable.emma, R.drawable.lavery, R.drawable.lillie};
-    private static String userNames[] = {"Jane Doe", "Emma Watson", "Dr. Ford"};
+    private static String userScreenNames[] = {"Jane Doe", "Emma Watson", "Dr. Ford"};
 
     /**
      * A map of posts, by ID.
      */
-    public static final Map<Integer, DummyPost> POST_MAP = new HashMap<Integer, DummyPost>();
+    public static final Map<Integer, Post> POST_MAP = new HashMap<Integer, Post>();
 
     private static final int COUNT = 20;
 
@@ -35,13 +36,13 @@ public class DummyContent {
         }
     }
 
-    private static void addItem(DummyPost post) {
+    private static void addItem(Post post) {
         POSTS.add(post);
-        POST_MAP.put(post.postId, post);
+        POST_MAP.put(post.getPostID(), post);
     }
 
-    private static DummyPost createDummyPost(int position) {
-        return new DummyPost(position, userPhotoResIDs[(int) (Math.random()*3)], userNames[(int) (Math.random()*3)], generateRandomContent(position));
+    private static Post createDummyPost(int position) {
+        return new Post(position,userScreenNames[(int) (Math.random() * 3)], userPhotoResIDs[(int)(Math.random() * 3)], "Hello", "time");
     }
 
     private static String generateRandomContent(int position) {
@@ -53,20 +54,4 @@ public class DummyContent {
         return builder.toString();
     }
 
-    /**
-     * A dummy item representing a piece of content.
-     */
-    public static class DummyPost {
-        public final int postId;
-        public final String postContent;
-        public final String userName;
-        public final int userPhotoResID;
-
-        public DummyPost(int postId, int userPhotoResID, String userName, String postContent) {
-            this.postId = postId;
-            this.postContent = postContent;
-            this.userName = userName;
-            this.userPhotoResID = userPhotoResID;
-        }
-    }
 }

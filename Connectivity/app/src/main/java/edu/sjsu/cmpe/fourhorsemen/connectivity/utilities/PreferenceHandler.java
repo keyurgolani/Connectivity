@@ -51,4 +51,15 @@ public class PreferenceHandler {
         clearKey("access_key");
     }
 
+    public static String getFirstLaunch() {
+        return getKey("first_launch");
+    }
+
+    public static void putFirstLaunch() {
+        putKey("first_launch", "1");
+    }
+
+    public static void clearFirstLaunch() {
+        clearKey("first_launch");
+    }
 }
