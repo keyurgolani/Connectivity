@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -40,6 +42,7 @@ public class PostFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     RecyclerView recyclerView;
+    RecyclerView.Adapter mAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -81,31 +84,37 @@ public class PostFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            final List<Post> personalTimeline = new ArrayList<Post>();
-            HashMap<String, String> params = new HashMap<String, String>();
-            params.put("unique_id", PreferenceHandler.getAccessKey());
-            RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
-                @Override
-                public void handleSuccess(JSONObject response) throws Exception {
-                    if(response.getInt("status_code") == 200) {
-                        JSONArray posts = response.getJSONArray("message");
-                        for(int i  = 0; i < posts.length(); i++) {
-                            JSONObject currentObj = posts.getJSONObject(i);
-                            personalTimeline.add(new Post(currentObj.getInt("post_id"), currentObj.getString("screen_name"), currentObj.getInt("photo"), currentObj.getString("post"), currentObj.getString("timestamp")));
-                        }
-                    } else {
-                        Toast.makeText(getContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void handleError(Exception e) throws Exception {
-                    e.printStackTrace();
-                }
-            });
-            recyclerView.setAdapter(new MyPostRecyclerViewAdapter(personalTimeline, mListener));
+            mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
+            recyclerView.setAdapter(mAdapter);    //DummyContent.POSTS
         }
         return view;
+    }
+
+    private List<Post> getPersonalTimeline(Context context) {
+        final List<Post> personalTimeline = new ArrayList<Post>();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("unique_id", PreferenceHandler.getAccessKey());
+        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) throws Exception {
+                if(response.getInt("status_code") == 200) {
+                    JSONArray posts = response.getJSONArray("message");
+                    for(int i  = 0; i < posts.length(); i++) {
+                        JSONObject currentObj = posts.getJSONObject(i);
+                        personalTimeline.add(new Post(currentObj.getInt("post_id"), currentObj.getString("screen_name"), currentObj.getInt("photo"), currentObj.getString("post"), currentObj.getString("timestamp")));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void handleError(Exception e) throws Exception {
+                e.printStackTrace();
+            }
+        });
+        return personalTimeline;
     }
 
 
@@ -138,6 +147,6 @@ public class PostFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Post item);
+        void onListFragmentInteraction(Post post);
     }
 }

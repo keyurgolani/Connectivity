@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements
         // Check if logged in
         if(PreferenceHandler.getAccessKey() == null) {
             requestLogin(getApplicationContext());
-        }else{
+        } else {
             BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 

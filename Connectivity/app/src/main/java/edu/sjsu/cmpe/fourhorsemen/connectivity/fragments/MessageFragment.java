@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class MessageFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     RecyclerView recyclerView;
+    RecyclerView.Adapter mAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -83,38 +85,57 @@ public class MessageFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            final List<Message> personalTimeline = new ArrayList<Message>();
-            HashMap<String, String> params = new HashMap<String, String>();
-            params.put("unique_id", PreferenceHandler.getAccessKey());
-            RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_MESSAGES, params, new ResponseHandler() {
-                @Override
-                public void handleSuccess(JSONObject response) throws Exception {
-                    if(response.getInt("status_code") == 200) {
-                        JSONArray sentMessages = response.getJSONObject("message").getJSONArray("from_messages");
-                        for(int i  = 0; i < sentMessages.length(); i++) {
-                            JSONObject currentObj = sentMessages.getJSONObject(i);
-                            personalTimeline.add(new Message(currentObj.getInt("message_id"),
-                                    new Profile(),
-                                    new Profile(currentObj.getInt("to"),
-                                            currentObj.getString("profile_pic"),
-                                            currentObj.getString("screen_name")),
-                                    currentObj.getString("subject"),
-                                    currentObj.getString("message"),
-                                    currentObj.getString("timestamp")));
-                        }
-                    } else {
-                        Toast.makeText(getContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void handleError(Exception e) throws Exception {
-                    e.printStackTrace();
-                }
-            });
-            recyclerView.setAdapter(new MyMessageRecyclerViewAdapter(personalTimeline, mListener));
+            mAdapter = new MyMessageRecyclerViewAdapter(getMessages(getContext()).first, mListener);
+            recyclerView.setAdapter(mAdapter);
         }
         return view;
+    }
+
+    private Pair<List<Message>, List<Message>> getMessages(Context context) {
+        final List<Message> received = new ArrayList<Message>();
+        final List<Message> sent = new ArrayList<Message>();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("unique_id", PreferenceHandler.getAccessKey());
+        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_MESSAGES, params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) throws Exception {
+                if(response.getInt("status_code") == 200) {
+                    JSONArray sentMessages = response.getJSONObject("message").getJSONArray("from_messages");
+                    JSONArray receivedMessages = response.getJSONObject("message").getJSONArray("to_messages");
+                    for(int i  = 0; i < sentMessages.length(); i++) {
+                        JSONObject currentObj = sentMessages.getJSONObject(i);
+                        sent.add(new Message(currentObj.getInt("message_id"),
+                                new Profile(),
+                                new Profile(currentObj.getInt("to"),
+                                        currentObj.getString("profile_pic"),
+                                        currentObj.getString("screen_name")),
+                                currentObj.getString("subject"),
+                                currentObj.getString("message"),
+                                currentObj.getString("timestamp")));
+                    }
+                    for(int i  = 0; i < receivedMessages.length(); i++) {
+                        JSONObject currentObj = receivedMessages.getJSONObject(i);
+                        sent.add(new Message(currentObj.getInt("message_id"),
+                                new Profile(currentObj.getInt("from"),
+                                        currentObj.getString("profile_pic"),
+                                        currentObj.getString("screen_name")),
+                                new Profile(),
+                                currentObj.getString("subject"),
+                                currentObj.getString("message"),
+                                currentObj.getString("timestamp")));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void handleError(Exception e) throws Exception {
+                e.printStackTrace();
+            }
+        });
+        return new Pair<List<Message>, List<Message>>(sent, received);
     }
 
 
