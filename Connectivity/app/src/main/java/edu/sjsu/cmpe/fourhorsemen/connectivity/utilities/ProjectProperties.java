@@ -31,6 +31,8 @@ public class ProjectProperties {
             METHOD_SEND_MESSAGE = prop.getProperty("METHOD_SEND_MESSAGE");
             METHOD_FETCH_TIMELINE = prop.getProperty("METHOD_FETCH_TIMELINE");
             METHOD_ADD_POST = prop.getProperty("METHOD_ADD_POST");
+            METHOD_ADD_PHOTO = prop.getProperty("METHOD_ADD_PHOTO");
+            METHOD_GET_PHOTO = prop.getProperty("METHOD_GET_PHOTO");
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -52,6 +54,8 @@ public class ProjectProperties {
     public static String METHOD_SEND_MESSAGE;
     public static String METHOD_FETCH_TIMELINE;
     public static String METHOD_ADD_POST;
+    public static String METHOD_ADD_PHOTO;
+    public static String METHOD_GET_PHOTO;
 
     public static String getBaseURL() {
         return "http://" + host + ":" + port + "/";
