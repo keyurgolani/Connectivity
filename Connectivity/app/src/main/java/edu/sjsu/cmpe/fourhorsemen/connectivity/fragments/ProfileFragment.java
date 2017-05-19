@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,11 +21,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -111,6 +123,9 @@ public class ProfileFragment extends Fragment {
         rotate_forward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_backward);
 
+        final boolean dummyIsFriend = false;
+        final boolean dummyIsFollowing = false;
+
         View.OnClickListener fabListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,10 +135,22 @@ public class ProfileFragment extends Fragment {
                         animateFAB();
                         break;
                     case R.id.fabAddFriend:
-
+                        if(!dummyIsFriend) {
+                            // TODO: Make this button to be "Unfriend" button.
+                            // TODO: Make call to METHOD_ADD_FRIEND REST API
+                        } else {
+                            // TODO: Make this button to be "Add Friend" button.
+                            // TODO: Make call to METHOD_UNFRIEND REST API
+                        }
                         break;
                     case R.id.fabFollow:
-
+                        if(!dummyIsFollowing) {
+                            // TODO: Make this button to be "Unfollow" button.
+                            // TODO: Make call to METHOD_FOLLOW REST API
+                        } else {
+                            // TODO: Make this button to be "Unfollow" button.
+                            // TODO: Make call to METHOD_UNFOLLOW REST API
+                        }
                         break;
                 }
             }

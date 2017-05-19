@@ -33,6 +33,10 @@ public class ProjectProperties {
             METHOD_ADD_POST = prop.getProperty("METHOD_ADD_POST");
             METHOD_ADD_PHOTO = prop.getProperty("METHOD_ADD_PHOTO");
             METHOD_GET_PHOTO = prop.getProperty("METHOD_GET_PHOTO");
+            METHOD_FOLLOW = prop.getProperty("METHOD_FOLLOW");
+            METHOD_UNFOLLOW = prop.getProperty("METHOD_UNFOLLOW");
+            METHOD_ADD_FRIEND = prop.getProperty("METHOD_ADD_FRIEND");
+            METHOD_UNFRIEND = prop.getProperty("METHOD_UNFRIEND");
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -56,6 +60,10 @@ public class ProjectProperties {
     public static String METHOD_ADD_POST;
     public static String METHOD_ADD_PHOTO;
     public static String METHOD_GET_PHOTO;
+    public static String METHOD_FOLLOW;
+    public static String METHOD_UNFOLLOW;
+    public static String METHOD_ADD_FRIEND;
+    public static String METHOD_UNFRIEND;
 
     public static String getBaseURL() {
         return "http://" + host + ":" + port + "/";
