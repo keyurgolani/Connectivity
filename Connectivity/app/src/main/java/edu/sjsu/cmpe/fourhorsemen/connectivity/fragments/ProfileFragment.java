@@ -2,9 +2,8 @@ package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,14 +18,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +39,10 @@ public class ProfileFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ViewPager viewPager;
+
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fabMain,fabAddFriend,fabFollow;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -99,6 +101,37 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
+
+        fabMain = (FloatingActionButton)root.findViewById(R.id.fabMain);
+        fabAddFriend = (FloatingActionButton)root.findViewById(R.id.fabAddFriend);
+        fabFollow = (FloatingActionButton)root.findViewById(R.id.fabFollow);
+        fab_open = AnimationUtils.loadAnimation(root.getContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(root.getContext(),R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_backward);
+
+        View.OnClickListener fabListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                switch (view.getId()){
+                    case R.id.fabMain:
+                        animateFAB();
+                        break;
+                    case R.id.fabAddFriend:
+
+                        break;
+                    case R.id.fabFollow:
+
+                        break;
+                }
+            }
+        };
+
+        fabMain.setOnClickListener(fabListener);
+        fabAddFriend.setOnClickListener(fabListener);
+        fabFollow.setOnClickListener(fabListener);
 
         return root;
     }
@@ -183,5 +216,26 @@ public class ProfileFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void animateFAB(){
+
+        if(isFabOpen){
+
+            fabMain.startAnimation(rotate_backward);
+            fabAddFriend.startAnimation(fab_close);
+            fabFollow.startAnimation(fab_close);
+            fabAddFriend.setClickable(false);
+            fabFollow.setClickable(false);
+            isFabOpen = false;
+        } else {
+
+            fabMain.startAnimation(rotate_forward);
+            fabAddFriend.startAnimation(fab_open);
+            fabFollow.startAnimation(fab_open);
+            fabAddFriend.setClickable(true);
+            fabFollow.setClickable(true);
+            isFabOpen = true;
+        }
     }
 }
