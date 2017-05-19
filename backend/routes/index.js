@@ -239,25 +239,25 @@ router.post('/timeline', function(req, res, next) {
 });
 
 router.post('/post', function(req, res, next) {
-    if (exists(req.body.unique_id)) {
-        accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
-            if (isValid) {
-                profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-                    timeline_bo.addPost(profile_id, req.body.post, req.body.photo, res);
-                });
-            } else {
-                res.send({
-                    'status_code': 403,
-                    'message': 'Forbidden'
-                });
-            }
-        });
-    } else {
-        res.send({
-            'status_code': 403,
-            'message': 'Forbidden'
-        });
-    }
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					timeline_bo.addPost(profile_id, req.body.post, exists(req.body.photo) ? req.body.photo : 0, res);
+				});
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		});
+	}
 });
 
 router.post('/savePhoto', function(req, res, next) {

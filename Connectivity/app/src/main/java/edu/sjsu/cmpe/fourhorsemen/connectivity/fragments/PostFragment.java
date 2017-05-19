@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +20,10 @@ import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
-import android.view.View.OnFocusChangeListener;
 
 /**
  * A fragment representing a list of Items.
@@ -45,7 +42,7 @@ public class PostFragment extends Fragment{
     private OnListFragmentInteractionListener mListener;
     RecyclerView recyclerView;
     RecyclerView.Adapter mAdapter;
-    private int profileID;
+    private int profileID = 0;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -88,6 +85,10 @@ public class PostFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_list, container, false);
 
+        if(savedInstanceState != null) {
+            this.profileID = savedInstanceState.getInt(PROFILE_ID);
+        }
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -97,14 +98,18 @@ public class PostFragment extends Fragment{
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            if(savedInstanceState == null || savedInstanceState.getInt(PROFILE_ID) == 0) {
-                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
-            } else {
-                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext(), savedInstanceState.getInt(PROFILE_ID)), mListener);
-            }
+            refreshPosts();
             recyclerView.setAdapter(mAdapter);
         }
         return view;
+    }
+
+    public void refreshPosts() {
+        if(profileID != 0) {
+            mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext(), profileID), mListener);
+        } else {
+            mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
+        }
     }
 
     private List<Post> getPersonalTimeline(Context context) {
