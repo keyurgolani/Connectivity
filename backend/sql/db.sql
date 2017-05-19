@@ -86,3 +86,13 @@ CREATE TABLE `post_details` (
   `timestamp` TIMESTAMP NOT NULL,
   PRIMARY KEY (`post_id`)
 );
+
+DROP TABLE IF EXISTS `notification_details`;
+CREATE TABLE `notification_details` (
+  `notification_id` INT(10) NOT NULL AUTO_INCREMENT,
+  `profile` INT(10) NOT NULL,
+  `friend` INT(10) NOT NULL,
+  `text` VARCHAR(10000) NOT NULL,
+  `timestamp` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`notification_id`)
+);

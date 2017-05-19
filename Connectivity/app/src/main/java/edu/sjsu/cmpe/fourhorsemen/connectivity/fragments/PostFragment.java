@@ -98,18 +98,14 @@ public class PostFragment extends Fragment{
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            refreshPosts();
+            if(profileID != 0) {
+                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext(), profileID), mListener);
+            } else {
+                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
+            }
             recyclerView.setAdapter(mAdapter);
         }
         return view;
-    }
-
-    public void refreshPosts() {
-        if(profileID != 0) {
-            mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext(), profileID), mListener);
-        } else {
-            mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
-        }
     }
 
     private List<Post> getPersonalTimeline(Context context) {
