@@ -216,11 +216,9 @@ router.post('/timeline', function(req, res, next) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
 					if (exists(req.body.profile)) {
-						if (req.body.profile == profile_id) {
-							timeline_bo.fetchOwnTimeline(req.body.profile, res)
-						} else {
-							timeline_bo.fetchFriendTimeline(profile_id, req.body.profile, res)
-						}
+						// Will check if the timeline requested is user's own timeline inside the function
+						// Will return results accordingly.
+						timeline_bo.fetchFriendTimeline(profile_id, req.body.profile, res)
 					} else {
 						timeline_bo.fetchOwnTimeline(profile_id, res)
 					}
@@ -267,21 +265,20 @@ router.post('/savePhoto', function(req, res, next) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				req.db.get('photos')
-				.insert({
-						'photos' : req.body.photo
-				})
-				.then(function(photo_result) {
+					.insert({
+						'photos': req.body.photo
+					})
+					.then(function(photo_result) {
 
 						console.log(photo_result._id);
 						res.send({
 							'status_code': 200,
 							'message': photo_result._id
 						});
-				}, function(error) {
-					console.log(error);
-					throw error;
-				}
-				);
+					}, function(error) {
+						console.log(error);
+						throw error;
+					});
 			} else {
 				res.send({
 					'status_code': 403,
@@ -303,18 +300,17 @@ router.post('/getPhoto', function(req, res, next) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				req.db.get('photos').find({
-					'_id': req.body.photo_id
-				})
-				.then(function(photo_result){
-					res.send({
-						'status_code': 200,
-						'message': photo_result[0].photos
+						'_id': req.body.photo_id
+					})
+					.then(function(photo_result) {
+						res.send({
+							'status_code': 200,
+							'message': photo_result[0].photos
+						});
+					}, function(error) {
+						console.log(error);
+						throw error;
 					});
-				}, function(error) {
-					console.log(error);
-					throw error;
-				}
-				);
 			} else {
 				res.send({
 					'status_code': 403,
@@ -329,7 +325,6 @@ router.post('/getPhoto', function(req, res, next) {
 		});
 	}
 });
-
 
 
 

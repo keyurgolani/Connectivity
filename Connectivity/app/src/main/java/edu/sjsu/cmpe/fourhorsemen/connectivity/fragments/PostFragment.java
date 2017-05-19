@@ -39,11 +39,13 @@ public class PostFragment extends Fragment{
     private final static String TAG = PostFragment.class.getSimpleName();
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String PROFILE_ID = "profile-id";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     RecyclerView recyclerView;
     RecyclerView.Adapter mAdapter;
+    private int profileID;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -58,6 +60,16 @@ public class PostFragment extends Fragment{
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @SuppressWarnings("unused")
+    public static PostFragment newInstanceForProfile(int columnCount, int profileID) {
+        PostFragment fragment = new PostFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putInt(PROFILE_ID, profileID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,16 +97,27 @@ public class PostFragment extends Fragment{
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            mAdapter = new MyPostRecyclerViewAdapter(DummyContent.POSTS, mListener); //DummyContent.POSTS
+            if(savedInstanceState.getInt(PROFILE_ID) == 0) {
+                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener); //DummyContent.POSTS
+            } else {
+                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext(), savedInstanceState.getInt(PROFILE_ID)), mListener); //DummyContent.POSTS
+            }
             recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
 
     private List<Post> getPersonalTimeline(Context context) {
+        return getPersonalTimeline(context, 0);
+    }
+
+    private List<Post> getPersonalTimeline(Context context, int profileID) {
         final List<Post> personalTimeline = new ArrayList<Post>();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());
+        if(profileID != 0) {
+            params.put("profile", String.valueOf(profileID));
+        }
         RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws Exception {

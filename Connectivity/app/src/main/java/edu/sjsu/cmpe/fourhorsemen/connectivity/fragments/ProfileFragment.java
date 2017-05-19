@@ -68,12 +68,13 @@ public class ProfileFragment extends Fragment {
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(false);
         ab.setTitle("Gaurav Chodwadia");
+        int dummyProfileID = 1;
 
 
         viewPager = (ViewPager) root.findViewById(R.id.tab_viewpager);
         if (viewPager != null){
             ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-            adapter.addFrag(PostFragment.newInstance(1), "My Posts");
+            adapter.addFrag(PostFragment.newInstanceForProfile(1, dummyProfileID), "My Posts");
             adapter.addFrag(new PostFragment(), "About");
             adapter.addFrag(new PostFragment(), "Albums");
             viewPager.setAdapter(adapter);
