@@ -98,9 +98,9 @@ public class PostFragment extends Fragment{
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             if(savedInstanceState == null || savedInstanceState.getInt(PROFILE_ID) == 0) {
-                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener); //DummyContent.POSTS
+                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
             } else {
-                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext(), savedInstanceState.getInt(PROFILE_ID)), mListener); //DummyContent.POSTS
+                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext(), savedInstanceState.getInt(PROFILE_ID)), mListener);
             }
             recyclerView.setAdapter(mAdapter);
         }
