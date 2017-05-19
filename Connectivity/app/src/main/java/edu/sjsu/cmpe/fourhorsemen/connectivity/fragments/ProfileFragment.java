@@ -3,6 +3,7 @@ package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,7 @@ public class ProfileFragment extends Fragment {
     private Boolean isFabOpen = false;
     private FloatingActionButton fabMain,fabAddFriend,fabFollow;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+    private AppBarLayout appBarLayout;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -109,6 +111,8 @@ public class ProfileFragment extends Fragment {
         fab_close = AnimationUtils.loadAnimation(root.getContext(),R.anim.fab_close);
         rotate_forward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_backward);
+
+
 
         View.OnClickListener fabListener = new View.OnClickListener() {
             @Override
@@ -237,4 +241,38 @@ public class ProfileFragment extends Fragment {
             isFabOpen = true;
         }
     }
+
+}
+
+ abstract class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
+
+    public enum State {
+        EXPANDED,
+        COLLAPSED,
+        IDLE
+    }
+
+    private State mCurrentState = State.IDLE;
+
+    @Override
+    public final void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        if (i == 0) {
+            if (mCurrentState != State.EXPANDED) {
+                onStateChanged(appBarLayout, State.EXPANDED);
+            }
+            mCurrentState = State.EXPANDED;
+        } else if (Math.abs(i) >= appBarLayout.getTotalScrollRange()) {
+            if (mCurrentState != State.COLLAPSED) {
+                onStateChanged(appBarLayout, State.COLLAPSED);
+            }
+            mCurrentState = State.COLLAPSED;
+        } else {
+            if (mCurrentState != State.IDLE) {
+                onStateChanged(appBarLayout, State.IDLE);
+            }
+            mCurrentState = State.IDLE;
+        }
+    }
+
+    public abstract void onStateChanged(AppBarLayout appBarLayout, State state);
 }
