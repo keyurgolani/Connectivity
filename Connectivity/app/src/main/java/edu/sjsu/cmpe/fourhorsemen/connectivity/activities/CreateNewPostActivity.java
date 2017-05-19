@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -61,8 +62,10 @@ public class CreateNewPostActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         newPostStr = newPost.getText().toString();
-        Log.i("Tag", newPostStr);
         doAddPost();
+        getParent().finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
         finish();
         return super.onOptionsItemSelected(menuItem);
     }
