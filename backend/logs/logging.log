@@ -138,3 +138,24 @@
 {"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = '7Jt04Wbm9RngJer17XGe8n7Cl'","@timestamp":"2017-05-19T08:17:29.379Z","@fields":{"level":"debug"}}
 {"@message":"Query: SELECT * FROM message_details, profile_details WHERE `profile` = 1 and message_details.to = profile_details.profile_id","@timestamp":"2017-05-19T08:17:29.380Z","@fields":{"level":"debug"}}
 {"@message":"Query: SELECT * FROM message_details, profile_details WHERE `to` = 1 and message_details.profile = profile_details.profile_id","@timestamp":"2017-05-19T08:17:29.381Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T09:55:32.622Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T09:56:44.068Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T09:56:44.088Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO follow_details SET `following` = '2'","@timestamp":"2017-05-19T09:56:44.093Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:03:54.028Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:03:54.041Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO follow_details SET `following` = '2'","@timestamp":"2017-05-19T10:03:54.042Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:06:47.561Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:06:47.572Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO follow_details SET `profile` = '', `following` = '2'","@timestamp":"2017-05-19T10:06:47.573Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:15:28.512Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:15:28.531Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:16:59.556Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:16:59.569Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:17:55.208Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:17:55.219Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:18:35.829Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:18:35.839Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:20:36.471Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'hH9SVQqqwvP9U6rcx8Qnha4kd'","@timestamp":"2017-05-19T10:20:36.487Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO follow_details SET `profile` = 2, `following` = '2'","@timestamp":"2017-05-19T10:20:36.492Z","@fields":{"level":"debug"}}
