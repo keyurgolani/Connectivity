@@ -11,6 +11,7 @@
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
+        android:background="@color/iron"
         android:layout_height="0dp"
         android:layout_weight="1">
 
@@ -22,6 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
+        app:itemIconTint="@color/bnv_tab_item_foreground"
+        app:itemTextColor="@color/bnv_tab_item_foreground"
         app:menu="@menu/navigation" />
 
 </LinearLayout>

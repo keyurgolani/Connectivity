@@ -2,11 +2,13 @@ package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TabHost;
@@ -32,6 +34,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.LoginActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.ProfileFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
@@ -41,9 +44,8 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
 
-public class MainActivity extends AppCompatActivity implements
-        PostFragment.OnListFragmentInteractionListener,
-        MessageFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity
+        implements PostFragment.OnListFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, MessageFragment.OnListFragmentInteractionListener {
 
     static final int REQUEST_LOGIN = 0;
     static final int REQUEST_APP_INTRO = 1;
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements
                     selectedFragment = PostFragment.newInstance(1);
                     break;
                 case R.id.navigation_profile:
-                    selectedFragment = PostFragment.newInstance(1);
+                    selectedFragment = ProfileFragment.newInstance();
                     break;
                 case R.id.navigation_chat:
                     selectedFragment = MessageFragment.newInstance(1);
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements
             return true;
         }
 
-        };
+    };
 
 
     @Override
@@ -173,6 +175,11 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onListFragmentInteraction(Message item) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

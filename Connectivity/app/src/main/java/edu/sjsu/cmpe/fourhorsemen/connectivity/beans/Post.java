@@ -19,6 +19,10 @@ public class Post {
     private String content;
     private String timestamp;
 
+    public Post(){
+
+    }
+
     public Post(int postID, String userScreenName, int userPhoto, String content, String timestamp) {
         this.postID = postID;
         this.userScreenName = userScreenName;

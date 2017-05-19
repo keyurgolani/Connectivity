@@ -84,8 +84,8 @@ public class PostFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
-            recyclerView.setAdapter(mAdapter);    //DummyContent.POSTS
+            mAdapter = new MyPostRecyclerViewAdapter(DummyContent.POSTS, mListener); //DummyContent.POSTS
+            recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
@@ -146,7 +146,7 @@ public class PostFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(Post post);
+        void onListFragmentInteraction();
+
     }
 }

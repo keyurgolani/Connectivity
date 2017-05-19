@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="edu.sjsu.cmpe.fourhorsemen.connectivity">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,25 +14,36 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Intros" />
         <activity
             android:name=".activities.SignUpActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Intros" />
         <activity
             android:name=".activities.VerificationActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Intros" />
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_timeline"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AppIntro"
-            android:theme="@style/Theme.Intro"/>
+        <activity
+            android:name=".activities.AppIntro"
+            android:theme="@style/Theme.Intro" />
+        <activity
+            android:name=".activities.CreateNewPostActivity"
+            android:label="@string/title_activity_create_new_post"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme.MainTheme"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.sjsu.cmpe.fourhorsemen.connectivity.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
