@@ -4,6 +4,7 @@ var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 var async = require("async");
+var moment = require('moment');
 
 module.exports.getMessages = function(profile_id, res) {
 	async.parallel([
@@ -24,6 +25,12 @@ module.exports.getMessages = function(profile_id, res) {
 				'message': 'Internal Error'
 			})
 		} else {
+			for (var i = 0; i < results[0].length; i++) {
+				results[0][i].timestamp = moment(results[0][i].timestamp, "YYYY-MM-DDTHH:mm:ss.SSSZ").fromNow();
+			}
+			for (var j = 0; j < results[1].length; j++) {
+				results[1][j].timestamp = moment(results[1][j].timestamp, "YYYY-MM-DDTHH:mm:ss.SSSZ").fromNow();
+			}
 			res.send({
 				'status_code': 200,
 				'message': {
