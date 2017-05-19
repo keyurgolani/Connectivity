@@ -118,3 +118,41 @@ module.exports.followProfile = function(profile, following, res) {
 		}
 	})
 };
+
+
+// Is profile public
+module.exports.isPublicProfile = function(following, processResult){
+	dao.fetchData('public','preference_details',{
+		'profile': following
+	},function(preference_result){
+		processResult(preference_result[0].public === 1)
+	})
+}
+
+// Get id
+module.exports.getIDFromEmail = function(friend_email, processResult) {
+	dao.executeQuery('select profile_id, user_id from profile_details, account_details where account = user_id and email = ?', [friend_email], function(email_results) {
+		processResult(email_results[0].user_id, email_results[0].profile_id);
+	});
+};
+
+// Add friend
+module.exports.addFriend = function(profile,friend,res){
+	dao.insertData('connection_details', {
+		'profile': profile,
+		'friend': friend,
+		'pending': 1
+	}, function(addfriend_result) {
+		if (addfriend_result.affectedRows === 1) {
+			res.send({
+				"status_code": 200,
+				"message": "Friend request sent."
+			});
+		} else {
+			res.send({
+				"status_code": 400,
+				"message": "Internal Error"
+			});
+		}
+	})
+}
