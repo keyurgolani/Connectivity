@@ -16,27 +16,41 @@ module.exports.fetchOwnTimeline = function(profile, res) {
 };
 
 module.exports.fetchFriendTimeline = function(profile, friend, res) {
-	dao.executeQuery('select count(connection_id) as count from connection_details where (profile = ? and friend = ? and pending = 0) or (profile = ? and friend = ? and pending = 0)', [profile, friend, friend, profile], function(connection_result) {
-		if (connection_result[0].count > 0) {
-			dao.executeQuery('select * from post_details, profile_details where profile_id = profile and profile = ?', [friend], function(post_result) {
-				res.send({
-					'status_code': 200,
-					'message': post_result
-				})
+	if (profile === friend) {
+		dao.executeQuery('select * from post_details, profile_details where profile = profile_id and profile = ? ORDER BY post_details.timestamp desc;', [profile], function(timeline_result) {
+			res.send({
+				'status_code': 200,
+				'message': timeline_result
 			})
-		} else {
-			dao.executeQuery('select count(follow_id) as count from follow_details, preference_details where follow_details.following = preference_details.profile  and public = 1 and follow_details.profile = 23 and following = 21', [profile, friend], function(follow_result) {
-				if (follow_result[0].count > 0) {
-					dao.executeQuery('select * from post_details, profile_details where profile_id = profile and profile = ?', [friend], function(post_result) {
-						res.send({
-							'status_code': 200,
-							'message': post_result
-						})
+		});
+	} else {
+		dao.executeQuery('select count(connection_id) as count from connection_details where (profile = ? and friend = ? and pending = 0) or (profile = ? and friend = ? and pending = 0)', [profile, friend, friend, profile], function(connection_result) {
+			if (connection_result[0].count > 0) {
+				dao.executeQuery('select * from post_details, profile_details where profile_id = profile and profile = ?', [friend], function(post_result) {
+					res.send({
+						'status_code': 200,
+						'message': post_result
 					})
-				}
-			})
-		}
-	})
+				})
+			} else {
+				dao.executeQuery('select count(follow_id) as count from follow_details, preference_details where follow_details.following = preference_details.profile  and public = 1 and follow_details.profile = ? and following = ?', [profile, friend], function(follow_result) {
+					if (follow_result[0].count > 0) {
+						dao.executeQuery('select * from post_details, profile_details where profile_id = profile and profile = ?', [friend], function(post_result) {
+							res.send({
+								'status_code': 200,
+								'message': post_result
+							})
+						})
+					} else {
+						res.send({
+							'status_code': 403,
+							'message': 'Not Visible'
+						})
+					}
+				})
+			}
+		})
+	}
 };
 
 module.exports.addPost = function(profile, post, photo, res) {
