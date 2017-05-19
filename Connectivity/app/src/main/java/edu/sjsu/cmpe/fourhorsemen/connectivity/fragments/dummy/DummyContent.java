@@ -42,7 +42,8 @@ public class DummyContent {
     }
 
     private static Post createDummyPost(int position) {
-        return new Post(position,userScreenNames[(int) (Math.random() * 3)], userPhotoResIDs[(int)(Math.random() * 3)], "Hello", "time");
+        String time = (int)(Math.random() * 23) + ":" + (int)(Math.random() * 59);
+        return new Post(position,userScreenNames[(int) (Math.random() * 3)], userPhotoResIDs[(int)(Math.random() * 3)], "This is a sample post to test the layout of the post card.This is a sample post to test the layout of the post card.This is a sample post to test the layout of the post card.This is a sample post to test the layout of the post card.", time);
     }
 
     private static String generateRandomContent(int position) {

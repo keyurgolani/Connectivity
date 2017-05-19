@@ -44,4 +44,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="56dp"
+        android:layout_height="58dp"
+        android:layout_gravity="bottom|left"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/appBar"
+        app:layout_anchorGravity="center_vertical|right"
+        app:srcCompat="@color/colorAccent" />
+
 </android.support.design.widget.CoordinatorLayout>

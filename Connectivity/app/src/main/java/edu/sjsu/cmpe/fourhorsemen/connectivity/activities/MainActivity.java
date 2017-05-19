@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(Post item) {
+    public void onListFragmentInteraction() {
 
     }
 
