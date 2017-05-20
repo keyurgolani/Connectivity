@@ -18,6 +18,7 @@ import java.util.HashMap;
 import android.view.MenuItem;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.NotificationFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.ProfileFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
@@ -30,7 +31,8 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment;
 public class MainActivity extends AppCompatActivity
         implements PostFragment.OnListFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
-        MessageFragment.OnListFragmentInteractionListener {
+        MessageFragment.OnListFragmentInteractionListener,
+        NotificationFragment.OnListFragmentInteractionListener{
 
     static final int REQUEST_LOGIN = 0;
     static final int REQUEST_APP_INTRO = 1;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity
                     selectedFragment = PostFragment.newInstance(1);
                     break;
                 case R.id.navigation_notifications:
-                    selectedFragment = PostFragment.newInstance(1);
+                    selectedFragment = NotificationFragment.newInstance(1);
                     break;
                 case R.id.navigation_profile:
                     selectedFragment = ProfileFragment.newInstance();
@@ -100,7 +102,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
             //Manually displaying the first fragment - one time only
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, PostFragment.newInstance(1));

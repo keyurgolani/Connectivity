@@ -12,6 +12,7 @@ var accounts_bo = require('../bos/accounts_bo');
 var profile_bo = require('../bos/profile_bo');
 var message_bo = require('../bos/message_bo');
 var timeline_bo = require('../bos/timeline_bo');
+var notification_bo = require('../bos/notification_bo');
 
 // Dummy Homepage GET route
 router.get('/', function(req, res, next) {
@@ -396,6 +397,28 @@ router.post('/addFriend', function(req, res, next) {
 						});
 					}
 				}
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		});
+	}
+});
+
+router.post('/getNotifications', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					notification_bo.fetchNotifications(profile_id, res);
+				});
 			} else {
 				res.send({
 					'status_code': 403,

@@ -37,6 +37,7 @@ public class ProjectProperties {
             METHOD_UNFOLLOW = prop.getProperty("METHOD_UNFOLLOW");
             METHOD_ADD_FRIEND = prop.getProperty("METHOD_ADD_FRIEND");
             METHOD_UNFRIEND = prop.getProperty("METHOD_UNFRIEND");
+            METHOD_GET_NOTIFICATIONS = prop.getProperty("METHOD_GET_NOTIFICATIONS");
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -64,6 +65,7 @@ public class ProjectProperties {
     public static String METHOD_UNFOLLOW;
     public static String METHOD_ADD_FRIEND;
     public static String METHOD_UNFRIEND;
+    public static String METHOD_GET_NOTIFICATIONS;
 
     public static String getBaseURL() {
         return "http://" + host + ":" + port + "/";
