@@ -127,7 +127,7 @@ module.exports.isPublicProfile = function(following, processResult){
 	},function(preference_result){
 		processResult(preference_result[0].public === 1)
 	})
-}
+};
 
 // Get id
 module.exports.getIDFromEmail = function(friend_email, processResult) {
@@ -187,3 +187,12 @@ module.exports.updateSettings = function(params, res) {
 				}
 			});
 		};
+
+//Get profile which would be notified
+module.exports.fetchReceivers = function(profile_id,processResult){
+	dao.executeQuery('select friend as receiver from connection_details where profile = ? and pending = 0 union select profile as receiver from connection_details where friend = ? and pending = 0 union select profile as receiver from follow_details where following = ?',[profile_id,profile_id,profile_id],function(receiver_results){
+		if(receiver_results.affectedRows > 0){
+			processResult(receiver_results);
+		}
+	});
+};

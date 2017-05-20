@@ -73,6 +73,9 @@ module.exports.addPost = function(profile, post, photo, res) {
 		'photo': photo,
 		'timestamp': getTimestamp()
 	}, function(post_result) {
+		profile_bo.fetchReceivers(profile,function(receiver_results){
+			//Send notification to receivers.
+		});
 		res.send({
 			'status_code': 200,
 			'message': 'Post Added Successfully'

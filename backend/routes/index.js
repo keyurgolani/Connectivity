@@ -460,5 +460,4 @@ router.post('/updateSettings',function(req,res,next){
 	}
 
 });
-
 module.exports = router;
