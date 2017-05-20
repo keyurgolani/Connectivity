@@ -19,6 +19,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.CreateNewPostActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment.OnListFragmentInteractionListener;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 
 import java.util.List;
 
@@ -90,8 +91,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-
-
+        byte[] decodedString;
         switch (getItemViewType(position)){
 
             case POST_CARD:
@@ -99,7 +99,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 pvholder.userName.setText(posts.get(position-1).getUserScreenName());
                 pvholder.timestamp.setText(posts.get(position-1).getTimestamp());
                 pvholder.postContent.setText(posts.get(position-1).getContent());
-                byte[] decodedString = Base64.decode(posts.get(position-1).getUserPhoto(), Base64.DEFAULT);
+                decodedString = Base64.decode(posts.get(position-1).getUserPhoto(), Base64.DEFAULT);
                 pvholder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 
 //                pvholder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +118,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 break;
             case CREATE_POST_CARD:
                 final CreatePostViewHolder cpvholder = (CreatePostViewHolder) holder;
-                decodedString = Base64.decode(new Post().getUserPhoto(), Base64.DEFAULT);
+                decodedString = Base64.decode(PreferenceHandler.getProfilePic(), Base64.DEFAULT);
                 cpvholder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
                 cpvholder.newPostContent.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -127,8 +127,6 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                         cpvholder.context.startActivity(intent);
                     }
                 });
-
-
                 break;
             default:
                 break;

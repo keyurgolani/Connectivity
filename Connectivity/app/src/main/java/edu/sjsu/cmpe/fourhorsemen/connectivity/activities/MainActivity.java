@@ -9,16 +9,20 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import android.view.MenuItem;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.NotificationFragment;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.ProfileFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
@@ -111,8 +115,6 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
         }
 
-
-
         if(PreferenceHandler.getFirstLaunch() == null) {
             openAppIntro(getApplicationContext());
         }
@@ -143,8 +145,6 @@ public class MainActivity extends AppCompatActivity
                 requestLogin(getApplicationContext());
             }
         }
-
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
