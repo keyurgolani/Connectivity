@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -68,12 +69,9 @@ public class CreateNewPostActivity extends AppCompatActivity {
         newPostStr = newPost.getText().toString();
         if(menuItem.getItemId() == 1000) {
             doAddPost();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         }
-        if(getParent() != null) {
-            getParent().finish();
-        }
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
         finish();
         return super.onOptionsItemSelected(menuItem);
     }
