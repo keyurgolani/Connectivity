@@ -39,9 +39,9 @@ public class CreateNewPostActivity extends AppCompatActivity {
 
     private static String TAG = CreateNewPostActivity.class.getSimpleName();
 
-    @Bind(R.id. new_post_content) EditText newPost;
+    @Bind(R.id.new_post_content) EditText newPost;
     @Bind(R.id.user_photo) ImageView user_photo;
-    @Bind(R.id.user_name) TextView user_name;
+    @Bind(R.id.sn_label) TextView user_name;
     String newPostStr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
