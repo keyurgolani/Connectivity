@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 import android.view.MenuItem;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageListsFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.NotificationFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.ProfileFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageFragment;
@@ -32,8 +32,9 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.AboutFragment;
 public class MainActivity extends AppCompatActivity
         implements PostFragment.OnListFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
-        MessageFragment.OnListFragmentInteractionListener,
+        MessageFragment.OnFragmentInteractionListener,
         AboutFragment.OnFragmentInteractionListener,
+        MessageListsFragment.OnListFragmentInteractionListener,
         NotificationFragment.OnListFragmentInteractionListener{
 
     static final int REQUEST_LOGIN = 0;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity
                     selectedFragment = ProfileFragment.newInstance();
                     break;
                 case R.id.navigation_chat:
-                    selectedFragment = MessageFragment.newInstance(1);
+                    selectedFragment = MessageFragment.newInstance();
                     break;
                 default:
                     selectedFragment = PostFragment.newInstance(1);
@@ -155,11 +156,6 @@ public class MainActivity extends AppCompatActivity
 
         //Used to select an item programmatically
         //bottomNavigationView.getMenu().getItem(2).setChecked(true);
-    }
-
-    @Override
-    public void onListFragmentInteraction(Message item) {
-
     }
 
     @Override

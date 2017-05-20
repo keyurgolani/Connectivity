@@ -1,152 +1,145 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.Pair;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link ProfileFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link ProfileFragment#newInstance} factory method to
+ * create an instance of this fragment.
  */
 public class MessageFragment extends Fragment {
 
-    private final static String TAG = MessageFragment.class.getSimpleName();
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
-    RecyclerView recyclerView;
-    RecyclerView.Adapter mAdapter;
+    private OnFragmentInteractionListener mListener;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+    private ViewPager viewPager;
+
+
     public MessageFragment() {
+        // Required empty public constructor
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static MessageFragment newInstance(int columnCount) {
+    public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_message_list, container, false);
+        View root = inflater.inflate(R.layout.fragment_message, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            mAdapter = new MyMessageRecyclerViewAdapter(getMessages(getContext()).first, mListener);
-            recyclerView.setAdapter(mAdapter);
+//        Toolbar toolbar = (Toolbar) root.findViewById(R.id.mToolbar);
+//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+//
+//        final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+//        ab.setDisplayHomeAsUpEnabled(false);
+//        ab.setTitle("Gaurav Chodwadia");
+//        int dummyProfileID = 1;
+
+
+        viewPager = (ViewPager) root.findViewById(R.id.msg_view_pager);
+        if (viewPager != null){
+            ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+            adapter.addFrag(MessageListsFragment.newInstance(MessageListsFragment.INBOX_LIST), "Inbox");
+            adapter.addFrag(MessageListsFragment.newInstance(MessageListsFragment.SENT_LIST), "Sent");
+            viewPager.setAdapter(adapter);
         }
-        return view;
-    }
 
-    private Pair<List<Message>, List<Message>> getMessages(Context context) {
-        final List<Message> received = new ArrayList<Message>();
-        final List<Message> sent = new ArrayList<Message>();
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("unique_id", PreferenceHandler.getAccessKey());
-        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_MESSAGES, params, new ResponseHandler() {
+        TabLayout tabLayout = (TabLayout) root.findViewById(R.id.msg_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void handleSuccess(JSONObject response) throws Exception {
-                if(response.getInt("status_code") == 200) {
-                    JSONArray sentMessages = response.getJSONObject("message").getJSONArray("from_messages");
-                    JSONArray receivedMessages = response.getJSONObject("message").getJSONArray("to_messages");
-                    for(int i  = 0; i < sentMessages.length(); i++) {
-                        JSONObject currentObj = sentMessages.getJSONObject(i);
-                        sent.add(new Message(currentObj.getInt("message_id"),
-                                new Profile(),
-                                new Profile(currentObj.getInt("to"),
-                                        currentObj.getString("profile_pic"),
-                                        currentObj.getString("screen_name")),
-                                currentObj.getString("subject"),
-                                currentObj.getString("message"),
-                                currentObj.getString("timestamp")));
-                    }
-                    for(int i  = 0; i < receivedMessages.length(); i++) {
-                        JSONObject currentObj = receivedMessages.getJSONObject(i);
-                        sent.add(new Message(currentObj.getInt("message_id"),
-                                new Profile(currentObj.getInt("from"),
-                                        currentObj.getString("profile_pic"),
-                                        currentObj.getString("screen_name")),
-                                new Profile(),
-                                currentObj.getString("subject"),
-                                currentObj.getString("message"),
-                                currentObj.getString("timestamp")));
-                    }
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(getContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
-                }
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
-            public void handleError(Exception e) throws Exception {
-                e.printStackTrace();
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
-        return new Pair<List<Message>, List<Message>>(sent, received);
+
+
+        return root;
     }
 
+    static class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager){
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title){
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position){
+            return mFragmentTitleList.get(position);
+        }
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -156,18 +149,32 @@ public class MessageFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.navigation, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p/>
+     * <p>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
+    public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Message item);
+        void onFragmentInteraction(Uri uri);
     }
 }

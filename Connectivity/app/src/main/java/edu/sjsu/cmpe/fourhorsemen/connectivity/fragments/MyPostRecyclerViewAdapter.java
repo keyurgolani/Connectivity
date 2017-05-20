@@ -6,11 +6,9 @@ import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,7 +48,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         PostViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv_post);
-            userName = (TextView)itemView.findViewById(R.id.user_name);
+            userName = (TextView)itemView.findViewById(R.id.sn_label);
             timestamp = (TextView)itemView.findViewById(R.id.timestamp);
             postContent = (TextView)itemView.findViewById(R.id.post_content);
             userPhoto = (ImageView)itemView.findViewById(R.id.user_photo);
