@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Profile">
+        <ListPreference
+            android:defaultValue="1"
+            android:dialogIcon="@drawable/ic_home_black_24dp"
+            android:entries="@array/profile_visibility_entries"
+            android:entryValues="@array/profile_visibility_values"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:key="profile_visibility"
+            android:summary="Choose who can see your profile."
+            android:title="Profile Visibility" />
+
+        <EditTextPreference
+            android:defaultValue="gauravchodwadia@gmail.com"
+            android:dialogIcon="@android:drawable/ic_dialog_email"
+            android:icon="@android:drawable/ic_dialog_email"
+            android:key="email_id"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="Change Email ID for ConActivity."
+            android:title="Email ID" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Notifications">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:key="email_notifications"
+            android:summary="ConActivity will send you an email whenever there is something important for you."
+            android:summaryOff="Turn On"
+            android:summaryOn="Turn Off"
+            android:title="Email Notifications" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:key="push_notifications"
+            android:summary="ConActivity app will show a notification whenever there is something important for you."
+            android:summaryOff="Turn On"
+            android:summaryOn="Turn Off"
+            android:title="Push Notifications" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
