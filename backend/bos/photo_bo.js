@@ -5,6 +5,7 @@ var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 var async = require("async");
 var moment = require('moment');
+var ObjectID = require('mongodb').ObjectID;
 
 
 module.exports.getPhoto = function(db, photoID, processResult) {

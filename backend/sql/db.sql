@@ -23,6 +23,7 @@ CREATE TABLE `profile_details` (
   `profession` varchar(255) NULL,
   `about_me` varchar(255) NULL,
   `screen_name` varchar(255) NULL,
+  `interests` varchar(255) NULL,
   `dob` DATE NULL,
   `gender` VARCHAR(10) NULL CHECK (`gender` IN('Male', 'Female', 'Other')),
   `timestamp` TIMESTAMP NOT NULL,

@@ -128,13 +128,13 @@ public class AboutFragment extends Fragment {
             @Override
             public void handleSuccess(JSONObject response) throws JSONException {
                 if(response.getInt("status_code") == 200) {
-                    //toDo: Add the response parameters
-                    screen_name.setText("");
-                    email_id.setText("");
-                    location.setText("");
-                    profession.setText("");
-                    aboutme.setText("");
-                    interests.setText("");
+                    JSONObject profile = response.getJSONArray("message").getJSONObject(0);
+                    screen_name.setText(profile.getString("screen_name"));
+                    email_id.setText("Not going to show email. Will be removed from here.");
+                    location.setText(profile.getString("location"));
+                    profession.setText(profile.getString("profession"));
+                    aboutme.setText(profile.getString("about_me"));
+                    interests.setText(profile.getString("interests"));
                 }
             }
 
