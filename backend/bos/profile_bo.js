@@ -156,3 +156,34 @@ module.exports.addFriend = function(profile,friend,res){
 		}
 	})
 }
+
+
+
+//Update Settings
+module.exports.updateSettings = function(params, res) {
+			updateParams = {}
+			if(exists(params.is_public)){
+				updateParams.public = params.is_public;
+			}
+			if(exists(params.do_notify)){
+				updateParams.notification = params.do_notify;
+			}
+			queryParams={}
+			if(exists(params.profile_id)){
+				queryParams.profile = params.profile_id
+			}
+
+			dao.updateData('preference_details', updateParams, queryParams, function(settings_result) {
+				if (settings_result.affectedRows === 1) {
+					res.send({
+						"status_code": 200,
+						"message": "Update Success"
+					});
+				} else {
+					res.send({
+						"status_code": 500,
+						"message": "Internal Error"
+					});
+				}
+			});
+		};
