@@ -1,5 +1,9 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.utilities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.provider.MediaStore;
+
 /**
  * Created by keyurgolani on 5/13/17.
  */

@@ -114,6 +114,9 @@ public class MainActivity extends AppCompatActivity
             openAppIntro(getApplicationContext());
         }
 
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
+
     }
 
     private void openAppIntro(Context applicationContext) {
@@ -140,6 +143,9 @@ public class MainActivity extends AppCompatActivity
                 requestLogin(getApplicationContext());
             }
         }
+
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
