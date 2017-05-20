@@ -56,11 +56,27 @@ module.exports.postMessage = function(profile, account, to, subject, message, re
 					"Subject: " + subject + "</br>" +
 					"Content: " + message,
 					function(result) {
-						res.send({
-							'status_code': 200,
-							'message': 'Message Posted'
-						})
+						profile_bo.fetchReceivers(to, function(receiver_results) {
+							var notifyFunction = function(i) {
+							return function(callback) {
+							notification_bo.notify(receiver_results[i].profile,
+								receiver_results[i].name + "New message.\nClick here to check it out!",
+								profile)
+							}
+					}
+					var notifyFunctions = []
+					for (var i = 0; i < receiver_results.length; i++) {
+						notifyFunctions.push(notifyFunction(i))
+					}
+					async.parallel(notifyFunctions, function(error, results) {
+						// Do Nothing!
 					})
+				});
+				res.send({
+						'status_code': 200,
+						'message': 'Message Posted'
+					})
+				})
 			})
 		} else {
 			res.send({
