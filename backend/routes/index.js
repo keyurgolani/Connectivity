@@ -332,7 +332,7 @@ router.post('/followProfile', function(req, res, next) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				if (exists(req.body.following)) {
-					//TODO: Create Method
+					//TODO: Create Method - Check code
 					profile_bo.isPublicProfile(req.body.following, function(isPublic) {
 						if (isPublic) {
 							profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
@@ -379,11 +379,11 @@ router.post('/addFriend', function(req, res, next) {
 					});
 				} else {
 					if (exists(req.body.friend_email)) {
-						// TODO: Create Method
+						// TODO: Create Method- check code
 						profile_bo.getIDFromEmail(req.body.friend_email, function(friend_user_id, friend_profile_id) {
 							if (friend_profile_id !== 0 && friend_user_id !== 0) {
 								profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-									// TODO: Create Method
+									// TODO: Create Method - check code
 									profile_bo.addFriend(profile_id, friend_profile_id, res);
 								});
 							} else {
