@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.SettingsActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -44,7 +46,7 @@ public class AboutFragment extends Fragment {
     @Bind(R.id. et_about) EditText aboutme;
     @Bind(R.id. et_interests) EditText interests;
    */
-    Button btnEdit;
+    Button btnEdit, btnSettings;
     EditText screen_name;
     EditText email_id;
     EditText location;
@@ -84,17 +86,30 @@ public class AboutFragment extends Fragment {
         location = (EditText) view.findViewById(R.id.et_loc);
         profession = (EditText) view.findViewById(R.id.et_profession);
         btnEdit = (Button) view.findViewById(R.id.btn_edit_profile);
+        btnSettings = (Button) view.findViewById(R.id.btn_settings);
+
         View.OnClickListener btnListener = new View.OnClickListener() {
 
             public void onClick(View v) {
-                if (v.getId() == R.id.btn_edit_profile && btnEdit.getText().equals("Edit Details")) {
-                    changeToEditableText();
-                }else if(v.getId() == R.id.btn_edit_profile && btnEdit.getText().equals("Save Details")){
-                    doEditProfile();
+
+                switch (v.getId()){
+                    case R.id.btn_edit_profile:
+                        if(btnEdit.getText().equals("Edit Details")){
+                            changeToEditableText();
+                        } else if (btnEdit.getText().equals("Save Details")) {
+                            doEditProfile();
+                        }
+                        break;
+                    case R.id.btn_settings:
+                        Intent intent = new Intent(getContext(), SettingsActivity.class);
+                        startActivity(intent);
+                        break;
                 }
+
             }
         };
         btnEdit.setOnClickListener(btnListener);
+        btnSettings.setOnClickListener(btnListener);
         aboutme = (EditText) view.findViewById(R.id.et_about);
         interests = (EditText) view.findViewById(R.id.et_interests);
         btnEdit = (Button)view.findViewById(R.id.btn_edit_profile);
