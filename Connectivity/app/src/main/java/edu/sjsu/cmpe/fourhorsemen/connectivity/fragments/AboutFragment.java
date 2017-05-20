@@ -17,6 +17,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 
 import android.util.Log;
 import android.widget.Toast;
@@ -173,12 +174,12 @@ public class AboutFragment extends Fragment {
         profession.setFocusableInTouchMode(false);
         aboutme.setFocusableInTouchMode(false);
         interests.setFocusableInTouchMode(false);
-        String screenName = screen_name.getText().toString();
-        String emailId = email_id.getText().toString();
-        String locationStr = location.getText().toString();
-        String professionStr = profession.getText().toString();
-        String aboutMeStr = aboutme.getText().toString();
-        String interestStr = interests.getText().toString();
+        final String screenName = screen_name.getText().toString();
+        final String emailId = email_id.getText().toString();
+        final String locationStr = location.getText().toString();
+        final String professionStr = profession.getText().toString();
+        final String aboutMeStr = aboutme.getText().toString();
+        final String interestStr = interests.getText().toString();
         btnEdit.setBackgroundColor(btnEdit.getContext().getResources().getColor(R.color.white));
         HashMap<String, String> params = new HashMap<String, String>();
         String unique_id = PreferenceHandler.getAccessKey();
@@ -194,16 +195,16 @@ public class AboutFragment extends Fragment {
             @Override
             public void handleSuccess(JSONObject response) throws JSONException {
                 if(response.getInt("status_code") == 200) {
-
                     //todo Add the response params retrieved in the set methods
-                    screen_name.setText("");
-                    email_id.setText("");
-                    location.setText("");
-                    profession.setText("");
-                    aboutme.setText("");
-                    interests.setText("");
+                    screen_name.setText(screenName);
+                    email_id.setText(emailId);
+                    location.setText(locationStr);
+                    profession.setText(professionStr);
+                    aboutme.setText(aboutMeStr);
+                    interests.setText(interestStr);
+                    Utilities.cacheProfile(getContext());
                     Toast.makeText(getContext(), "Profile Updated.", Toast.LENGTH_LONG).show();
-                }else if(response.getInt("status_code") == 403) {
+                } else if(response.getInt("status_code") == 403) {
                     Log.i("err","Forbidden");
                 }
             }

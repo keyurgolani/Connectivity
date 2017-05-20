@@ -93,11 +93,10 @@ router.post('/updateProfile', function(req, res, next) {
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
-				if ((exists(req.body.profile_id) && isNum(req.body.profile_id)) ||
-					(exists(req.body.account_id) && isNum(req.body.account_id))) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
 					profile_bo.updateProfile({
-						'profile_id': req.body.profile_id,
-						'account': req.body.account_id,
+						'profile_id': profile_id,
+						'account': user_id,
 						'f_name': req.body.f_name,
 						'l_name': req.body.l_name,
 						'profile_pic': req.body.profile_pic,
@@ -107,12 +106,7 @@ router.post('/updateProfile', function(req, res, next) {
 						'screen_name': req.body.screen_name,
 						'uniqueID': req.body.unique_id
 					}, res);
-				} else {
-					res.send({
-						'status_code': 400,
-						'message': 'Bad Request'
-					});
-				}
+				})
 			} else {
 				res.send({
 					'status_code': 403,

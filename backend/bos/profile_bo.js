@@ -45,56 +45,46 @@ module.exports.getIDFromUniqueID = function(uniqueID, processResult) {
 };
 
 module.exports.updateProfile = function(params, res) {
-	isUniqueIDProfile(params.uniqueID, params.profile_id, function(isValid) {
-		if (isValid) {
-			var updateParams = {};
-			if (exists(params.f_name)) {
-				updateParams.f_name = params.f_name;
-			}
-			if (exists(params.l_name)) {
-				updateParams.l_name = params.l_name;
-			}
-			if (exists(params.profile_pic)) {
-				updateParams.profile_pic = params.profile_pic;
-			}
-			if (exists(params.location)) {
-				updateParams.location = params.location;
-			}
-			if (exists(params.profession)) {
-				updateParams.profession = params.profession;
-			}
-			if (exists(params.about_me)) {
-				updateParams.about_me = params.about_me;
-			}
-			if (exists(params.screen_name)) {
-				updateParams.screen_name = params.screen_name;
-			}
-			updateParams.timestamp = getTimestamp();
-			var queryParams = {};
-			if (exists(params.profile_id)) {
-				queryParams.profile_id = params.profile_id;
-			}
-			if (exists(params.account)) {
-				queryParams.account = params.account;
-			}
-			dao.updateData('profile_details', updateParams, queryParams, function(profile_result) {
-				if (profile_result.affectedRows === 1) {
-					res.send({
-						"status_code": 200,
-						"message": "Update Success"
-					});
-				} else {
-					res.send({
-						"status_code": 500,
-						"message": "Internal Error"
-					});
-				}
-			})
+	var updateParams = {};
+	if (exists(params.f_name)) {
+		updateParams.f_name = params.f_name;
+	}
+	if (exists(params.l_name)) {
+		updateParams.l_name = params.l_name;
+	}
+	if (exists(params.profile_pic)) {
+		updateParams.profile_pic = params.profile_pic;
+	}
+	if (exists(params.location)) {
+		updateParams.location = params.location;
+	}
+	if (exists(params.profession)) {
+		updateParams.profession = params.profession;
+	}
+	if (exists(params.about_me)) {
+		updateParams.about_me = params.about_me;
+	}
+	if (exists(params.screen_name)) {
+		updateParams.screen_name = params.screen_name;
+	}
+	updateParams.timestamp = getTimestamp();
+	var queryParams = {};
+	if (exists(params.profile_id)) {
+		queryParams.profile_id = params.profile_id;
+	} else {
+		queryParams.account = params.account;
+	}
+	dao.updateData('profile_details', updateParams, queryParams, function(profile_result) {
+		if (profile_result.affectedRows === 1) {
+			res.send({
+				"status_code": 200,
+				"message": "Update Success"
+			});
 		} else {
 			res.send({
-				'status_code': 403,
-				'message': 'Forbidden'
-			})
+				"status_code": 500,
+				"message": "Internal Error"
+			});
 		}
 	})
 };
@@ -121,10 +111,10 @@ module.exports.followProfile = function(profile, following, res) {
 
 
 // Is profile public
-module.exports.isPublicProfile = function(following, processResult){
-	dao.fetchData('public','preference_details',{
+module.exports.isPublicProfile = function(following, processResult) {
+	dao.fetchData('public', 'preference_details', {
 		'profile': following
-	},function(preference_result){
+	}, function(preference_result) {
 		processResult(preference_result[0].public === 1)
 	})
 }
@@ -137,7 +127,7 @@ module.exports.getIDFromEmail = function(friend_email, processResult) {
 };
 
 // Add friend
-module.exports.addFriend = function(profile,friend,res){
+module.exports.addFriend = function(profile, friend, res) {
 	dao.insertData('connection_details', {
 		'profile': profile,
 		'friend': friend,

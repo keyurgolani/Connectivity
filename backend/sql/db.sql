@@ -20,7 +20,7 @@ CREATE TABLE `profile_details` (
   `f_name` varchar(255) NULL,
   `l_name` varchar(255) NULL,
   `profile_pic` varchar(255) NULL,
-  `location` INT(10) NULL,
+  `location` VARCHAR(255) NULL,
   `profession` varchar(255) NULL,
   `about_me` varchar(255) NULL,
   `screen_name` varchar(255) NULL,
