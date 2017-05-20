@@ -10,6 +10,9 @@ module.exports.fetchNotifications = function(profile, res) {
 	dao.fetchData('*', 'notification_details', {
 		'profile': profile
 	}, function(notification_results) {
+		for (var i = 0; i < notification_results.length; i++) {
+			notification_results[i].timestamp = moment(notification_results[i].timestamp, "YYYY-MM-DDTHH:mm:ss.SSSZ").fromNow();
+		}
 		res.send({
 			'status_code': 200,
 			'message': notification_results

@@ -6,7 +6,7 @@ var logger = require("../utils/logger");
 var async = require("async");
 
 
-module.exports.register = function(email, password, firstname, lastname, screenname, res) {
+module.exports.register = function(email, password, fullname, screenname, res) {
 	var salt = bcrypt.genSaltSync(10);
 	var uniqueID = getRandom(25);
 	var verificationCode = getRandom(4, 3);
@@ -28,8 +28,7 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 				function(callback) {
 					dao.insertData("profile_details", {
 						'account': account_result.insertId,
-						'f_name': firstname,
-						'l_name': lastname,
+						'fullname': fullname,
 						'screen_name': screenname,
 						'timestamp': getTimestamp()
 					}, function(profile_result) {
@@ -57,7 +56,7 @@ module.exports.register = function(email, password, firstname, lastname, screenn
 				} else {
 					res.send({
 						'status_code': 200,
-						'message': 'User ' + firstname + ' created successfully !'
+						'message': 'User ' + fullname + ' created successfully !'
 					});
 				}
 			});

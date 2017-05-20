@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -13,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -31,6 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
@@ -50,6 +55,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 public class ProfileFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    ImageView imageView;
 
     private ViewPager viewPager;
 
@@ -77,17 +83,19 @@ public class ProfileFragment extends Fragment {
         Toolbar toolbar = (Toolbar) root.findViewById(R.id.mToolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
+        imageView = (ImageView) root.findViewById(R.id.imageView);
+        byte[] decodedString = Base64.decode(PreferenceHandler.getProfilePic(), Base64.DEFAULT);
+        imageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(false);
-        ab.setTitle("Gaurav Chodwadia");
-        int dummyProfileID = 1;
+        ab.setTitle(PreferenceHandler.getScreenName());
 
 
         viewPager = (ViewPager) root.findViewById(R.id.tab_viewpager);
         if (viewPager != null){
             ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
             adapter.addFrag(AboutFragment.newInstance(), "About");
-            adapter.addFrag(PostFragment.newInstanceForProfile(1, dummyProfileID), "My Posts");
+            adapter.addFrag(PostFragment.newInstanceForProfile(1, Integer.parseInt(PreferenceHandler.getProfileID())), "My Posts");
             adapter.addFrag(new PostFragment(), "Albums");
             viewPager.setAdapter(adapter);
         }

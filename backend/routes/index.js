@@ -14,6 +14,7 @@ var profile_bo = require('../bos/profile_bo');
 var message_bo = require('../bos/message_bo');
 var timeline_bo = require('../bos/timeline_bo');
 var notification_bo = require('../bos/notification_bo');
+var photo_bo = require('../bos/photo_bo');
 
 // Dummy Homepage GET route
 router.get('/', function(req, res, next) {
@@ -34,7 +35,7 @@ router.post('/register', function(req, res, next) {
 		exists(req.body.email) &&
 		req.body.password.match(password_validator) !== null &&
 		req.body.email.match(email_validator) !== null) {
-		accounts_bo.register(req.body.email, req.body.password, req.body.fname, req.body.lname, req.body.screenname, res);
+		accounts_bo.register(req.body.email, req.body.password, req.body.fullname, req.body.screenname, res);
 	} else {
 		res.send({
 			'status_code': 400,
@@ -93,11 +94,10 @@ router.post('/updateProfile', function(req, res, next) {
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
-				if ((exists(req.body.profile_id) && isNum(req.body.profile_id)) ||
-					(exists(req.body.account_id) && isNum(req.body.account_id))) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
 					profile_bo.updateProfile({
-						'profile_id': req.body.profile_id,
-						'account': req.body.account_id,
+						'profile_id': profile_id,
+						'account': user_id,
 						'f_name': req.body.f_name,
 						'l_name': req.body.l_name,
 						'profile_pic': req.body.profile_pic,
@@ -107,12 +107,7 @@ router.post('/updateProfile', function(req, res, next) {
 						'screen_name': req.body.screen_name,
 						'uniqueID': req.body.unique_id
 					}, res);
-				} else {
-					res.send({
-						'status_code': 400,
-						'message': 'Bad Request'
-					});
-				}
+				})
 			} else {
 				res.send({
 					'status_code': 403,
@@ -221,9 +216,9 @@ router.post('/timeline', function(req, res, next) {
 					if (exists(req.body.profile)) {
 						// Will check if the timeline requested is user's own timeline inside the function
 						// Will return results accordingly.
-						timeline_bo.fetchFriendTimeline(profile_id, req.body.profile, res)
+						timeline_bo.fetchFriendTimeline(req.db, profile_id, req.body.profile, res)
 					} else {
-						timeline_bo.fetchOwnTimeline(profile_id, res)
+						timeline_bo.fetchOwnTimeline(req.db, profile_id, res)
 					}
 				})
 			} else {
@@ -305,18 +300,12 @@ router.post('/getPhoto', function(req, res, next) {
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
-				console.log(req.body.photo_id);
-				req.db.get('photos').find({
-						'_id': new ObjectID(req.body.photo_id)
-					})
-					.then(function(photo_result) {
-						res.send({
-							'status_code': 200,
-							'message': photo_result[0].photo
-						});
-					}, function(error) {
-						throw error;
+				photo_bo.getPhoto(req.db, req.body.photo_id, function(photo_result) {
+					res.send({
+						'status_code': 200,
+						'message': photo_result[0].photo
 					});
+				});
 			} else {
 				res.send({
 					'status_code': 403,

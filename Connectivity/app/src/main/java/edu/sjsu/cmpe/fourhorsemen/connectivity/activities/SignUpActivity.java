@@ -40,18 +40,18 @@ public class SignUpActivity extends AppCompatActivity {
     private static final int REQUEST_VERIFICATION = 0;
     @Bind(R.id.et_emailid)
     EditText etEmailId;
-    @Bind(R.id.et_first_name)
-    EditText etFirstName;
-    @Bind(R.id.et_last_name)
-    EditText etLastName;
+    @Bind(R.id.et_full_name)
+    EditText etFullName;
+    @Bind(R.id.et_screen_name)
+    EditText etScreenName;
     @Bind(R.id.et_password)
     EditText etPassword;
     @Bind(R.id.btn_signup)
     Button btnSignUp;
     @Bind(R.id.link_login)
     TextView linkLogin;
-    String firstName;
-    String lastName;
+    String fullName;
+    String screenName;
     String emailId;
     String password;
 
@@ -97,8 +97,8 @@ public class SignUpActivity extends AppCompatActivity {
     private void doSignUp() {
         Log.d(TAG, "Method Entry: Inside doSignUp Method");
 
-        firstName = etFirstName.getText().toString();
-        lastName = etLastName.getText().toString();
+        fullName = etFullName.getText().toString();
+        screenName = etScreenName.getText().toString();
         emailId = etEmailId.getText().toString();
         password = etPassword.getText().toString();
 
@@ -119,9 +119,8 @@ public class SignUpActivity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("email", emailId);
         params.put("password", password);
-        params.put("fname", firstName);
-        params.put("lname", lastName);
-        params.put("screenname", "Screen Name");
+        params.put("fullname", fullName);
+        params.put("screenname", screenName);
         RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_REGISTER, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) {
@@ -166,32 +165,32 @@ public class SignUpActivity extends AppCompatActivity {
 
         boolean valid = true;
 
-        if (firstName.isEmpty() || firstName.length() < 3) {
-            etFirstName.setError("at least 3 characters");
+        if (fullName.isEmpty() || fullName.length() < 3) {
+            etFullName.setError("at least 3 characters");
             valid = false;
         } else {
-            etFirstName.setError(null);
+            etFullName.setError(null);
         }
 
-        if(Character.isDigit(firstName.charAt(0))) {
-            etFirstName.setError("starts with alphabet only");
+        if(Character.isDigit(fullName.charAt(0))) {
+            etFullName.setError("starts with alphabet only");
             valid = false;
         } else {
-            etFirstName.setError(null);
+            etFullName.setError(null);
         }
 
-        if (lastName.isEmpty() || lastName.length() < 3) {
-            etLastName.setError("at least 3 characters");
+        if (screenName.isEmpty() || screenName.length() < 3) {
+            etScreenName.setError("at least 3 characters");
             valid = false;
         } else {
-            etLastName.setError(null);
+            etScreenName.setError(null);
         }
 
-        if(Character.isDigit(lastName.charAt(0))) {
-            etLastName.setError("starts with alphabet only");
+        if(Character.isDigit(screenName.charAt(0))) {
+            etScreenName.setError("starts with alphabet only");
             valid = false;
         } else {
-            etLastName.setError(null);
+            etScreenName.setError(null);
         }
 
         if (emailId.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailId).matches()) {

@@ -46,14 +46,14 @@ public class Utilities {
                     PreferenceHandler.putProfile(
                             profile_array.getString("profile_id"),
                             profile_array.getString("account"),
-                            profile_array.getString("f_name"),
-                            profile_array.getString("l_name"),
+                            profile_array.getString("fullname"),
                             profile_array.getString("location"),
                             profile_array.getString("profession"),
                             profile_array.getString("screen_name"),
                             profile_array.getString("about_me"),
                             profile_array.getString("dob"),
                             profile_array.getString("gender"),
+                            profile_array.getString("interests"),
                             profile_array.getString("timestamp"));
                     getBase64Image(context, profile_array.getString("profile_pic"), new ResponseHandler() {
                         @Override
