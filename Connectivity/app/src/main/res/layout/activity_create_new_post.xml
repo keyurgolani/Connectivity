@@ -38,7 +38,7 @@
             android:layout_marginTop="64dp" />
 
         <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/sn_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/user_photo"

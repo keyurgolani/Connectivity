@@ -1,17 +1,10 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -47,7 +40,7 @@ public class MyNotificationRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         NotificationViewHolder(View itemView) {
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cv_notification);
-            userName = (TextView) itemView.findViewById(R.id.user_name);
+            userName = (TextView) itemView.findViewById(R.id.sn_label);
             timestamp = (TextView) itemView.findViewById(R.id.timestamp);
             content = (TextView) itemView.findViewById(R.id.notification_content);
         }

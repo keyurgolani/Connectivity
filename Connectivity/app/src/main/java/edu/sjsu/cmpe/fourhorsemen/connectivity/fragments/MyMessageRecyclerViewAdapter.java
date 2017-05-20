@@ -14,12 +14,11 @@ import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageFragment.OnListFragmentInteractionListener;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageListsFragment.OnListFragmentInteractionListener;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Post} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Message} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
  */
 public class MyMessageRecyclerViewAdapter extends RecyclerView.Adapter<MyMessageRecyclerViewAdapter.ViewHolder> {
 
@@ -51,7 +50,7 @@ public class MyMessageRecyclerViewAdapter extends RecyclerView.Adapter<MyMessage
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_message, parent, false);
+                .inflate(R.layout.fragment_message_card, parent, false);
         return new ViewHolder(view);
     }
 
