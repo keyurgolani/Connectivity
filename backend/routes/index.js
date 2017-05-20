@@ -6,7 +6,7 @@ var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 var properties = require('properties-reader')('properties.properties');
-var ObjectID = require('mongodb').ObjectID
+var ObjectID = require('mongodb').ObjectID;
 
 
 var accounts_bo = require('../bos/accounts_bo');
@@ -438,20 +438,20 @@ router.post('/getNotifications', function(req, res, next) {
 });
 
 //Update Settings
-router.post('/updateSettings',function(req,res,next){
+router.post('/updateSettings', function(req, res, next) {
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-					if(exists(profile_id) && exists(req.body.is_public) && exists(req.body.do_notify)){
+					if (exists(profile_id) && exists(req.body.is_public) && exists(req.body.do_notify)) {
 						profile_bo.updateSettings({
-							'profile_id' : profile_id,
-							'is_public' : req.body.is_public,
-							'do_notify':req.body.do_notify
+							'profile_id': profile_id,
+							'is_public': req.body.is_public,
+							'do_notify': req.body.do_notify
 
-						},res);
+						}, res);
 					}
-					});
+				});
 			} else {
 				res.send({
 					'status_code': 403,

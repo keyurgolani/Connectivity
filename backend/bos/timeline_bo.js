@@ -73,8 +73,21 @@ module.exports.addPost = function(profile, post, photo, res) {
 		'photo': photo,
 		'timestamp': getTimestamp()
 	}, function(post_result) {
-		profile_bo.fetchReceivers(profile,function(receiver_results){
-				
+		profile_bo.fetchReceivers(profile, function(receiver_results) {
+			var notifyFunction = function(i) {
+				return function(callback) {
+					notification_bo.notify(receiver_results[i].profile,
+						receiver_results[i].name + "Added a new Post.\nClick here to check it out!",
+						profile)
+				}
+			}
+			var notifyFunctions = []
+			for (var i = 0; i < receiver_results.length; i++) {
+				notifyFunctions.push(notifyFunction(i))
+			}
+			async.parallel(notifyFunctions, function(error, results) {
+				// Do Nothing!
+			})
 		});
 		res.send({
 			'status_code': 200,
