@@ -35,8 +35,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="7dp"
             android:layout_marginStart="7dp"
-            android:layout_marginTop="64dp"
-            app:srcCompat="@drawable/lillie" />
+            android:layout_marginTop="64dp" />
 
         <TextView
             android:id="@+id/user_name"
@@ -46,7 +45,6 @@
             android:layout_marginLeft="7dp"
             android:layout_marginStart="7dp"
             android:layout_toRightOf="@+id/user_photo"
-            android:text="Gaurav Chodwadia"
             android:textSize="24sp"
             android:textStyle="bold" />
 

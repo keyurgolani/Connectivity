@@ -6,6 +6,7 @@ var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 var properties = require('properties-reader')('properties.properties');
+var ObjectID = require('mongodb').ObjectID
 
 
 var accounts_bo = require('../bos/accounts_bo');
@@ -138,10 +139,11 @@ router.post('/fetchProfile', function(req, res, next) {
 						'account': req.body.account_id
 					}, res);
 				} else {
-					res.send({
-						'status_code': 400,
-						'message': 'Bad Request'
-					})
+					profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+						profile_bo.fetchProfile({
+							'profile_id': profile_id
+						}, res);
+					});
 				}
 			} else {
 				res.send({
@@ -262,12 +264,14 @@ router.post('/post', function(req, res, next) {
 });
 
 router.post('/savePhoto', function(req, res, next) {
+	console.log('req.body.unique_id', req.body.unique_id);
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
+				console.log('CONDITION PASSED');
 				req.db.get('photos')
 					.insert({
-						'photos': req.body.photo
+						'photo': req.body.photo
 					})
 					.then(function(photo_result) {
 
@@ -299,16 +303,16 @@ router.post('/getPhoto', function(req, res, next) {
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
+				console.log(req.body.photo_id);
 				req.db.get('photos').find({
-						'_id': req.body.photo_id
+						'_id': new ObjectID(req.body.photo_id)
 					})
 					.then(function(photo_result) {
 						res.send({
 							'status_code': 200,
-							'message': photo_result[0].photos
+							'message': photo_result[0].photo
 						});
 					}, function(error) {
-						console.log(error);
 						throw error;
 					});
 			} else {

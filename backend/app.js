@@ -20,7 +20,10 @@ var properties = require('properties-reader')('properties.properties');
 // MongoDB Config
 var db = monk(properties.get('paths.mongoDBHosting')); // TODO: Fetch Properties like URL from Properties File on load!
 
-
+db.options = {
+	safe: true,
+	castIds: false
+};
 
 require('./utils/global').init();
 

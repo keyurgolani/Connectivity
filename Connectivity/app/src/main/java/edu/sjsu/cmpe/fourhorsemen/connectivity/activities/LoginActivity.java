@@ -33,6 +33,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -158,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
     private void onLoginSuccess(String uniqueID) {
         btnLogin.setEnabled(true);
         PreferenceHandler.putAccessKey(uniqueID);
+        Utilities.cacheProfile(getApplicationContext());
         Toast.makeText(getBaseContext(), "Login Successful", Toast.LENGTH_LONG).show();
         finish();
     }
