@@ -35,7 +35,7 @@ router.post('/register', function(req, res, next) {
 		exists(req.body.email) &&
 		req.body.password.match(password_validator) !== null &&
 		req.body.email.match(email_validator) !== null) {
-		accounts_bo.register(req.body.email, req.body.password, req.body.fname, req.body.lname, req.body.screenname, res);
+		accounts_bo.register(req.body.email, req.body.password, req.body.fullname, req.body.screenname, res);
 	} else {
 		res.send({
 			'status_code': 400,

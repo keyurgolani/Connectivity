@@ -27,11 +27,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/et_first_name"
+
+            <EditText
+                android:id="@+id/et_full_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="First Name" />
+                android:hint="Full Name"
+                android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Last Name -->
@@ -40,11 +42,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/et_last_name"
+
+            <EditText
+                android:id="@+id/et_screen_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Last Name" />
+                android:hint="Screen Name"
+                android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
 
         <!--  Email ID -->
