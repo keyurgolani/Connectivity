@@ -84,7 +84,7 @@ public class PostFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            mAdapter = new MyPostRecyclerViewAdapter(DummyContent.POSTS, mListener); //DummyContent.POSTS
+            mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(context), mListener); //DummyContent.POSTS
             recyclerView.setAdapter(mAdapter);
         }
         return view;

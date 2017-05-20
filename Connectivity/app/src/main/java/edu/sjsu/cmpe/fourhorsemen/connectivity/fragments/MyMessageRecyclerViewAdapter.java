@@ -41,7 +41,7 @@ public class MyMessageRecyclerViewAdapter extends RecyclerView.Adapter<MyMessage
         ViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv_message);
-            screen_name = (TextView)itemView.findViewById(R.id.screen_name);
+            screen_name = (TextView)itemView.findViewById(R.id.sn_label);
             timestamp = (TextView)itemView.findViewById(R.id.timestamp);
             subject = (TextView)itemView.findViewById(R.id.subject);
             userPhoto = (ImageView)itemView.findViewById(R.id.user_photo);

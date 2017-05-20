@@ -19,8 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +39,6 @@ public class ProfileFragment extends Fragment {
 
     private ViewPager viewPager;
 
-    private Boolean isFabOpen = false;
-    private FloatingActionButton fabMain,fabAddFriend,fabFollow;
-    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
-    private AppBarLayout appBarLayout;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -77,8 +71,8 @@ public class ProfileFragment extends Fragment {
         viewPager = (ViewPager) root.findViewById(R.id.tab_viewpager);
         if (viewPager != null){
             ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+            adapter.addFrag(AboutFragment.newInstance(), "About");
             adapter.addFrag(PostFragment.newInstance(1), "My Posts");
-            adapter.addFrag(new PostFragment(), "About");
             adapter.addFrag(new PostFragment(), "Albums");
             viewPager.setAdapter(adapter);
         }
@@ -103,38 +97,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-        fabMain = (FloatingActionButton)root.findViewById(R.id.fabMain);
-        fabAddFriend = (FloatingActionButton)root.findViewById(R.id.fabAddFriend);
-        fabFollow = (FloatingActionButton)root.findViewById(R.id.fabFollow);
-        fab_open = AnimationUtils.loadAnimation(root.getContext(), R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(root.getContext(),R.anim.fab_close);
-        rotate_forward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_forward);
-        rotate_backward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_backward);
-
-
-
-        View.OnClickListener fabListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                switch (view.getId()){
-                    case R.id.fabMain:
-                        animateFAB();
-                        break;
-                    case R.id.fabAddFriend:
-
-                        break;
-                    case R.id.fabFollow:
-
-                        break;
-                }
-            }
-        };
-
-        fabMain.setOnClickListener(fabListener);
-        fabAddFriend.setOnClickListener(fabListener);
-        fabFollow.setOnClickListener(fabListener);
 
         return root;
     }
@@ -221,58 +183,5 @@ public class ProfileFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void animateFAB(){
-
-        if(isFabOpen){
-
-            fabMain.startAnimation(rotate_backward);
-            fabAddFriend.startAnimation(fab_close);
-            fabFollow.startAnimation(fab_close);
-            fabAddFriend.setClickable(false);
-            fabFollow.setClickable(false);
-            isFabOpen = false;
-        } else {
-
-            fabMain.startAnimation(rotate_forward);
-            fabAddFriend.startAnimation(fab_open);
-            fabFollow.startAnimation(fab_open);
-            fabAddFriend.setClickable(true);
-            fabFollow.setClickable(true);
-            isFabOpen = true;
-        }
-    }
-
 }
 
- abstract class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
-
-    public enum State {
-        EXPANDED,
-        COLLAPSED,
-        IDLE
-    }
-
-    private State mCurrentState = State.IDLE;
-
-    @Override
-    public final void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        if (i == 0) {
-            if (mCurrentState != State.EXPANDED) {
-                onStateChanged(appBarLayout, State.EXPANDED);
-            }
-            mCurrentState = State.EXPANDED;
-        } else if (Math.abs(i) >= appBarLayout.getTotalScrollRange()) {
-            if (mCurrentState != State.COLLAPSED) {
-                onStateChanged(appBarLayout, State.COLLAPSED);
-            }
-            mCurrentState = State.COLLAPSED;
-        } else {
-            if (mCurrentState != State.IDLE) {
-                onStateChanged(appBarLayout, State.IDLE);
-            }
-            mCurrentState = State.IDLE;
-        }
-    }
-
-    public abstract void onStateChanged(AppBarLayout appBarLayout, State state);
-}

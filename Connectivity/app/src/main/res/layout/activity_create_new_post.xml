@@ -23,12 +23,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:background="@color/colorPrimaryLighter">
 
         <ImageView
             android:id="@+id/user_photo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -57,11 +58,23 @@
             android:layout_alignStart="@+id/user_photo"
             android:layout_below="@+id/user_photo"
             android:layout_marginTop="10dp"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="What's on your mind ?"
             android:background="@null"
+            android:ems="10"
+            android:hint="What's on your mind?"
+            android:inputType="textMultiLine"
+            android:textColorHint="@color/black8"
             android:textSize="32sp" />
+
+        <Button
+            android:id="@+id/btn_add_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@android:drawable/ic_menu_gallery"
+            android:text="Add Photo"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

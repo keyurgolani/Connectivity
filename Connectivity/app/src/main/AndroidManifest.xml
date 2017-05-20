@@ -24,7 +24,8 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_timeline"
-            android:theme="@style/AppTheme.MainTheme">
+            android:theme="@style/AppTheme.MainTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,6 +38,7 @@
         <activity
             android:name=".activities.CreateNewPostActivity"
             android:label="@string/title_activity_create_new_post"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.MainTheme"
             tools:targetApi="jelly_bean">

@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/screen_name"
+            android:id="@+id/sn_label"
             android:layout_toRightOf="@+id/user_photo"
             android:layout_toEndOf="@id/user_photo"
             android:layout_alignParentTop="true"
@@ -48,7 +48,7 @@
             android:id="@+id/subject"
             android:layout_toRightOf="@+id/user_photo"
             android:layout_toEndOf="@id/user_photo"
-            android:layout_below="@+id/screen_name"
+            android:layout_below="@+id/sn_label"
             android:textSize="15sp"
             />
 

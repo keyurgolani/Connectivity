@@ -26,8 +26,9 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="218dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/background"
                 app:layout_collapseMode="parallax" />
@@ -45,63 +46,8 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:tabIndicatorColor="@color/colorAccent" />
+            app:tabIndicatorColor="@color/colorPrimaryDark" />
 
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
-        android:layout_margin="@dimen/fab_margin"
-        app:elevation="6dp"
-        app:layout_anchor="@+id/appBar"
-        app:layout_anchorGravity="center_vertical|right"
-        app:pressedTranslationZ="12dp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabAddFriend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="373dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:visibility="invisible"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabFollow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="323dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:visibility="invisible"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabRemoveFriend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="373dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:visibility="invisible"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabUnfollow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="323dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:visibility="invisible"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp" />
 
 </android.support.design.widget.CoordinatorLayout>

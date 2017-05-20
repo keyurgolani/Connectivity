@@ -26,11 +26,14 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.AboutFragment;
 
 public class MainActivity extends AppCompatActivity
         implements PostFragment.OnListFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
-        MessageFragment.OnListFragmentInteractionListener {
+        MessageFragment.OnListFragmentInteractionListener,
+        AboutFragment.OnFragmentInteractionListener
+        {
 
     static final int REQUEST_LOGIN = 0;
     static final int REQUEST_APP_INTRO = 1;
@@ -167,4 +170,5 @@ public class MainActivity extends AppCompatActivity
     public void onListFragmentInteraction() {
 
     }
+
 }
