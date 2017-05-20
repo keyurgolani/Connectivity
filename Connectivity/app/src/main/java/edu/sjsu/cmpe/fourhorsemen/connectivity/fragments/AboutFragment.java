@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import butterknife.Bind;
@@ -42,13 +43,14 @@ public class AboutFragment extends Fragment {
     @Bind(R.id. et_about) EditText aboutme;
     @Bind(R.id. et_interests) EditText interests;
    */
+    Button btnEdit;
     EditText screen_name;
     EditText email_id;
     EditText location;
     EditText profession;
     EditText aboutme;
     EditText interests;
-
+    Context context;
     private OnFragmentInteractionListener mListener;
 
     public AboutFragment() {
@@ -75,13 +77,26 @@ public class AboutFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_about, container, false);
+        setContext(view.getContext());
         screen_name = (EditText) view.findViewById(R.id.et_screen_name);
         email_id = (EditText) view.findViewById(R.id.et_emailid);
         location = (EditText) view.findViewById(R.id.et_loc);
         profession = (EditText) view.findViewById(R.id.et_profession);
+        btnEdit = (Button) view.findViewById(R.id.btn_edit_profile);
+        View.OnClickListener btnListener = new View.OnClickListener() {
+
+            public void onClick(View v) {
+                if (v.getId() == R.id.btn_edit_profile && btnEdit.getText().equals("Edit Details")) {
+                    changeToEditableText();
+                }else if(v.getId() == R.id.btn_edit_profile && btnEdit.getText().equals("Save Details")){
+                    doEditProfile();
+                }
+            }
+        };
+        btnEdit.setOnClickListener(btnListener);
         aboutme = (EditText) view.findViewById(R.id.et_about);
         interests = (EditText) view.findViewById(R.id.et_interests);
-
+        btnEdit = (Button)view.findViewById(R.id.btn_edit_profile);
         doGetProfileDetails(view.getContext());
         return view;
     }
@@ -148,5 +163,75 @@ public class AboutFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void doEditProfile(){
+        btnEdit.setText("Edit Details");
+        screen_name.setFocusableInTouchMode(false);
+        email_id.setFocusableInTouchMode(false);
+        location.setFocusableInTouchMode(false);
+        profession.setFocusableInTouchMode(false);
+        aboutme.setFocusableInTouchMode(false);
+        interests.setFocusableInTouchMode(false);
+        String screenName = screen_name.getText().toString();
+        String emailId = email_id.getText().toString();
+        String locationStr = location.getText().toString();
+        String professionStr = profession.getText().toString();
+        String aboutMeStr = aboutme.getText().toString();
+        String interestStr = interests.getText().toString();
+        btnEdit.setBackgroundColor(btnEdit.getContext().getResources().getColor(R.color.white));
+        HashMap<String, String> params = new HashMap<String, String>();
+        String unique_id = PreferenceHandler.getAccessKey();
+        params.put("unique_id",unique_id);
+        params.put("screen_name",screenName);
+        params.put("email_id",emailId);
+        params.put("location",locationStr);
+        params.put("about_me",aboutMeStr);
+        params.put("interest",interestStr);
+        params.put("profession",professionStr);
+
+        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_UPDATE_PROFILE, params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) throws JSONException {
+                if(response.getInt("status_code") == 200) {
+
+                    //todo Add the response params retrieved in the set methods
+                    screen_name.setText("");
+                    email_id.setText("");
+                    location.setText("");
+                    profession.setText("");
+                    aboutme.setText("");
+                    interests.setText("");
+                    Toast.makeText(getContext(), "Profile Updated.", Toast.LENGTH_LONG).show();
+                }else if(response.getInt("status_code") == 403) {
+                    Log.i("err","Forbidden");
+                }
+            }
+
+            @Override
+            public void handleError(Exception e) {
+                e.printStackTrace();
+
+            }
+        });
+    }
+
+    public void changeToEditableText(){
+        btnEdit.setBackgroundColor(btnEdit.getContext().getResources().getColor(R.color.colorPrimary));
+        btnEdit.setText("Save Details");
+        screen_name.setFocusableInTouchMode(true);
+        email_id.setFocusableInTouchMode(true);
+        location.setFocusableInTouchMode(true);
+        profession.setFocusableInTouchMode(true);
+        aboutme.setFocusableInTouchMode(true);
+        interests.setFocusableInTouchMode(true);
+    }
+
+    public void setContext(Context context){
+        this.context = context;
+    }
+
+    public Context getContext(){
+        return this.context;
     }
 }
