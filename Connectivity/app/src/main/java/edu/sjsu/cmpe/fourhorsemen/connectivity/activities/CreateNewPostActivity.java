@@ -36,6 +36,8 @@ import android.view.WindowManager;
 
 public class CreateNewPostActivity extends AppCompatActivity {
 
+    private static String TAG = CreateNewPostActivity.class.getSimpleName();
+
     @Bind(R.id. new_post_content) EditText newPost;
     @Bind(R.id.user_photo) ImageView user_photo;
     @Bind(R.id.user_name) TextView user_name;
@@ -64,8 +66,12 @@ public class CreateNewPostActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         newPostStr = newPost.getText().toString();
-        doAddPost();
-        getParent().finish();
+        if(menuItem.getItemId() == 1000) {
+            doAddPost();
+        }
+        if(getParent() != null) {
+            getParent().finish();
+        }
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
