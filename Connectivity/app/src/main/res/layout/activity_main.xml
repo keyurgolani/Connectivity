@@ -11,7 +11,7 @@
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:background="@color/iron"
+        android:background="@color/blackC"
         android:layout_height="0dp"
         android:layout_weight="1">
 

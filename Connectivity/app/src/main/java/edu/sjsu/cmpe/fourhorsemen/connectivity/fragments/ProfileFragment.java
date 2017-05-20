@@ -3,6 +3,7 @@ package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -52,9 +53,6 @@ public class ProfileFragment extends Fragment {
 
     private ViewPager viewPager;
 
-    private Boolean isFabOpen = false;
-    private FloatingActionButton fabMain,fabAddFriend,fabFollow;
-    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -88,8 +86,8 @@ public class ProfileFragment extends Fragment {
         viewPager = (ViewPager) root.findViewById(R.id.tab_viewpager);
         if (viewPager != null){
             ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-            adapter.addFrag(PostFragment.newInstanceForProfile(1, dummyProfileID), "My Posts");
             adapter.addFrag(new PostFragment(), "About");
+            adapter.addFrag(PostFragment.newInstanceForProfile(1, dummyProfileID), "My Posts");
             adapter.addFrag(new PostFragment(), "Albums");
             viewPager.setAdapter(adapter);
         }
@@ -114,51 +112,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-        fabMain = (FloatingActionButton)root.findViewById(R.id.fabMain);
-        fabAddFriend = (FloatingActionButton)root.findViewById(R.id.fabAddFriend);
-        fabFollow = (FloatingActionButton)root.findViewById(R.id.fabFollow);
-        fab_open = AnimationUtils.loadAnimation(root.getContext(), R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(root.getContext(),R.anim.fab_close);
-        rotate_forward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_forward);
-        rotate_backward = AnimationUtils.loadAnimation(root.getContext(),R.anim.rotate_backward);
-
-        final boolean dummyIsFriend = false;
-        final boolean dummyIsFollowing = false;
-
-        View.OnClickListener fabListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                switch (view.getId()){
-                    case R.id.fabMain:
-                        animateFAB();
-                        break;
-                    case R.id.fabAddFriend:
-                        if(!dummyIsFriend) {
-                            // TODO: Make this button to be "Unfriend" button.
-                            // TODO: Make call to METHOD_ADD_FRIEND REST API
-                        } else {
-                            // TODO: Make this button to be "Add Friend" button.
-                            // TODO: Make call to METHOD_UNFRIEND REST API
-                        }
-                        break;
-                    case R.id.fabFollow:
-                        if(!dummyIsFollowing) {
-                            // TODO: Make this button to be "Unfollow" button.
-                            // TODO: Make call to METHOD_FOLLOW REST API
-                        } else {
-                            // TODO: Make this button to be "Unfollow" button.
-                            // TODO: Make call to METHOD_UNFOLLOW REST API
-                        }
-                        break;
-                }
-            }
-        };
-
-        fabMain.setOnClickListener(fabListener);
-        fabAddFriend.setOnClickListener(fabListener);
-        fabFollow.setOnClickListener(fabListener);
 
         return root;
     }

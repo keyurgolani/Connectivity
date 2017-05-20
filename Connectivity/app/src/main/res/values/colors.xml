@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryDarker">#006064</color>
-    <color name="colorPrimary">#26c6da</color>
-    <color name="colorPrimaryDark">#00acc1</color>
-    <color name="colorPrimaryLight">#e0f2f1</color>
-    <color name="colorPrimaryLighter">#ecf4f3</color>
-    <color name="colorAccent">#f57c00</color>
+    <color name="colorPrimary">#ef5350</color>
+    <color name="colorPrimaryLight">#fff4f6</color>
+    <color name="colorPrimaryLighter">#fcf5f6</color>
+    <color name="colorPrimaryDark">#b61827</color>
+
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
-    <color name="icons">#FFFFFF</color>
+    <color name="icons">#2c3839</color>
     <color name="divider">#BDBDBD</color>
 
     <color name="black">#000000</color>
-    <color name="jet">#222222</color>
-    <color name="oil">#333333</color>
-    <color name="monsoon">#777777</color>
-    <color name="jumbo">#888888</color>
-    <color name="aluminum">#999999</color>
-    <color name="base">#AAAAAA</color>
-    <color name="iron">#CCCCCC</color>
+    <color name="black2">#222222</color>
+    <color name="black4">#444444</color>
+    <color name="black6">#666666</color>
+    <color name="black8">#888888</color>
+    <color name="blackA">#AAAAAA</color>
+    <color name="blackC">#CCCCCC</color>
+    <color name="blackE">#EEEEEE</color>
     <color name="white">#FFFFFF</color>
 </resources>

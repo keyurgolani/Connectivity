@@ -27,11 +27,13 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.AboutFragment;
 
 public class MainActivity extends AppCompatActivity
         implements PostFragment.OnListFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
         MessageFragment.OnListFragmentInteractionListener,
+        AboutFragment.OnFragmentInteractionListener
         NotificationFragment.OnListFragmentInteractionListener{
 
     static final int REQUEST_LOGIN = 0;
@@ -102,6 +104,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
             //Manually displaying the first fragment - one time only
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, PostFragment.newInstance(1));
@@ -140,6 +143,7 @@ public class MainActivity extends AppCompatActivity
                 requestLogin(getApplicationContext());
             }
         }
+
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
