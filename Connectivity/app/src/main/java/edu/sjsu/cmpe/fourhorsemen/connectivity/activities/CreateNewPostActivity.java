@@ -43,13 +43,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         newPost = (EditText) findViewById(R.id.new_post_content);
-        newPost.setOnTouchListener(new View.OnTouchListener(){
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                newPost.setText("");
-                //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                return false;
-            }
-        });
+       
     }
 
     @Override
