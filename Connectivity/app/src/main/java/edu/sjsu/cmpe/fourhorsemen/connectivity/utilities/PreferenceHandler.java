@@ -75,11 +75,11 @@ public class PreferenceHandler {
     public static void putProfile(
             String profile_id,
             String account,
-            String f_name,
-            String l_name,
+            String fullname,
             String location,
             String profession,
             String screen_name,
+            String interests,
             String about_me,
             String dob,
             String gender,
@@ -87,10 +87,10 @@ public class PreferenceHandler {
 
         putKey("profile_id", profile_id);
         putKey("account", account);
-        putKey("f_name", f_name);
-        putKey("l_name", l_name);
+        putKey("fullname", fullname);
         putKey("location", location);
         putKey("screen_name", screen_name);
+        putKey("interests", interests);
         putKey("profession", profession);
         putKey("about_me", about_me);
         putKey("dob", dob);
@@ -101,12 +101,13 @@ public class PreferenceHandler {
     public static void clearProfile() {
         clearKey("profile_id");
         clearKey("account");
-        clearKey("f_name");
+        clearKey("fullname");
         clearKey("l_name");
         clearKey("profile_pic");
         clearKey("location ");
         clearKey("profession");
         clearKey("screen_name");
+        clearKey("interests");
         clearKey("about_me");
         clearKey("dob");
         clearKey("gender");

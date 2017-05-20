@@ -6,7 +6,7 @@ var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 var properties = require('properties-reader')('properties.properties');
-var ObjectID = require('mongodb').ObjectID
+var ObjectID = require('mongodb').ObjectID;
 
 
 var accounts_bo = require('../bos/accounts_bo');
@@ -14,6 +14,7 @@ var profile_bo = require('../bos/profile_bo');
 var message_bo = require('../bos/message_bo');
 var timeline_bo = require('../bos/timeline_bo');
 var notification_bo = require('../bos/notification_bo');
+var photo_bo = require('../bos/photo_bo');
 
 // Dummy Homepage GET route
 router.get('/', function(req, res, next) {
@@ -34,7 +35,7 @@ router.post('/register', function(req, res, next) {
 		exists(req.body.email) &&
 		req.body.password.match(password_validator) !== null &&
 		req.body.email.match(email_validator) !== null) {
-		accounts_bo.register(req.body.email, req.body.password, req.body.fname, req.body.lname, req.body.screenname, res);
+		accounts_bo.register(req.body.email, req.body.password, req.body.fullname, req.body.screenname, res);
 	} else {
 		res.send({
 			'status_code': 400,
@@ -215,9 +216,9 @@ router.post('/timeline', function(req, res, next) {
 					if (exists(req.body.profile)) {
 						// Will check if the timeline requested is user's own timeline inside the function
 						// Will return results accordingly.
-						timeline_bo.fetchFriendTimeline(profile_id, req.body.profile, res)
+						timeline_bo.fetchFriendTimeline(req.db, profile_id, req.body.profile, res)
 					} else {
-						timeline_bo.fetchOwnTimeline(profile_id, res)
+						timeline_bo.fetchOwnTimeline(req.db, profile_id, res)
 					}
 				})
 			} else {
@@ -241,6 +242,8 @@ router.post('/post', function(req, res, next) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
 					timeline_bo.addPost(profile_id, req.body.post, exists(req.body.photo) ? req.body.photo : 0, res);
+
+
 				});
 			} else {
 				res.send({
@@ -297,18 +300,12 @@ router.post('/getPhoto', function(req, res, next) {
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
-				console.log(req.body.photo_id);
-				req.db.get('photos').find({
-						'_id': new ObjectID(req.body.photo_id)
-					})
-					.then(function(photo_result) {
-						res.send({
-							'status_code': 200,
-							'message': photo_result[0].photo
-						});
-					}, function(error) {
-						throw error;
+				photo_bo.getPhoto(req.db, req.body.photo_id, function(photo_result) {
+					res.send({
+						'status_code': 200,
+						'message': photo_result[0].photo
 					});
+				});
 			} else {
 				res.send({
 					'status_code': 403,
@@ -330,7 +327,6 @@ router.post('/followProfile', function(req, res, next) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				if (exists(req.body.following)) {
-					//TODO: Create Method - Check code
 					profile_bo.isPublicProfile(req.body.following, function(isPublic) {
 						if (isPublic) {
 							profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
@@ -377,11 +373,9 @@ router.post('/addFriend', function(req, res, next) {
 					});
 				} else {
 					if (exists(req.body.friend_email)) {
-						// TODO: Create Method- check code
 						profile_bo.getIDFromEmail(req.body.friend_email, function(friend_user_id, friend_profile_id) {
 							if (friend_profile_id !== 0 && friend_user_id !== 0) {
 								profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-									// TODO: Create Method - check code
 									profile_bo.addFriend(profile_id, friend_profile_id, res);
 								});
 							} else {
@@ -432,4 +426,29 @@ router.post('/getNotifications', function(req, res, next) {
 	}
 });
 
+//Update Settings
+router.post('/updateSettings', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					if (exists(profile_id) && exists(req.body.is_public) && exists(req.body.do_notify)) {
+						profile_bo.updateSettings({
+							'profile_id': profile_id,
+							'is_public': req.body.is_public,
+							'do_notify': req.body.do_notify
+
+						}, res);
+					}
+				});
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	}
+
+});
 module.exports = router;
