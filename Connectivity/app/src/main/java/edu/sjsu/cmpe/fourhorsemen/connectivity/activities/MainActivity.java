@@ -9,8 +9,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import android.view.MenuItem;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.ProfileFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
@@ -98,6 +101,28 @@ public class MainActivity extends AppCompatActivity
         if(PreferenceHandler.getAccessKey() == null) {
             requestLogin(getApplicationContext());
         } else {
+
+            //Preload the profile
+            Log.d(TAG,"preloading profile details");
+            HashMap<String, String> profile_params = new HashMap<String, String>();
+            profile_params.put("unique_id", PreferenceHandler.getAccessKey());
+
+            RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_FETCH_PROFILE, profile_params, new ResponseHandler() {
+                @Override
+                public void handleSuccess(JSONObject response) throws Exception {
+                    if(response.getInt("status_code") == 200) {
+                        Log.d(TAG,response.toString());
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void handleError(Exception e) throws Exception {
+                    e.printStackTrace();
+                }
+            });
+
             BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -139,6 +164,28 @@ public class MainActivity extends AppCompatActivity
                 requestLogin(getApplicationContext());
             }
         }
+
+//        //Fetching profile to log
+//        Log.d(TAG,"loading profile details");
+//        HashMap<String, String> profile_params = new HashMap<String, String>();
+//        profile_params.put("unique_id", PreferenceHandler.getAccessKey());
+//        RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_FETCH_PROFILE, profile_params, new ResponseHandler() {
+//            @Override
+//            public void handleSuccess(JSONObject response) throws Exception {
+//                if(response.getInt("status_code") == 200) {
+//                    Log.d(TAG,response.toString());
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void handleError(Exception e) throws Exception {
+//                e.printStackTrace();
+//            }
+//        });
+//
+//
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);

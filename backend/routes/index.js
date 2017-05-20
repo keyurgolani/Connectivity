@@ -137,10 +137,12 @@ router.post('/fetchProfile', function(req, res, next) {
 						'account': req.body.account_id
 					}, res);
 				} else {
-					res.send({
-						'status_code': 400,
-						'message': 'Bad Request'
-					})
+					profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+						profile_bo.fetchProfile({
+							'profile_id': profile_id,
+						},res);
+					});
+
 				}
 			} else {
 				res.send({
