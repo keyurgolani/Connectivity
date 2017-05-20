@@ -17,8 +17,7 @@ DROP TABLE IF EXISTS `profile_details`;
 CREATE TABLE `profile_details` (
   `profile_id` INT(10) NOT NULL AUTO_INCREMENT,
   `account` INT(10) NOT NULL,
-  `f_name` varchar(255) NULL,
-  `l_name` varchar(255) NULL,
+  `fullname` varchar(255) NULL,
   `profile_pic` varchar(255) NULL,
   `location` VARCHAR(255) NULL,
   `profession` varchar(255) NULL,
@@ -27,7 +26,8 @@ CREATE TABLE `profile_details` (
   `dob` DATE NULL,
   `gender` VARCHAR(10) NULL CHECK (`gender` IN('Male', 'Female', 'Other')),
   `timestamp` TIMESTAMP NOT NULL,
-  PRIMARY KEY (`profile_id`)
+  PRIMARY KEY (`profile_id`),
+  UNIQUE(screen_name)
 );
 
 DROP TABLE IF EXISTS `preference_details`;
