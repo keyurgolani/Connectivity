@@ -195,12 +195,10 @@ module.exports.handleForgotRequest = function(email, res) {
 			"email": email
 		}, function(rows) {
 			if (Number(rows[0].matches) > 0) {
-				// TODO: Generate a reset code, store it to the DB and send that in email.
 				let resetCode = getRandom(4, 3);
 				async.parallel([
 					function(callback) {
 						sendEmail(email, 'ConnActivity - Password Reset', resetCode, function(result) {
-							// TODO: Log the results properly to logger rather than to console directly
 							callback(null, result);
 						})
 					},

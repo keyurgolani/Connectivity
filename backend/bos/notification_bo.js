@@ -19,3 +19,11 @@ module.exports.fetchNotifications = function(profile, res) {
 		})
 	})
 };
+
+module.exports.notify = function(profile, text, friend) {
+	dao.insertData('notification_details', {
+		'profile': profile,
+		'friend': friend,
+		'text': text
+	})
+};

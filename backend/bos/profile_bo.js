@@ -117,7 +117,7 @@ module.exports.isPublicProfile = function(following, processResult) {
 	}, function(preference_result) {
 		processResult(preference_result[0].public === 1)
 	})
-}
+};
 
 // Get id
 module.exports.getIDFromEmail = function(friend_email, processResult) {
@@ -145,4 +145,42 @@ module.exports.addFriend = function(profile, friend, res) {
 			});
 		}
 	})
-}
+};
+
+
+
+//Update Settings
+module.exports.updateSettings = function(params, res) {
+	updateParams = {}
+	if (exists(params.is_public)) {
+		updateParams.public = params.is_public;
+	}
+	if (exists(params.do_notify)) {
+		updateParams.notification = params.do_notify;
+	}
+	queryParams = {}
+	if (exists(params.profile_id)) {
+		queryParams.profile = params.profile_id
+	}
+
+	dao.updateData('preference_details', updateParams, queryParams, function(settings_result) {
+		if (settings_result.affectedRows === 1) {
+			res.send({
+				"status_code": 200,
+				"message": "Update Success"
+			});
+		} else {
+			res.send({
+				"status_code": 500,
+				"message": "Internal Error"
+			});
+		}
+	});
+};
+
+//Get profile which would be notified
+module.exports.fetchReceivers = function(profile_id, processResult) {
+	dao.executeQuery('select friend as receiver, screen_name as name from connection_details, profile_details where profile = profile_id and profile = ? and pending = 0 union select profile as receiver, screen_name as name from connection_details, profile_details where friend = profile_id and friend = ? and pending = 0 union select profile as receiver, screen_name as name from follow_details, profile_details where following = profile_id and following = ?', [profile_id, profile_id, profile_id], function(receiver_results) {
+		processResult(receiver_results);
+	});
+};

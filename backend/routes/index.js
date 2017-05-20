@@ -242,6 +242,8 @@ router.post('/post', function(req, res, next) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
 					timeline_bo.addPost(profile_id, req.body.post, exists(req.body.photo) ? req.body.photo : 0, res);
+
+
 				});
 			} else {
 				res.send({
@@ -325,7 +327,6 @@ router.post('/followProfile', function(req, res, next) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				if (exists(req.body.following)) {
-					//TODO: Create Method - Check code
 					profile_bo.isPublicProfile(req.body.following, function(isPublic) {
 						if (isPublic) {
 							profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
@@ -372,11 +373,9 @@ router.post('/addFriend', function(req, res, next) {
 					});
 				} else {
 					if (exists(req.body.friend_email)) {
-						// TODO: Create Method- check code
 						profile_bo.getIDFromEmail(req.body.friend_email, function(friend_user_id, friend_profile_id) {
 							if (friend_profile_id !== 0 && friend_user_id !== 0) {
 								profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-									// TODO: Create Method - check code
 									profile_bo.addFriend(profile_id, friend_profile_id, res);
 								});
 							} else {
@@ -427,4 +426,29 @@ router.post('/getNotifications', function(req, res, next) {
 	}
 });
 
+//Update Settings
+router.post('/updateSettings', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					if (exists(profile_id) && exists(req.body.is_public) && exists(req.body.do_notify)) {
+						profile_bo.updateSettings({
+							'profile_id': profile_id,
+							'is_public': req.body.is_public,
+							'do_notify': req.body.do_notify
+
+						}, res);
+					}
+				});
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	}
+
+});
 module.exports = router;
