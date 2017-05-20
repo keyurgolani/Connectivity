@@ -16,3 +16,23 @@ module.exports.fetchNotifications = function(profile, res) {
 		})
 	})
 };
+
+module.exports.addNotifications= function(profile,text,friend,res){
+	dao.insertData('notification_details',{
+		'profile': profile,
+		'friend': friend,
+		'text':text
+	}, function(addNotifications_result) {
+		if (addNotifications_result.affectedRows === 1) {
+			res.send({
+				"status_code": 200,
+				"message": "New Notification Added"
+			});
+		} else {
+			res.send({
+				"status_code": 400,
+				"message": "Internal Error"
+			});
+		}
+	})
+}

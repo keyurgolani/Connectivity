@@ -74,7 +74,7 @@ module.exports.addPost = function(profile, post, photo, res) {
 		'timestamp': getTimestamp()
 	}, function(post_result) {
 		profile_bo.fetchReceivers(profile,function(receiver_results){
-			//Send notification to receivers.
+				
 		});
 		res.send({
 			'status_code': 200,

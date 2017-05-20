@@ -247,6 +247,8 @@ router.post('/post', function(req, res, next) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
 					timeline_bo.addPost(profile_id, req.body.post, exists(req.body.photo) ? req.body.photo : 0, res);
+
+
 				});
 			} else {
 				res.send({
