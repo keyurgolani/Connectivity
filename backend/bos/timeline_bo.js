@@ -5,21 +5,41 @@ var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 var async = require("async");
 var moment = require('moment');
+var ObjectID = require('mongodb').ObjectID;
 
 
-module.exports.fetchOwnTimeline = function(profile, res) {
+module.exports.fetchOwnTimeline = function(db, profile, res) {
 	dao.executeQuery('select distinct * from post_details, profile_details where profile = profile_id and (profile in (select friend from connection_details where profile = ? and pending = 0) or profile in (select profile from connection_details where friend = ? and pending = 0) or profile in (select following from follow_details, preference_details where follow_details.profile = ? and follow_details.following = preference_details.profile and preference_details.public = 1) or profile = ?) ORDER BY post_details.timestamp desc;', [profile, profile, profile, profile], function(timeline_result) {
+		var fetchImageFunc = function(i) {
+			return function(callback) {
+				var id = timeline_result[i].profile_pic;
+				db.get('photos').find({
+					'_id': new ObjectID(id)
+				}).then(function(result) {
+					callback(null, result);
+				}, function(error) {
+					callback(error, null);
+				});
+			};
+		}
+		var fetchImageFuncs = []
 		for (var i = 0; i < timeline_result.length; i++) {
 			timeline_result[i].timestamp = moment(timeline_result[i].timestamp, "YYYY-MM-DDTHH:mm:ss.SSSZ").fromNow();
+			fetchImageFuncs.push(fetchImageFunc(i))
 		}
-		res.send({
-			'status_code': 200,
-			'message': timeline_result
+		async.parallel(fetchImageFuncs, function(error, results) {
+			for (var i = 0; i < timeline_result.length; i++) {
+				timeline_result[i].profile_pic = results[i][0].photo
+			}
+			res.send({
+				'status_code': 200,
+				'message': timeline_result
+			})
 		})
 	});
 };
 
-module.exports.fetchFriendTimeline = function(profile, friend, res) {
+module.exports.fetchFriendTimeline = function(db, profile, friend, res) {
 	if (profile === friend) {
 		dao.executeQuery('select * from post_details, profile_details where profile = profile_id and profile = ? ORDER BY post_details.timestamp desc;', [profile], function(timeline_result) {
 			for (var i = 0; i < timeline_result.length; i++) {

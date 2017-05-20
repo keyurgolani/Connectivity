@@ -96,10 +96,10 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             case POST_CARD:
                 PostViewHolder pvholder = (PostViewHolder) holder;
-                pvholder.userName.setText(posts.get(position-1).getUserScreenName());
+                pvholder.userName.setText(posts.get(position-1).getFrom().getScreen_name());
                 pvholder.timestamp.setText(posts.get(position-1).getTimestamp());
                 pvholder.postContent.setText(posts.get(position-1).getContent());
-                decodedString = Base64.decode(posts.get(position-1).getUserPhoto(), Base64.DEFAULT);
+                decodedString = Base64.decode(posts.get(position-1).getFrom().getProfile_pic(), Base64.DEFAULT);
                 pvholder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 
 //                pvholder.itemView.setOnClickListener(new View.OnClickListener() {

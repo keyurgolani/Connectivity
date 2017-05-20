@@ -6,7 +6,7 @@ var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 var properties = require('properties-reader')('properties.properties');
-var ObjectID = require('mongodb').ObjectID
+var ObjectID = require('mongodb').ObjectID;
 
 
 var accounts_bo = require('../bos/accounts_bo');
@@ -14,6 +14,7 @@ var profile_bo = require('../bos/profile_bo');
 var message_bo = require('../bos/message_bo');
 var timeline_bo = require('../bos/timeline_bo');
 var notification_bo = require('../bos/notification_bo');
+var photo_bo = require('../bos/photo_bo');
 
 // Dummy Homepage GET route
 router.get('/', function(req, res, next) {
@@ -215,9 +216,9 @@ router.post('/timeline', function(req, res, next) {
 					if (exists(req.body.profile)) {
 						// Will check if the timeline requested is user's own timeline inside the function
 						// Will return results accordingly.
-						timeline_bo.fetchFriendTimeline(profile_id, req.body.profile, res)
+						timeline_bo.fetchFriendTimeline(req.db, profile_id, req.body.profile, res)
 					} else {
-						timeline_bo.fetchOwnTimeline(profile_id, res)
+						timeline_bo.fetchOwnTimeline(req.db, profile_id, res)
 					}
 				})
 			} else {
@@ -297,18 +298,12 @@ router.post('/getPhoto', function(req, res, next) {
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
-				console.log(req.body.photo_id);
-				req.db.get('photos').find({
-						'_id': new ObjectID(req.body.photo_id)
-					})
-					.then(function(photo_result) {
-						res.send({
-							'status_code': 200,
-							'message': photo_result[0].photo
-						});
-					}, function(error) {
-						throw error;
+				photo_bo.getPhoto(req.db, req.body.photo_id, function(photo_result) {
+					res.send({
+						'status_code': 200,
+						'message': photo_result[0].photo
 					});
+				});
 			} else {
 				res.send({
 					'status_code': 403,
