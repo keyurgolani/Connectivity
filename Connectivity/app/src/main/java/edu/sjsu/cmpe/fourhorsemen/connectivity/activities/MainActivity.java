@@ -15,6 +15,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import android.view.MenuItem;
@@ -112,6 +113,26 @@ public class MainActivity extends AppCompatActivity
                 public void handleSuccess(JSONObject response) throws Exception {
                     if(response.getInt("status_code") == 200) {
                         Log.d(TAG,response.toString());
+
+                        JSONArray profile_array = response.getJSONArray("message");
+                        JSONObject currentObj = profile_array.getJSONObject(0);
+                        Log.d(TAG,currentObj.toString());
+
+                        PreferenceHandler.putProfile(
+                                currentObj.get("profile_id").toString(),
+                                currentObj.get("account").toString(),
+                                currentObj.get("f_name").toString(),
+                                currentObj.get("l_name").toString(),
+                                currentObj.get("profile_pic").toString(),
+                                currentObj.get("location").toString(),
+                                currentObj.get("profession").toString(),
+                                currentObj.get("screen_name").toString(),
+                                currentObj.get("about_me").toString(),
+                                currentObj.get("dob").toString(),
+                                currentObj.get("gender").toString(),
+                                currentObj.get("timestamp").toString());
+
+
                     } else {
                         Toast.makeText(getApplicationContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
                     }
@@ -164,28 +185,6 @@ public class MainActivity extends AppCompatActivity
                 requestLogin(getApplicationContext());
             }
         }
-
-//        //Fetching profile to log
-//        Log.d(TAG,"loading profile details");
-//        HashMap<String, String> profile_params = new HashMap<String, String>();
-//        profile_params.put("unique_id", PreferenceHandler.getAccessKey());
-//        RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_FETCH_PROFILE, profile_params, new ResponseHandler() {
-//            @Override
-//            public void handleSuccess(JSONObject response) throws Exception {
-//                if(response.getInt("status_code") == 200) {
-//                    Log.d(TAG,response.toString());
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void handleError(Exception e) throws Exception {
-//                e.printStackTrace();
-//            }
-//        });
-//
-//
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
