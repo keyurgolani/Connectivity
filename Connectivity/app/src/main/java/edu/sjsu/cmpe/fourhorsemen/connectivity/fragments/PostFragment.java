@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.dummy.DummyContent;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -128,7 +127,7 @@ public class PostFragment extends Fragment {
                     JSONArray posts = response.getJSONArray("message");
                     for(int i  = 0; i < posts.length(); i++) {
                         JSONObject currentObj = posts.getJSONObject(i);
-                        personalTimeline.add(new Post(currentObj.getInt("post_id"), currentObj.getString("screen_name"), currentObj.getInt("photo"), currentObj.getString("post"), currentObj.getString("timestamp")));
+                        personalTimeline.add(new Post(currentObj.getInt("post_id"), currentObj.getString("photo"), currentObj.getString("post"), new Profile(currentObj.getInt("profile"), currentObj.getString("profile_pic"), currentObj.getString("screen_name")), currentObj.getString("timestamp")));
                     }
                     mAdapter.notifyDataSetChanged();
                 } else {
