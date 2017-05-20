@@ -86,7 +86,7 @@ public class ProfileFragment extends Fragment {
         viewPager = (ViewPager) root.findViewById(R.id.tab_viewpager);
         if (viewPager != null){
             ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-            adapter.addFrag(new PostFragment(), "About");
+            adapter.addFrag(AboutFragment.newInstance(), "About");
             adapter.addFrag(PostFragment.newInstanceForProfile(1, dummyProfileID), "My Posts");
             adapter.addFrag(new PostFragment(), "Albums");
             viewPager.setAdapter(adapter);
@@ -196,26 +196,5 @@ public class ProfileFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    public void animateFAB(){
-
-        if(isFabOpen){
-
-            fabMain.startAnimation(rotate_backward);
-            fabAddFriend.startAnimation(fab_close);
-            fabFollow.startAnimation(fab_close);
-            fabAddFriend.setClickable(false);
-            fabFollow.setClickable(false);
-            isFabOpen = false;
-        } else {
-
-            fabMain.startAnimation(rotate_forward);
-            fabAddFriend.startAnimation(fab_open);
-            fabFollow.startAnimation(fab_open);
-            fabAddFriend.setClickable(true);
-            fabFollow.setClickable(true);
-            isFabOpen = true;
-        }
     }
 }

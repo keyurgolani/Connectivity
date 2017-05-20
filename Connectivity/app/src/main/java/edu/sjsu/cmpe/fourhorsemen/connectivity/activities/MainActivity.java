@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         implements PostFragment.OnListFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
         MessageFragment.OnListFragmentInteractionListener,
-        AboutFragment.OnFragmentInteractionListener
+        AboutFragment.OnFragmentInteractionListener,
         NotificationFragment.OnListFragmentInteractionListener{
 
     static final int REQUEST_LOGIN = 0;
