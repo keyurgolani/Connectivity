@@ -152,11 +152,26 @@ module.exports.addFriend = function(profile, friend, res) {
 //Update Settings
 module.exports.updateSettings = function(params, res) {
 	updateParams = {}
-	if (exists(params.is_public)) {
-		updateParams.public = params.is_public;
+	console.log(params.value);
+	if (params.preference=='profile_visibility') {
+		if(params.value=='1')
+			updateParams.public = 0; //if visibility is Friends Only
+		else
+			updateParams.public = 1; // if visiblity is public
 	}
-	if (exists(params.do_notify)) {
-		updateParams.notification = params.do_notify;
+	else if (params.preference=='email_notifications') {
+		if(params.value=='true'){
+			updateParams.email_notification = 1; //if email notification is on
+		}else{
+			updateParams.email_notification = 0; //if email notification is off
+		}
+	}
+	else if(exists(params.preference=='push_notifications')){
+		if(params.value=='true'){
+			updateParams.push_notification = 1; //if email notification is on
+		}else{
+			updateParams.push_notification = 0; //if email notification is off
+		}
 	}
 	queryParams = {}
 	if (exists(params.profile_id)) {
@@ -164,6 +179,7 @@ module.exports.updateSettings = function(params, res) {
 	}
 
 	dao.updateData('preference_details', updateParams, queryParams, function(settings_result) {
+		console.log(settings_result)
 		if (settings_result.affectedRows === 1) {
 			res.send({
 				"status_code": 200,
@@ -184,3 +200,9 @@ module.exports.fetchReceivers = function(profile_id, processResult) {
 		processResult(receiver_results);
 	});
 };
+
+module.exports.getSettingsFromUniqueID = function(unique_id, settingResults){
+	dao.executeQuery('select profile_id, user_id, email, pr.* from profile_details p, account_details a, preference_details pr where p.account = a.user_id and p.profile_id = pr.profile and unique_id = ?;',unique_id, function(setting_results) {
+		settingResults(setting_results);
+	});
+}
