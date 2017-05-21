@@ -20,6 +20,8 @@ import java.util.HashMap;
 
 import android.view.MenuItem;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.FriendsFragment;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.FriendsListsFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageListsFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.NotificationFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
@@ -38,8 +40,10 @@ public class MainActivity extends AppCompatActivity
         ProfileFragment.OnFragmentInteractionListener,
         MessageFragment.OnFragmentInteractionListener,
         AboutFragment.OnFragmentInteractionListener,
+        FriendsFragment.OnFragmentInteractionListener,
         MessageListsFragment.OnListFragmentInteractionListener,
-        NotificationFragment.OnListFragmentInteractionListener{
+        NotificationFragment.OnListFragmentInteractionListener,
+        FriendsListsFragment.OnListFragmentInteractionListener{
 
     static final int REQUEST_LOGIN = 0;
     static final int REQUEST_APP_INTRO = 1;
@@ -59,6 +63,9 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case R.id.navigation_notifications:
                     selectedFragment = NotificationFragment.newInstance(1);
+                    break;
+                case R.id.navigation_friends:
+                    selectedFragment = FriendsFragment.newInstance();
                     break;
                 case R.id.navigation_profile:
                     selectedFragment = ProfileFragment.newInstance();
