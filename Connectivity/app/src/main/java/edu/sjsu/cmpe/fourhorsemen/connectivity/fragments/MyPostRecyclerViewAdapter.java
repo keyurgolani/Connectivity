@@ -122,6 +122,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(cpvholder.context, CreateNewPostActivity.class);
+                        //Intent intent = new Intent(cpvholder.context, OtherUserProfileActivity.class);
                         cpvholder.context.startActivity(intent);
                     }
                 });

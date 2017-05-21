@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +49,7 @@ public class CreateNewMessageActivity extends AppCompatActivity {
 
     @Override
         public boolean onCreateOptionsMenu(Menu menu) {
-            final MenuItem menuItem = menu.add(Menu.NONE, 1000, Menu.NONE, R.string.str_post);
+            final MenuItem menuItem = menu.add(Menu.NONE, 1000, Menu.NONE, R.string.str_send);
             MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_IF_ROOM);
             return true;
         }
@@ -60,7 +61,7 @@ public class CreateNewMessageActivity extends AppCompatActivity {
         messageStr = etSubject.getText().toString();
 
         if(menuItem.getItemId() == 1000) {
-            //doAddPost();
+            doAddMessage();
             //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             //startActivity(intent);
         }
@@ -70,29 +71,31 @@ public class CreateNewMessageActivity extends AppCompatActivity {
 
 
 
-//    public void doAddPost(){
-//        HashMap<String, String> params = new HashMap<String, String>();
-//        String unique_id = PreferenceHandler.getAccessKey();
-//        params.put("post", newPostStr);
-//        params.put("unique_id",unique_id);
-//        RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_ADD_POST, params, new ResponseHandler() {
-//            @Override
-//            public void handleSuccess(JSONObject response) throws JSONException {
-//                switch (response.getInt("status_code")) {
-//                    case 200:
-//                        onAddPostSuccess();
-//                        break;
-//
-//                }
-//            }
-//
-//            @Override
-//            public void handleError(Exception e) {
-//                e.printStackTrace();
-//
-//            }
-//        });
-//    }
+    public void doAddMessage(){
+        HashMap<String, String> params = new HashMap<String, String>();
+        String unique_id = PreferenceHandler.getAccessKey();
+        params.put("to", toStr);
+        params.put("subject", subjectStr);
+        params.put("message", messageStr);
+        params.put("unique_id",unique_id);
+        RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_SEND_MESSAGE, params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) throws JSONException {
+                switch (response.getInt("status_code")) {
+                    case 200:
+                        Toast.makeText(getApplicationContext(), "Message sent", Toast.LENGTH_LONG);
+                        break;
+
+                }
+            }
+
+            @Override
+            public void handleError(Exception e) {
+                e.printStackTrace();
+
+            }
+        });
+    }
 
 
 }

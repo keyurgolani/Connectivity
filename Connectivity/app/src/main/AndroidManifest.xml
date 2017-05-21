@@ -48,11 +48,6 @@
                 android:value="edu.sjsu.cmpe.fourhorsemen.connectivity.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.OtherUserProfileActivity"
-            android:theme="@style/AppTheme.MainTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:targetApi="jelly_bean" />
-        <activity
             android:name=".activities.SearchFriendsActivity"
             android:label="@string/title_activity_search_friends"
             android:theme="@style/AppTheme.MainTheme"
