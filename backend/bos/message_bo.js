@@ -43,7 +43,61 @@ module.exports.getMessages = function(profile_id, res) {
 };
 
 module.exports.postMessage = function(profile, account, to, subject, message, res) {
-	dao.insertData('message_details', {
+	var queryParams={};
+	queryParams.screen_name = to;
+	dao.fetchData('profile_id', 'profile_details', queryParams, function(profile_result) {
+		if (profile_result.length > 0) {
+			var toID = profile_result[0].profile_id;
+			dao.insertData('message_details', {
+			'profile': profile,
+			'to': toID,
+			'subject': subject,
+			'message': message,
+			'timestamp': getTimestamp()
+			}, function(insert_result) {
+				if (insert_result.affectedRows === 1) {
+					dao.executeQuery('select email, screen_name from account_details, profile_details where account = user_id and screen_name = ?', [to], function(email_result) {
+						sendEmail(email_result[0].email, "ConnActivity: New Message From " + email_result[0].screen_name,
+						"Subject: " + subject + "</br>" +
+						"Content: " + message,
+						function(result) {
+						profile_bo.fetchReceivers(to, function(receiver_results) {
+							var notifyFunction = function(i) {
+							return function(callback) {
+							notification_bo.notify(receiver_results[i].profile,
+								receiver_results[i].name + "New message.\nClick here to check it out!",
+								profile)
+							}
+					}
+					var notifyFunctions = []
+					for (var i = 0; i < receiver_results.length; i++) {
+						notifyFunctions.push(notifyFunction(i))
+					}
+					async.parallel(notifyFunctions, function(error, results) {
+						// Do Nothing!
+					})
+				});
+				res.send({
+						'status_code': 200,
+						'message': 'Message Posted'
+					})
+				})
+			})
+		} else {
+			res.send({
+				'status_code': 400,
+				'message': 'Internal Error'
+			})
+		}
+	})
+		} else {
+			res.send({
+				"status_code": 500,
+				"message": "Internal Error"
+			});
+		}
+	})
+/*	dao.insertData('message_details', {
 		'profile': profile,
 		'to': to,
 		'subject': subject,
@@ -84,5 +138,5 @@ module.exports.postMessage = function(profile, account, to, subject, message, re
 				'message': 'Internal Error'
 			})
 		}
-	})
+	})*/
 };
