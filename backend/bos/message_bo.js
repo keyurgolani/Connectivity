@@ -51,7 +51,7 @@ module.exports.postMessage = function(profile, account, to, subject, message, re
 		'timestamp': getTimestamp()
 	}, function(insert_result) {
 		if (insert_result.affectedRows === 1) {
-			dao.executeQuery('select email, screen_name from account_details, profile_details where account = user_id and profile_id = ?', [to], function(email_result) {
+			dao.executeQuery('select email, screen_name from account_details, profile_details where account = user_id and screen_name = ?', [to], function(email_result) {
 				sendEmail(email_result[0].email, "ConnActivity: New Message From " + email_result[0].screen_name,
 					"Subject: " + subject + "</br>" +
 					"Content: " + message,

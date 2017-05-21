@@ -1,22 +1,13 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -31,61 +22,68 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.WindowManager;
 
-public class CreateNewPostActivity extends AppCompatActivity {
+public class CreateNewMessageActivity extends AppCompatActivity {
 
-    private static String TAG = CreateNewPostActivity.class.getSimpleName();
+    private static String TAG = CreateNewMessageActivity.class.getSimpleName();
 
-    @Bind(R.id.new_post_content) EditText newPost;
-    @Bind(R.id.user_photo) ImageView user_photo;
-    @Bind(R.id.sn_label) TextView user_name;
-    String newPostStr;
+    @Bind(R.id.et_to)
+    EditText etTo;
+    @Bind(R.id.et_sub)
+    EditText etSubject;
+    @Bind(R.id.et_msg)
+    EditText etMessage;
+
+    String toStr, subjectStr, messageStr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_new_post);
+        setContentView(R.layout.activity_create_new_message);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
-        byte[] decodedString = Base64.decode(PreferenceHandler.getProfilePic(), Base64.DEFAULT);
-        user_photo.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
-        user_name.setText(PreferenceHandler.getScreenName());
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        final MenuItem menuItem = menu.add(Menu.NONE, 1000, Menu.NONE, R.string.str_post);
-        MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        return true;
-    }
+        public boolean onCreateOptionsMenu(Menu menu) {
+            final MenuItem menuItem = menu.add(Menu.NONE, 1000, Menu.NONE, R.string.str_send);
+            MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            return true;
+        }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
-        newPostStr = newPost.getText().toString();
+        toStr = etTo.getText().toString();
+        subjectStr = etSubject.getText().toString();
+        messageStr = etSubject.getText().toString();
+
         if(menuItem.getItemId() == 1000) {
-            doAddPost();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+            doAddMessage();
+            //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            //startActivity(intent);
         }
         finish();
         return super.onOptionsItemSelected(menuItem);
     }
 
-    public void doAddPost(){
+
+
+    public void doAddMessage(){
         HashMap<String, String> params = new HashMap<String, String>();
         String unique_id = PreferenceHandler.getAccessKey();
-        params.put("post", newPostStr);
+        params.put("to", toStr);
+        params.put("subject", subjectStr);
+        params.put("message", messageStr);
         params.put("unique_id",unique_id);
-        RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_ADD_POST, params, new ResponseHandler() {
+        RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_SEND_MESSAGE, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws JSONException {
                 switch (response.getInt("status_code")) {
                     case 200:
-                        onAddPostSuccess();
+                        Toast.makeText(getApplicationContext(), "Message sent", Toast.LENGTH_LONG);
                         break;
 
                 }
@@ -99,7 +97,5 @@ public class CreateNewPostActivity extends AppCompatActivity {
         });
     }
 
-    public void onAddPostSuccess(){
 
-    }
 }

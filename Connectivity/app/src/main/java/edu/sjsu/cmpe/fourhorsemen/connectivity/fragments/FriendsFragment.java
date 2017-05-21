@@ -1,49 +1,27 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import android.widget.EditText;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.SearchFriendsActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,20 +31,20 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class FriendsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    ImageView imageView;
 
     private ViewPager viewPager;
+    private EditText searchFriends;
 
 
-    public ProfileFragment() {
+    public FriendsFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance() {
-        ProfileFragment fragment = new ProfileFragment();
+    public static FriendsFragment newInstance() {
+        FriendsFragment fragment = new FriendsFragment();
         return fragment;
     }
 
@@ -79,30 +57,27 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        View root = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        Toolbar toolbar = (Toolbar) root.findViewById(R.id.mToolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        searchFriends = (EditText) root.findViewById(R.id.search_friends);
+        searchFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SearchFriendsActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        imageView = (ImageView) root.findViewById(R.id.imageView);
-        byte[] decodedString = Base64.decode(PreferenceHandler.getProfilePic(), Base64.DEFAULT);
-        imageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
-        final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(false);
-        ab.setTitle(PreferenceHandler.getScreenName());
 
-
-        viewPager = (ViewPager) root.findViewById(R.id.tab_viewpager);
+        viewPager = (ViewPager) root.findViewById(R.id.friends_view_pager);
         if (viewPager != null){
             ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-            adapter.addFrag(AboutFragment.newInstance(), "About");
-            Log.i("ID",PreferenceHandler.getProfileID());
-            adapter.addFrag(PostFragment.newInstanceForProfile(1, Integer.parseInt(PreferenceHandler.getProfileID())), "My Posts");
-            adapter.addFrag(new PostFragment(), "Albums");
+            adapter.addFrag(FriendsListsFragment.newInstance(FriendsListsFragment.RECEIEVED_LIST), "New Requests");
+            adapter.addFrag(FriendsListsFragment.newInstance(FriendsListsFragment.SENT_LIST), "Sent Requests");
             viewPager.setAdapter(adapter);
         }
 
-        TabLayout tabLayout = (TabLayout) root.findViewById(R.id.tabLayout);
+        TabLayout tabLayout = (TabLayout) root.findViewById(R.id.friends_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -126,7 +101,7 @@ public class ProfileFragment extends Fragment {
         return root;
     }
 
-    public static class ViewPagerAdapter extends FragmentPagerAdapter {
+    static class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 

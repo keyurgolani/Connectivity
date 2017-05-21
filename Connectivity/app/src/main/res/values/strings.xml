@@ -19,11 +19,15 @@
     <string name="title_profile">Profile</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_timeline">Conactivity</string>
-    <string name="title_chat">Chat</string>
+    <string name="title_messages">Messages</string>
+    <string name="title_friends">Friends</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_create_new_post">CreateNewPostActivity</string>
+    <string name="title_activity_create_new_post">Post to ConActivity</string>
+    <string name="title_activity_create_new_msg">Compose a Message</string>
+    <string name="title_activity_search_friends">Search and Add Friends</string>
     <string name="str_post">POST</string>
+    <string name="str_send">SEND</string>
     <string name="title_activity_settings">SettingsActivity</string>
 </resources>

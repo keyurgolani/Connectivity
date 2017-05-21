@@ -146,10 +146,14 @@ public class AboutFragment extends Fragment {
                     JSONObject profile = response.getJSONArray("message").getJSONObject(0);
                     screen_name.setText(profile.getString("screen_name"));
                     email_id.setText("Not going to show email. Will be removed from here.");
-                    location.setText(profile.getString("location"));
-                    profession.setText(profile.getString("profession"));
-                    aboutme.setText(profile.getString("about_me"));
-                    interests.setText(profile.getString("interests"));
+                    if(!profile.getString("location").equals("null"))
+                        location.setText(profile.getString("location"));
+                    if(!profile.getString("profession").equals("null"))
+                        profession.setText(profile.getString("profession"));
+                    if(!profile.getString("about_me").equals("null"))
+                        aboutme.setText(profile.getString("about_me"));
+                    if(!profile.getString("interests").equals("null"))
+                        interests.setText(profile.getString("interests"));
                 }
             }
 

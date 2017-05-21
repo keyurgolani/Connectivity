@@ -8,12 +8,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/list"
-        android:name="edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageFragment"
+        android:name="edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.FriendsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:context="edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MessageFragment"
-        tools:listitem="@layout/fragment_message_card" >
+        tools:context="edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.FriendsFragment"
+        tools:listitem="@layout/fragment_friends_card" >
 
     </android.support.v7.widget.RecyclerView>
 

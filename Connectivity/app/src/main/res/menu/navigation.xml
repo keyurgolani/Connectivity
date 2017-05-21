@@ -12,13 +12,18 @@
         android:title="@string/title_notifications" />
 
     <item
+        android:id="@+id/navigation_friends"
+        android:icon="@drawable/ic_friends"
+        android:title="@string/title_friends" />
+
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_person_black_24dp"
         android:title="@string/title_profile" />
 
     <item
         android:id="@+id/navigation_chat"
-        android:icon="@drawable/ic_chat_black_24dp"
-        android:title="@string/title_chat" />
+        android:icon="@drawable/ic_messages"
+        android:title="@string/title_messages" />
 
 </menu>

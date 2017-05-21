@@ -35,8 +35,8 @@ DROP TABLE IF EXISTS `preference_details`;
 CREATE TABLE `preference_details` (
   `preference_id` INT(10) NOT NULL AUTO_INCREMENT,
   `profile` INT(10) NOT NULL,
-  `notification` boolean NOT NULL,
-  `notification_method` boolean NOT NULL,
+  `push_notification` boolean NOT NULL,
+  `email_notification` boolean NOT NULL,
   `public` boolean NOT NULL,
   `timestamp` TIMESTAMP NOT NULL,
   PRIMARY KEY (`preference_id`)
