@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#ef5350</color>
+    <color name="colorPrimaryLightTab">#ff8a80</color>
     <color name="colorPrimaryLight">#fff4f6</color>
     <color name="colorPrimaryLighter">#fcf5f6</color>
     <color name="colorPrimaryDark">#b61827</color>
@@ -15,8 +16,8 @@
     <color name="black4">#444444</color>
     <color name="black6">#666666</color>
     <color name="black8">#888888</color>
-    <color name="blackA">#AAAAAA</color>
-    <color name="blackC">#CCCCCC</color>
-    <color name="blackE">#EEEEEE</color>
+    <color name="blackA">#aaaaaa</color>
+    <color name="blackC">#cccccc</color>
+    <color name="blackE">#eeeeee</color>
     <color name="white">#FFFFFF</color>
 </resources>

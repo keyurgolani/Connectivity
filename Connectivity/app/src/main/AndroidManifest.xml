@@ -48,13 +48,16 @@
                 android:value="edu.sjsu.cmpe.fourhorsemen.connectivity.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".activities.MainActivity"
+            android:name=".activities.SearchFriendsActivity"
+            android:label="@string/title_activity_search_friends"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme.MainTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.sjsu.cmpe.fourhorsemen.connectivity.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.MainTheme">
         </activity>
     </application>
 

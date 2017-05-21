@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_friends"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    card_view:cardCornerRadius="4dp"
+    card_view:elevation="14dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/user_photo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/friend_req_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/user_photo"
+            android:layout_toRightOf="@+id/user_photo"
+            android:text="Gaurav Chodwadia has sent you a friend request."
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:padding="2dp"
+            android:text="21:30"
+            android:textSize="12sp"
+            android:textStyle="bold|italic" />
+
+        <Button
+            android:id="@+id/btn_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/friend_req_text"
+            android:layout_toLeftOf="@+id/btn_ignore"
+            android:layout_toStartOf="@+id/btn_ignore"
+            android:text="Accept" />
+
+        <Button
+            android:id="@+id/btn_ignore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btn_accept"
+            android:layout_alignBottom="@+id/btn_accept"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="Ignore" />
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
