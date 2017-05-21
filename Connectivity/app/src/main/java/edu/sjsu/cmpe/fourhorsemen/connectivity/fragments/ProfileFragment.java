@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -95,6 +96,7 @@ public class ProfileFragment extends Fragment {
         if (viewPager != null){
             ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
             adapter.addFrag(AboutFragment.newInstance(), "About");
+            Log.i("ID",PreferenceHandler.getProfileID());
             adapter.addFrag(PostFragment.newInstanceForProfile(1, Integer.parseInt(PreferenceHandler.getProfileID())), "My Posts");
             adapter.addFrag(new PostFragment(), "Albums");
             viewPager.setAdapter(adapter);

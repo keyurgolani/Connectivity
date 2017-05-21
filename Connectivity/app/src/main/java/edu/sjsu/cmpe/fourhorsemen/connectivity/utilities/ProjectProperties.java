@@ -38,6 +38,8 @@ public class ProjectProperties {
             METHOD_ADD_FRIEND = prop.getProperty("METHOD_ADD_FRIEND");
             METHOD_UNFRIEND = prop.getProperty("METHOD_UNFRIEND");
             METHOD_GET_NOTIFICATIONS = prop.getProperty("METHOD_GET_NOTIFICATIONS");
+            METHOD_GET_SETTINGS = prop.getProperty("METHOD_GET_SETTINGS");
+            METHOD_UPDATE_SETTINGS = prop.getProperty("METHOD_UPDATE_SETTINGS");
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -66,6 +68,8 @@ public class ProjectProperties {
     public static String METHOD_ADD_FRIEND;
     public static String METHOD_UNFRIEND;
     public static String METHOD_GET_NOTIFICATIONS;
+    public static String METHOD_GET_SETTINGS;
+    public static String METHOD_UPDATE_SETTINGS;
 
     public static String getBaseURL() {
         return "http://" + host + ":" + port + "/";

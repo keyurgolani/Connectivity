@@ -428,15 +428,17 @@ router.post('/getNotifications', function(req, res, next) {
 
 //Update Settings
 router.post('/updateSettings', function(req, res, next) {
+	console.log(req.body.preference);
+	console.log(req.body.preference_value);
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-					if (exists(profile_id) && exists(req.body.is_public) && exists(req.body.do_notify)) {
+					if (exists(profile_id)) {
 						profile_bo.updateSettings({
 							'profile_id': profile_id,
-							'is_public': req.body.is_public,
-							'do_notify': req.body.do_notify
+							'preference': req.body.preference,
+							'value': req.body.preference_value
 
 						}, res);
 					}
@@ -451,4 +453,27 @@ router.post('/updateSettings', function(req, res, next) {
 	}
 
 });
+
+router.post('/getSettings', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getSettingsFromUniqueID(req.body.unique_id, function(setting_results) {
+					res.send({
+						'status_code': 200,
+						'settings': setting_results[0].photo
+					});
+				});
+			} else {
+				res.send({
+					'status_code': 403,
+					'settings': 'Forbidden'
+				});
+			}
+		});
+	}
+
+});
+
+
 module.exports = router;
