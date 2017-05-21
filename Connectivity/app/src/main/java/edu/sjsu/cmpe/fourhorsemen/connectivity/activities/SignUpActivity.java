@@ -29,6 +29,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 
 /**
  * Created by gauravchodwadia on 5/6/17.
@@ -142,6 +143,7 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setEnabled(true);
 
         // Start the Signup activity
+        Utilities.cacheProfile(getApplicationContext());
         Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
         intent.putExtra("email", emailId);
         startActivityForResult(intent, REQUEST_VERIFICATION);

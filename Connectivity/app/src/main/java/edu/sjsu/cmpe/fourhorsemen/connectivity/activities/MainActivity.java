@@ -114,6 +114,9 @@ public class MainActivity extends AppCompatActivity
         if(PreferenceHandler.getAccessKey() == null) {
             requestLogin(getApplicationContext());
         } else {
+
+            Utilities.cacheProfile(getApplicationContext());
+
             BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -153,6 +156,9 @@ public class MainActivity extends AppCompatActivity
                 requestLogin(getApplicationContext());
             }
         }
+
+        Utilities.cacheProfile(getApplicationContext());
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 

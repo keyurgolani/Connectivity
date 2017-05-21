@@ -35,8 +35,8 @@ module.exports.register = function(email, password, fullname, screenname, res) {
 						if (profile_result.affectedRows === 1) {
 							dao.insertData('preference_details', {
 								'profile': profile_result.insertId,
-								'notification': 1,
-								'notification_method': 1,
+								'push_notification': 1,
+								'email_notification': 1,
 								'public': 1,
 								'timestamp': getTimestamp()
 							}, function(preferences_result) {
