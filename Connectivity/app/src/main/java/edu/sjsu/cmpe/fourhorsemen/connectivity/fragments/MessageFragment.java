@@ -1,8 +1,10 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.CreateNewMessageActivity;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.CreateNewPostActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +37,7 @@ public class MessageFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ViewPager viewPager;
+    private FloatingActionButton fabNewMessage;
 
 
     public MessageFragment() {
@@ -89,6 +94,20 @@ public class MessageFragment extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+
+        fabNewMessage = (FloatingActionButton) root.findViewById(R.id.create_new_message);
+        fabNewMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.create_new_message:
+                        Intent intent = new Intent(getContext(), CreateNewMessageActivity.class);
+                        startActivity(intent);
+                        break;
+                }
             }
         });
 

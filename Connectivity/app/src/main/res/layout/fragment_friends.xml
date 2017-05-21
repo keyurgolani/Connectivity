@@ -20,11 +20,11 @@
             android:layout_height="wrap_content"
             android:drawableRight="@android:drawable/ic_menu_search"
             android:ems="10"
+            android:focusableInTouchMode="false"
             android:hint="Search and Add Friends"
             android:inputType="textPersonName"
             android:textColor="@color/colorPrimaryLight"
-            android:textColorHint="@color/blackC"
-            android:focusableInTouchMode="false"/>
+            android:textColorHint="@color/blackE" />
 
     </LinearLayout>
 

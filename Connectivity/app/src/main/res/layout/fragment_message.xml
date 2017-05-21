@@ -8,7 +8,7 @@
         android:id="@+id/msg_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryLightTab"
         app:tabIndicatorColor="@color/colorPrimaryDark"
         app:tabIndicatorHeight="3dp"/>
 
@@ -18,7 +18,23 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/msg_tabs"
         >
-
     </android.support.v4.view.ViewPager>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/create_new_message"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:visibility="visible"
+        app:layout_anchor="@id/msg_view_pager"
+        app:srcCompat="@drawable/ic_new_message"
+        app:background="@color/colorPrimaryLightTab"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </RelativeLayout>
