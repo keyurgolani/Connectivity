@@ -1,11 +1,18 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,10 +46,17 @@ import android.view.WindowManager;
 public class CreateNewPostActivity extends AppCompatActivity {
 
     private static String TAG = CreateNewPostActivity.class.getSimpleName();
+    static final int RESULT_PHOTO_FROM_GALLARY_POST = 503;
+    static final int RESULT_PHOTO_FROM_CAMERA_POST = 504;
 
     @Bind(R.id.new_post_content) EditText newPost;
     @Bind(R.id.user_photo) ImageView user_photo;
     @Bind(R.id.sn_label) TextView user_name;
+    @Bind(R.id.btn_add_photo_camera)
+    Button btnCamera;
+    @Bind(R.id.btn_add_photo_gallery) Button btnGallery;
+    @Bind(R.id.img_post) ImageView imgPost;
+
     String newPostStr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +69,27 @@ public class CreateNewPostActivity extends AppCompatActivity {
         byte[] decodedString = Base64.decode(PreferenceHandler.getProfilePic(), Base64.DEFAULT);
         user_photo.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
         user_name.setText(PreferenceHandler.getScreenName());
+
+
+        View.OnClickListener photoBtnListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.btn_add_photo_camera:
+                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(takePicture, RESULT_PHOTO_FROM_CAMERA_POST);
+                        break;
+                    case R.id.btn_add_photo_gallery:
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(pickPhoto , RESULT_PHOTO_FROM_GALLARY_POST);
+                        break;
+                }
+            }
+        };
+
+        btnCamera.setOnClickListener(photoBtnListener);
+        btnGallery.setOnClickListener(photoBtnListener);
     }
 
     @Override
@@ -73,6 +109,32 @@ public class CreateNewPostActivity extends AppCompatActivity {
         }
         finish();
         return super.onOptionsItemSelected(menuItem);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(requestCode) {
+            case RESULT_PHOTO_FROM_CAMERA_POST:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    imgPost.setImageURI(selectedImage);
+                    imgPost.setVisibility(View.VISIBLE);
+                    //TODO: Code to send post with photo to the database
+                }
+
+                break;
+            case RESULT_PHOTO_FROM_GALLARY_POST:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    imgPost.setImageURI(selectedImage);
+                    imgPost.setVisibility(View.VISIBLE);
+                    //TODO: Code to send post with photo to the database
+
+                }
+                break;
+        }
     }
 
     public void doAddPost(){
