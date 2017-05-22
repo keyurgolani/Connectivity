@@ -24,7 +24,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
-
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
 
         <item name="android:windowBackground">@color/colorPrimaryLight</item>
 
@@ -56,5 +56,11 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+    <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@android:drawable/ic_menu_edit</item>
+    </style>
 
 </resources>

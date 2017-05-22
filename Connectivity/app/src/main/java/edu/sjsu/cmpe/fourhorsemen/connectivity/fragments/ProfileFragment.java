@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -74,6 +76,28 @@ public class ProfileFragment extends Fragment {
 
         Toolbar toolbar = (Toolbar) root.findViewById(R.id.mToolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+//        final CollapsingToolbarLayout ctbl = (CollapsingToolbarLayout) root.findViewById(R.id.ctbl);
+//        AppBarLayout appBarLayout = (AppBarLayout) root.findViewById(R.id.appBar);
+//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            boolean isShow = false;
+//            int scrollRange = -1;
+//
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                if (scrollRange == -1) {
+//                    scrollRange = appBarLayout.getTotalScrollRange();
+//                }
+//                if (scrollRange + verticalOffset == 0) {
+//                    toolbar.hideOverflowMenu();
+//                    isShow = false;
+//                } else if(isShow) {
+//
+//                }
+//            }
+//        });
+
+
 
         profilePic = (ImageView) root.findViewById(R.id.profile_pic);
 
@@ -188,13 +212,22 @@ public class ProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case android.R.id.home:
                 return true;
+            case R.id.pp_camera:
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePicture, RESULT_PHOTO_FROM_CAMERA);
+                return true;
+            case R.id.pp_gallery:
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto , RESULT_PHOTO_FROM_GALLARY);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.navigation, menu);
+        inflater.inflate(R.menu.upload_profile_pic_menu, menu);
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -206,6 +239,7 @@ public class ProfileFragment extends Fragment {
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
                     profilePic.setImageURI(selectedImage);
+                    //TODO: Code to send new photo to the database
                 }
 
                 break;
