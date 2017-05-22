@@ -1,11 +1,11 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,35 +15,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.MainActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,8 +42,12 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
  */
 public class ProfileFragment extends Fragment {
 
+    static final String TAG = ProfileFragment.class.getSimpleName();
+    static final int RESULT_PHOTO_FROM_GALLARY = 501;
+    static final int RESULT_PHOTO_FROM_CAMERA = 502;
+
     private OnFragmentInteractionListener mListener;
-    ImageView imageView;
+    ImageView profilePic;
 
     private ViewPager viewPager;
 
@@ -84,9 +75,19 @@ public class ProfileFragment extends Fragment {
         Toolbar toolbar = (Toolbar) root.findViewById(R.id.mToolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-        imageView = (ImageView) root.findViewById(R.id.imageView);
+        profilePic = (ImageView) root.findViewById(R.id.profile_pic);
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto , RESULT_PHOTO_FROM_GALLARY);
+            }
+        });
+
         byte[] decodedString = Base64.decode(PreferenceHandler.getProfilePic(), Base64.DEFAULT);
-        imageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+        profilePic.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(false);
         ab.setTitle(PreferenceHandler.getScreenName());
@@ -192,6 +193,30 @@ public class ProfileFragment extends Fragment {
         inflater.inflate(R.menu.navigation, menu);
         super.onCreateOptionsMenu(menu,inflater);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(requestCode) {
+            case RESULT_PHOTO_FROM_CAMERA:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    profilePic.setImageURI(selectedImage);
+                }
+
+                break;
+            case RESULT_PHOTO_FROM_GALLARY:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    profilePic.setImageURI(selectedImage);
+
+                    //TODO: Code to send new photo to the database
+
+                }
+                break;
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
