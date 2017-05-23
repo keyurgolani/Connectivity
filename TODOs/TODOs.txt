@@ -1,0 +1,7 @@
+While Signup, the app tries to cache the profile. Where it has no photo ID in the database and it tries to fetch photo with the NULL ID. Here, there's an error in console. Doesn't harm anything. But the profile caching might be affected due to it. Needs fix.
+
+While opening the "Profile" for anyone, the app is fetching the information from cache currently. We want to reuse the same fragment to show other people's profile too. Need to change the logic to make a rest call while showing this fragment for the profile details and populate those.
+
+Need to store the photos uploaded by user while adding a post into the mongodb store.
+
+Need to show the photos of a post within the post fetched from the mongodb store.

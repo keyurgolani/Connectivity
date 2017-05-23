@@ -307,3 +307,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/java,node,macos,linux,android,windows,androidstudio
+Connectivity/app/src/main/assets/properties.properties
