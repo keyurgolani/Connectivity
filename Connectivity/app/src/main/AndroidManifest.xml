@@ -58,14 +58,15 @@
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.MainTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <activity
             android:name=".activities.CreateNewMessageActivity"
             android:label="@string/title_activity_create_new_msg"
             android:theme="@style/AppTheme.MainTheme"
             android:windowSoftInputMode="adjustPan|stateHidden"
-            tools:targetApi="jelly_bean">=
+            tools:targetApi="jelly_bean">
+            =
         </activity>
+        <activity android:name=".activities.OtherUserProfileActivity"></activity>
     </application>
 
 </manifest>

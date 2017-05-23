@@ -87,7 +87,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableTop="@android:drawable/ic_menu_camera"
+                android:drawableTop="@drawable/ic_camera"
                 android:text="Take Picture" />
 
 
@@ -96,7 +96,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableTop="@android:drawable/ic_menu_gallery"
+                android:drawableTop="@drawable/ic_gallery"
                 android:text="Add Picture" />
 
         </LinearLayout>

@@ -6,9 +6,11 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -103,11 +105,23 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        final MenuItem menuItem = menu.add(Menu.NONE, 420, Menu.NONE, null);
+        menuItem.setIcon(R.drawable.ic_logout);
+        MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case 420:
+                //TODO: Do logout
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }

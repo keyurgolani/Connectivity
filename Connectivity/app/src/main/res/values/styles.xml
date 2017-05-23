@@ -60,7 +60,7 @@
 
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:src">@android:drawable/ic_menu_edit</item>
+        <item name="android:src">@drawable/ic_edit</item>
     </style>
 
 </resources>

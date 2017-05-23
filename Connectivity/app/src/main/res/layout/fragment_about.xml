@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
     <LinearLayout
@@ -62,7 +63,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_person_black_24dp"
+                    android:drawableTop="@drawable/ic_edit"
                     android:text="Edit Details" />
 
 
@@ -71,7 +72,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_person_black_24dp"
+                    android:drawableTop="@drawable/ic_settings"
                     android:text="Settings" />
 
             </LinearLayout>
@@ -85,7 +86,6 @@
             android:layout_marginRight="7dp"
             android:layout_marginTop="7dp"
             android:backgroundTint="@color/colorPrimaryLighter"
-            android:padding="5dp"
             card_view:cardCornerRadius="4dp"
             card_view:elevation="14dp">
 
@@ -94,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:padding="5dp"
                 android:weightSum="1">
 
 
@@ -103,7 +104,6 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/profile_pic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
@@ -148,11 +148,10 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        app:srcCompat="@drawable/ic_person_black_24dp" />
+                        app:srcCompat="@drawable/ic_messages" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -197,7 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        app:srcCompat="@drawable/ic_person_black_24dp" />
+                        app:srcCompat="@drawable/ic_location" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -242,7 +241,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        app:srcCompat="@drawable/ic_person_black_24dp" />
+                        app:srcCompat="@drawable/ic_work" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -287,7 +286,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        app:srcCompat="@drawable/ic_person_black_24dp" />
+                        app:srcCompat="@drawable/ic_about" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -333,7 +332,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        app:srcCompat="@drawable/ic_person_black_24dp" />
+                        app:srcCompat="@drawable/ic_interests" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

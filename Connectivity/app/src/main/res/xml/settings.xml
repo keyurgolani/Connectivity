@@ -4,23 +4,25 @@
         android:title="Profile">
         <ListPreference
             android:defaultValue="1"
-            android:dialogIcon="@drawable/ic_home_black_24dp"
+            android:dialogIcon="@drawable/ic_visibility"
             android:entries="@array/profile_visibility_entries"
             android:entryValues="@array/profile_visibility_values"
-            android:icon="@drawable/ic_home_black_24dp"
+            android:icon="@drawable/ic_visibility"
             android:key="profile_visibility"
             android:summary="Choose who can see your profile."
             android:title="Profile Visibility" />
 
         <EditTextPreference
             android:defaultValue="gauravchodwadia@gmail.com"
-            android:dialogIcon="@android:drawable/ic_dialog_email"
-            android:icon="@android:drawable/ic_dialog_email"
+            android:dialogIcon="@drawable/ic_messages"
+            android:icon="@drawable/ic_messages"
             android:key="email_id"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="Change Email ID for ConActivity."
             android:title="Email ID" />
+
+
     </PreferenceCategory>
 
     <PreferenceCategory

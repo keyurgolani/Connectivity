@@ -2,9 +2,12 @@ package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,8 +98,20 @@ public class AboutFragment extends Fragment {
                 switch (v.getId()){
                     case R.id.btn_edit_profile:
                         if(btnEdit.getText().equals("Edit Details")){
+                            btnEdit.setText("Save Details");
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                btnEdit.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.colorPrimary));
+                            }
+                            Drawable top = getResources().getDrawable(R.drawable.ic_save);
+                            btnEdit.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
                             changeToEditableText();
                         } else if (btnEdit.getText().equals("Save Details")) {
+                            btnEdit.setText("Edit Details");
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                btnEdit.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.colorPrimaryLighter));
+                            }
+                            Drawable top = getResources().getDrawable(R.drawable.ic_edit);
+                            btnEdit.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
                             doEditProfile();
                         }
                         break;
@@ -186,7 +201,6 @@ public class AboutFragment extends Fragment {
     }
 
     public void doEditProfile(){
-        btnEdit.setText("Edit Details");
         screen_name.setFocusableInTouchMode(false);
         email_id.setFocusableInTouchMode(false);
         location.setFocusableInTouchMode(false);
@@ -199,7 +213,6 @@ public class AboutFragment extends Fragment {
         final String professionStr = profession.getText().toString();
         final String aboutMeStr = aboutme.getText().toString();
         final String interestStr = interests.getText().toString();
-        btnEdit.setBackgroundColor(btnEdit.getContext().getResources().getColor(R.color.white));
         HashMap<String, String> params = new HashMap<String, String>();
         String unique_id = PreferenceHandler.getAccessKey();
         params.put("unique_id",unique_id);
@@ -237,8 +250,6 @@ public class AboutFragment extends Fragment {
     }
 
     public void changeToEditableText(){
-        btnEdit.setBackgroundColor(btnEdit.getContext().getResources().getColor(R.color.colorPrimary));
-        btnEdit.setText("Save Details");
         screen_name.setFocusableInTouchMode(true);
         email_id.setFocusableInTouchMode(true);
         location.setFocusableInTouchMode(true);
