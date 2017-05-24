@@ -240,9 +240,13 @@ router.post('/post', function(req, res, next) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-					timeline_bo.addPost(profile_id, req.body.post, exists(req.body.photo) ? req.body.photo : 0, res);
-
-
+					if (exists(req.body.photo)) {
+						photo_bo.setPhoto(req.db, req.body.photo, function(photo_result) {
+							timeline_bo.addPost(profile_id, req.body.post, photo_result._id, res);
+						})
+					} else {
+						timeline_bo.addPost(profile_id, req.body.post, 0, res);
+					}
 				});
 			} else {
 				res.send({

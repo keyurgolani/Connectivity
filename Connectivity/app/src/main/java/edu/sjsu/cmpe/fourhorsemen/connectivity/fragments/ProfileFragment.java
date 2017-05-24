@@ -43,6 +43,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 
+import static android.R.attr.data;
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -236,13 +237,22 @@ public class ProfileFragment extends Fragment {
             case RESULT_PHOTO_FROM_CAMERA:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    profilePic.setImageURI(selectedImage);
+                    if(selectedImage == null) {
+                        profilePic.setImageBitmap((Bitmap)imageReturnedIntent.getExtras().get("data"));
+                    } else {
+                        profilePic.setImageURI(selectedImage);
+                    }
                     HashMap<String, String> params = new HashMap<String, String>();
                     params.put("unique_id", PreferenceHandler.getAccessKey());
-                    params.put("profile_pic", Utilities.encodePhoto(getContext(), selectedImage));
+                    if(selectedImage == null) {
+                        params.put("profile_pic", Utilities.encodePhoto(getContext(), (Bitmap)imageReturnedIntent.getExtras().get("data")));
+                    } else {
+                        params.put("profile_pic", Utilities.encodePhoto(getContext(), selectedImage));
+                    }
                     RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_UPDATE_PROFILE, params, new ResponseHandler() {
                         @Override
                         public void handleSuccess(JSONObject response) throws Exception {
+                            Utilities.cacheProfile(getContext());
                             Snackbar.make(getView(), "Photo Updated Successfully", Snackbar.LENGTH_SHORT).show();
                         }
 
@@ -251,7 +261,6 @@ public class ProfileFragment extends Fragment {
 
                         }
                     });
-                    //TODO: Code to send new photo to the database
                 }
 
                 break;
@@ -265,6 +274,7 @@ public class ProfileFragment extends Fragment {
                     RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_UPDATE_PROFILE, params, new ResponseHandler() {
                         @Override
                         public void handleSuccess(JSONObject response) throws Exception {
+                            Utilities.cacheProfile(getContext());
                             Snackbar.make(getView(), "Photo Updated Successfully", Snackbar.LENGTH_SHORT).show();
                         }
 
@@ -273,7 +283,6 @@ public class ProfileFragment extends Fragment {
 
                         }
                     });
-                    //TODO: Code to send new photo to the database
 
                 }
                 break;
