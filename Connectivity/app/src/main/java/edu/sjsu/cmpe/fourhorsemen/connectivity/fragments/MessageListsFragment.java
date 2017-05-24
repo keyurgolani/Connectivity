@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,8 +70,11 @@ public class MessageListsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message_list, container, false);
 
+        Log.d("message list ----", "tryong to set adapter");
         // Set the adapter
         if (view instanceof RecyclerView) {
+
+            Log.d("message list ----", "got instance of RecycleView");
             Context context = view.getContext();
             recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -81,7 +85,9 @@ public class MessageListsFragment extends Fragment {
                 mAdapter = new MyMessageRecyclerViewAdapter(getMessages(getContext()).second, mListener);
             }
 
+            Log.d("message list ----", " recyclerView.setAdapter(mAdapter);");
             recyclerView.setAdapter(mAdapter);
+
         }
         return view;
     }
@@ -92,12 +98,17 @@ public class MessageListsFragment extends Fragment {
         final List<Message> sent = new ArrayList<Message>();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());
+
+
+//        Fetch messages method
         RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_MESSAGES, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws Exception {
                 if(response.getInt("status_code") == 200) {
                     JSONArray sentMessages = response.getJSONObject("message").getJSONArray("from_messages");
+                    Log.d("sentmsg", sentMessages.toString());
                     JSONArray receivedMessages = response.getJSONObject("message").getJSONArray("to_messages");
+                    Log.d("receivedmsg", receivedMessages.toString());
                     for(int i  = 0; i < sentMessages.length(); i++) {
                         JSONObject currentObj = sentMessages.getJSONObject(i);
                         sent.add(new Message(currentObj.getInt("message_id"),
@@ -112,7 +123,7 @@ public class MessageListsFragment extends Fragment {
                     for(int i  = 0; i < receivedMessages.length(); i++) {
                         JSONObject currentObj = receivedMessages.getJSONObject(i);
                         received.add(new Message(currentObj.getInt("message_id"),
-                                new Profile(currentObj.getInt("from"),
+                                new Profile(currentObj.getInt("profile"),
                                         currentObj.getString("profile_pic"),
                                         currentObj.getString("screen_name")),
                                 new Profile(),
