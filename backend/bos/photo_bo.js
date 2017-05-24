@@ -9,9 +9,11 @@ var ObjectID = require('mongodb').ObjectID;
 
 
 module.exports.getPhoto = function(db, photoID, processResult) {
-	db.get('photos').find({
+	db.get('photos').findOne({
 		'_id': new ObjectID(photoID)
-	}).then(processResult, function(error) {
+	}).then(function(result) {
+		processResult(result);
+	}, function(error) {
 		throw error;
 	});
 };

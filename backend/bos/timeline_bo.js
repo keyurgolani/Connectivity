@@ -11,33 +11,41 @@ var profile_bo = require('./profile_bo');
 
 module.exports.fetchOwnTimeline = function(db, profile, res) {
 	dao.executeQuery('select distinct * from post_details, profile_details where profile = profile_id and (profile in (select friend from connection_details where profile = ? and pending = 0) or profile in (select profile from connection_details where friend = ? and pending = 0) or profile in (select following from follow_details, preference_details where follow_details.profile = ? and follow_details.following = preference_details.profile and preference_details.public = 1) or profile = ?) ORDER BY post_details.timestamp desc;', [profile, profile, profile, profile], function(timeline_result) {
-		var fetchImageFunc = function(i) {
-			return function(callback) {
-				if (timeline_result[i].profile_pic != 0) {
-					db.get('photos').find({
-						'_id': new ObjectID(timeline_result[i].profile_pic)
-					}).then(function(result) {
-						callback(null, result);
-					}, function(error) {
-						callback(error, null);
-					});
-				}
-			};
-		};
-		var fetchImageFuncs = []
+		var photo_ids = []
 		for (var i = 0; i < timeline_result.length; i++) {
 			timeline_result[i].timestamp = moment(timeline_result[i].timestamp, "YYYY-MM-DDTHH:mm:ss.SSSZ").fromNow();
-			fetchImageFuncs.push(fetchImageFunc(i))
+			if (timeline_result[i].profile_pic != 0 && photo_ids.indexOf(timeline_result[i].profile_pic) === -1) {
+				photo_ids.push(new ObjectID(timeline_result[i].profile_pic))
+			}
+			if (timeline_result[i].photo != 0 && photo_ids.indexOf(timeline_result[i].photo) === -1) {
+				photo_ids.push(new ObjectID(timeline_result[i].photo))
+			}
 		}
-		async.parallel(fetchImageFuncs, function(error, results) {
-			console.log('results', results);
-			for (var i = 0; i < timeline_result.length; i++) {
-				timeline_result[i].profile_pic = results[i][0].photo
+		db.get("photos").find({
+			'_id': {
+				$in: photo_ids
+			}
+		}).then(function(results) {
+			photo_results = {};
+			for (var j = 0; j < photo_ids.length; j++) {
+				if (exists(results[j])) {
+					photo_results[photo_ids[j]] = results[j].photo;
+				}
+			}
+			for (var k = 0; k < timeline_result.length; k++) {
+				if (exists(photo_results[timeline_result[k].profile_pic])) {
+					timeline_result[k].profile_pic = photo_results[timeline_result[k].profile_pic];
+				}
+				if (exists(photo_results[timeline_result[k].photo])) {
+					timeline_result[k].photo = photo_results[timeline_result[k].photo];
+				}
 			}
 			res.send({
 				'status_code': 200,
 				'message': timeline_result
 			})
+		}, function(error) {
+			throw error;
 		})
 	});
 };

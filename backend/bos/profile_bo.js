@@ -18,7 +18,9 @@ module.exports.fetchProfile = function(db, params, res) {
 		if (profile_result.length > 0) {
 			if (exists(profile_result[0].profile_pic)) {
 				photo_bo.getPhoto(db, profile_result[0].profile_pic, function(photo_result) {
-					profile_result[0].profile_pic = photo_result[0].photo;
+					if (exists(photo_result)) {
+						profile_result[0].profile_pic = photo_result[0].photo;
+					}
 					res.send({
 						"status_code": 200,
 						"message": profile_result

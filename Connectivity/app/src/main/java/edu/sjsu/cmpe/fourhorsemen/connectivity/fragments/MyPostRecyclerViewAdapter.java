@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         TextView timestamp;
         TextView postContent;
         ImageView userPhoto;
+        ImageView postPhoto;
 
         PostViewHolder(View itemView) {
             super(itemView);
@@ -53,6 +55,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             timestamp = (TextView)itemView.findViewById(R.id.timestamp);
             postContent = (TextView)itemView.findViewById(R.id.post_content);
             userPhoto = (ImageView)itemView.findViewById(R.id.user_photo);
+            postPhoto = (ImageView) itemView.findViewById(R.id.post_photo);
         }
     }
 
@@ -60,6 +63,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         CardView cv;
         EditText newPostContent;
         ImageView userPhoto;
+        ImageView postPhoto;
         Context context;
 
         CreatePostViewHolder(View itemView) {
@@ -68,6 +72,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             cv = (CardView)itemView.findViewById(R.id.cv_post);
             userPhoto = (ImageView)itemView.findViewById(R.id.user_photo);
             newPostContent = (EditText)itemView.findViewById(R.id.new_post_content);
+            postPhoto = (ImageView) itemView.findViewById(R.id.post_photo);
         }
     }
 
@@ -99,7 +104,11 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 pvholder.postContent.setText(posts.get(position-1).getContent());
                 decodedString = Base64.decode(posts.get(position-1).getFrom().getProfile_pic(), Base64.DEFAULT);
                 pvholder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
-
+                if(!posts.get(position-1).getPostPhoto().equals("0")) {
+                    decodedString = Base64.decode(posts.get(position-1).getPostPhoto(), Base64.DEFAULT);
+                    pvholder.postPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+                    pvholder.postPhoto.setVisibility(View.VISIBLE);
+                }
 //                pvholder.itemView.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {

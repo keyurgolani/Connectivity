@@ -261,7 +261,6 @@ public class ProfileFragment extends Fragment {
 
                         }
                     });
-                    //TODO: Code to send new photo to the database
                 }
 
                 break;
@@ -284,7 +283,6 @@ public class ProfileFragment extends Fragment {
 
                         }
                     });
-                    //TODO: Code to send new photo to the database
 
                 }
                 break;

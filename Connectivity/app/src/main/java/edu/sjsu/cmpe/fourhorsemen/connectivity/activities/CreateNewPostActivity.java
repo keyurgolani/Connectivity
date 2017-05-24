@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -39,6 +40,8 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
@@ -48,6 +51,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
     private static String TAG = CreateNewPostActivity.class.getSimpleName();
     static final int RESULT_PHOTO_FROM_GALLARY_POST = 503;
     static final int RESULT_PHOTO_FROM_CAMERA_POST = 504;
+    private String postPhoto = "";
 
     @Bind(R.id.new_post_content) EditText newPost;
     @Bind(R.id.user_photo) ImageView user_photo;
@@ -119,9 +123,18 @@ public class CreateNewPostActivity extends AppCompatActivity {
             case RESULT_PHOTO_FROM_CAMERA_POST:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
+                    if(selectedImage == null) {
+                        imgPost.setImageBitmap((Bitmap)imageReturnedIntent.getExtras().get("data"));
+                    } else {
+                        imgPost.setImageURI(selectedImage);
+                    }
                     imgPost.setImageURI(selectedImage);
                     imgPost.setVisibility(View.VISIBLE);
-                    //TODO: Code to send post with photo to the database
+                    if(selectedImage == null) {
+                        postPhoto = Utilities.encodePhoto(getApplicationContext(), (Bitmap)imageReturnedIntent.getExtras().get("data"));
+                    } else {
+                        postPhoto = Utilities.encodePhoto(getApplicationContext(), selectedImage);
+                    }
                 }
 
                 break;
@@ -130,8 +143,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
                     Uri selectedImage = imageReturnedIntent.getData();
                     imgPost.setImageURI(selectedImage);
                     imgPost.setVisibility(View.VISIBLE);
-                    //TODO: Code to send post with photo to the database
-
+                    postPhoto = Utilities.encodePhoto(getApplicationContext(), selectedImage);
                 }
                 break;
         }
@@ -142,6 +154,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
         String unique_id = PreferenceHandler.getAccessKey();
         params.put("post", newPostStr);
         params.put("unique_id",unique_id);
+        params.put("photo", postPhoto);
         RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_ADD_POST, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws JSONException {
@@ -149,7 +162,6 @@ public class CreateNewPostActivity extends AppCompatActivity {
                     case 200:
                         onAddPostSuccess();
                         break;
-
                 }
             }
 
