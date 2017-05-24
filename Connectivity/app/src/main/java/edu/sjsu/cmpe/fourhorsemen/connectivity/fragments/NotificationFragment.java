@@ -92,6 +92,9 @@ public class NotificationFragment extends Fragment{
         final List<Notification> notificationsList = new ArrayList<Notification>();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());
+
+
+//        Calling get notification method
         RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_GET_NOTIFICATIONS, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws Exception {

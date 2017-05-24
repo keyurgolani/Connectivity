@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,8 @@ import java.util.List;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.CreateNewMessageActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.CreateNewPostActivity;
+
+import static edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,6 +77,7 @@ public class MessageFragment extends Fragment {
             ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
             adapter.addFrag(MessageListsFragment.newInstance(MessageListsFragment.INBOX_LIST), "Inbox");
             adapter.addFrag(MessageListsFragment.newInstance(MessageListsFragment.SENT_LIST), "Sent");
+
             viewPager.setAdapter(adapter);
         }
 
