@@ -1,9 +1,14 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.utilities;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Looper;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.support.v4.content.CursorLoader;
 import android.util.Base64;
 import android.util.Log;
 
@@ -57,11 +62,9 @@ public class Utilities {
                             profile_array.getString("location"),
                             profile_array.getString("profession"),
                             profile_array.getString("screen_name"),
+                            profile_array.getString("interests"),
                             profile_array.getString("about_me"),
                             profile_array.getString("profile_pic"),
-                            profile_array.getString("dob"),
-                            profile_array.getString("gender"),
-                            profile_array.getString("interests"),
                             profile_array.getString("timestamp"));
                 } else {
                     // Don't tell the user if we can't cache the profile ;)
@@ -75,13 +78,6 @@ public class Utilities {
         });
     }
 
-    public static void getBase64Image(Context context, String imageID, ResponseHandler rh) {
-        HashMap<String, String> profile_params = new HashMap<String, String>();
-        profile_params.put("unique_id", PreferenceHandler.getAccessKey());
-        profile_params.put("photo_id", imageID);
-        RequestHandler.HTTPRequest(context, ProjectProperties.METHOD_GET_PHOTO, profile_params, rh);
-    }
-
     public static String encodePhoto(Context context, Uri photoUri) {
         String encodedString = "";
         final InputStream imageStream;
@@ -89,11 +85,20 @@ public class Utilities {
             imageStream = context.getContentResolver().openInputStream(photoUri);
             final Bitmap image = BitmapFactory.decodeStream(imageStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG,100,baos);
+            image.compress(Bitmap.CompressFormat.JPEG,10,baos);
             encodedString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return encodedString;
+    }
+
+    public static String encodePhoto(Context context, Bitmap photo) {
+        String encodedString = "";
+        final InputStream imageStream;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG,10,baos);
+        encodedString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         return encodedString;
     }
 }

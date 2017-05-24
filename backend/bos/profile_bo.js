@@ -16,7 +16,7 @@ module.exports.fetchProfile = function(db, params, res) {
 	}
 	dao.fetchData('*', 'profile_details', queryParams, function(profile_result) {
 		if (profile_result.length > 0) {
-			if (profile_result[0].profile_pic !== null) {
+			if (exists(profile_result[0].profile_pic)) {
 				photo_bo.getPhoto(db, profile_result[0].profile_pic, function(photo_result) {
 					profile_result[0].profile_pic = photo_result[0].photo;
 					res.send({
