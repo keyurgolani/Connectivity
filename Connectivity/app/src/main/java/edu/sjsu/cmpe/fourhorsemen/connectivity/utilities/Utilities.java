@@ -1,10 +1,17 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.utilities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Base64;
 import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.MainActivity;
@@ -51,23 +58,11 @@ public class Utilities {
                             profile_array.getString("profession"),
                             profile_array.getString("screen_name"),
                             profile_array.getString("about_me"),
+                            profile_array.getString("profile_pic"),
                             profile_array.getString("dob"),
                             profile_array.getString("gender"),
                             profile_array.getString("interests"),
                             profile_array.getString("timestamp"));
-                    getBase64Image(context, profile_array.getString("profile_pic"), new ResponseHandler() {
-                        @Override
-                        public void handleSuccess(JSONObject response) throws Exception {
-                            if(response.getInt("status_code") == 200) {
-                                PreferenceHandler.putKey("profile_pic", response.getString("message"));
-                            }
-                        }
-
-                        @Override
-                        public void handleError(Exception e) throws Exception {
-                            // Don't tell the user if we can't cache the profile ;)
-                        }
-                    });
                 } else {
                     // Don't tell the user if we can't cache the profile ;)
                 }
@@ -85,5 +80,20 @@ public class Utilities {
         profile_params.put("unique_id", PreferenceHandler.getAccessKey());
         profile_params.put("photo_id", imageID);
         RequestHandler.HTTPRequest(context, ProjectProperties.METHOD_GET_PHOTO, profile_params, rh);
+    }
+
+    public static String encodePhoto(Context context, Uri photoUri) {
+        String encodedString = "";
+        final InputStream imageStream;
+        try {
+            imageStream = context.getContentResolver().openInputStream(photoUri);
+            final Bitmap image = BitmapFactory.decodeStream(imageStream);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.JPEG,100,baos);
+            encodedString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return encodedString;
     }
 }

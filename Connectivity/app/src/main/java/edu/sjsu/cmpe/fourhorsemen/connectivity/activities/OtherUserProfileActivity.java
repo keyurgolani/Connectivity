@@ -28,7 +28,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.tab_viewpager);
         if (viewPager != null){
-            ViewPagerAdapter adapter = new ViewPagerAdapter(this.getFragmentManager());
+            ViewPagerAdapter adapter = new ViewPagerAdapter(this.getSupportFragmentManager());
             adapter.addFrag(AboutFragment.newInstance(), "About");
             adapter.addFrag(PostFragment.newInstanceForProfile(1, Integer.parseInt(PreferenceHandler.getProfileID())), "My Posts");
             adapter.addFrag(new PostFragment(), "Albums");

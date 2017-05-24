@@ -3,9 +3,10 @@
 var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
+var photo_bo = require('./photo_bo');
 
 
-module.exports.fetchProfile = function(params, res) {
+module.exports.fetchProfile = function(db, params, res) {
 	var queryParams = {};
 	if (exists(params.profile_id)) {
 		queryParams.profile_id = params.profile_id;
@@ -15,10 +16,20 @@ module.exports.fetchProfile = function(params, res) {
 	}
 	dao.fetchData('*', 'profile_details', queryParams, function(profile_result) {
 		if (profile_result.length > 0) {
-			res.send({
-				"status_code": 200,
-				"message": profile_result
-			});
+			if (profile_result[0].profile_pic !== null) {
+				photo_bo.getPhoto(db, profile_result[0].profile_pic, function(photo_result) {
+					profile_result[0].profile_pic = photo_result[0].photo;
+					res.send({
+						"status_code": 200,
+						"message": profile_result
+					});
+				})
+			} else {
+				res.send({
+					"status_code": 200,
+					"message": profile_result
+				});
+			}
 		} else {
 			res.send({
 				"status_code": 500,
@@ -44,16 +55,10 @@ module.exports.getIDFromUniqueID = function(uniqueID, processResult) {
 	});
 };
 
-module.exports.updateProfile = function(params, res) {
+module.exports.updateProfile = function(db, params, res) {
 	var updateParams = {};
-	if (exists(params.f_name)) {
-		updateParams.f_name = params.f_name;
-	}
-	if (exists(params.l_name)) {
-		updateParams.l_name = params.l_name;
-	}
-	if (exists(params.profile_pic)) {
-		updateParams.profile_pic = params.profile_pic;
+	if (exists(params.fullname)) {
+		updateParams.fullname = params.fullname;
 	}
 	if (exists(params.location)) {
 		updateParams.location = params.location;
@@ -74,19 +79,38 @@ module.exports.updateProfile = function(params, res) {
 	} else {
 		queryParams.account = params.account;
 	}
-	dao.updateData('profile_details', updateParams, queryParams, function(profile_result) {
-		if (profile_result.affectedRows === 1) {
-			res.send({
-				"status_code": 200,
-				"message": "Update Success"
-			});
-		} else {
-			res.send({
-				"status_code": 500,
-				"message": "Internal Error"
-			});
-		}
-	})
+	if (exists(params.profile_pic)) {
+		photo_bo.setPhoto(db, params.profile_pic, function(photo_result) {
+			updateParams.profile_pic = photo_result._id;
+			dao.updateData('profile_details', updateParams, queryParams, function(profile_result) {
+				if (profile_result.affectedRows === 1) {
+					res.send({
+						"status_code": 200,
+						"message": "Update Success"
+					});
+				} else {
+					res.send({
+						"status_code": 500,
+						"message": "Internal Error"
+					});
+				}
+			})
+		})
+	} else {
+		dao.updateData('profile_details', updateParams, queryParams, function(profile_result) {
+			if (profile_result.affectedRows === 1) {
+				res.send({
+					"status_code": 200,
+					"message": "Update Success"
+				});
+			} else {
+				res.send({
+					"status_code": 500,
+					"message": "Internal Error"
+				});
+			}
+		})
+	}
 };
 
 // Follow profile
@@ -153,23 +177,21 @@ module.exports.addFriend = function(profile, friend, res) {
 module.exports.updateSettings = function(params, res) {
 	updateParams = {}
 	console.log(params.value);
-	if (params.preference=='profile_visibility') {
-		if(params.value=='1')
+	if (params.preference == 'profile_visibility') {
+		if (params.value == '1')
 			updateParams.public = 0; //if visibility is Friends Only
 		else
 			updateParams.public = 1; // if visiblity is public
-	}
-	else if (params.preference=='email_notifications') {
-		if(params.value=='true'){
+	} else if (params.preference == 'email_notifications') {
+		if (params.value == 'true') {
 			updateParams.email_notification = 1; //if email notification is on
-		}else{
+		} else {
 			updateParams.email_notification = 0; //if email notification is off
 		}
-	}
-	else if(exists(params.preference=='push_notifications')){
-		if(params.value=='true'){
+	} else if (exists(params.preference == 'push_notifications')) {
+		if (params.value == 'true') {
 			updateParams.push_notification = 1; //if email notification is on
-		}else{
+		} else {
 			updateParams.push_notification = 0; //if email notification is off
 		}
 	}
@@ -201,8 +223,8 @@ module.exports.fetchReceivers = function(profile_id, processResult) {
 	});
 };
 
-module.exports.getSettingsFromUniqueID = function(unique_id, settingResults){
-	dao.executeQuery('select profile_id, user_id, email, pr.* from profile_details p, account_details a, preference_details pr where p.account = a.user_id and p.profile_id = pr.profile and unique_id = ?;',unique_id, function(setting_results) {
+module.exports.getSettingsFromUniqueID = function(unique_id, settingResults) {
+	dao.executeQuery('select profile_id, user_id, email, pr.* from profile_details p, account_details a, preference_details pr where p.account = a.user_id and p.profile_id = pr.profile and unique_id = ?;', unique_id, function(setting_results) {
 		settingResults(setting_results);
 	});
 }

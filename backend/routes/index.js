@@ -95,11 +95,10 @@ router.post('/updateProfile', function(req, res, next) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-					profile_bo.updateProfile({
+					profile_bo.updateProfile(req.db, {
 						'profile_id': profile_id,
 						'account': user_id,
-						'f_name': req.body.f_name,
-						'l_name': req.body.l_name,
+						'fullname': req.body.fullname,
 						'profile_pic': req.body.profile_pic,
 						'location': req.body.location,
 						'profession': req.body.profession,
@@ -129,13 +128,13 @@ router.post('/fetchProfile', function(req, res, next) {
 			if (isValid) {
 				if ((exists(req.body.profile_id) && isNum(req.body.profile_id)) ||
 					(exists(req.body.account_id) && isNum(req.body.account_id))) {
-					profile_bo.fetchProfile({
+					profile_bo.fetchProfile(req.db, {
 						'profile_id': req.body.profile_id,
 						'account': req.body.account_id
 					}, res);
 				} else {
 					profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-						profile_bo.fetchProfile({
+						profile_bo.fetchProfile(req.db, {
 							'profile_id': profile_id
 						}, res);
 					});

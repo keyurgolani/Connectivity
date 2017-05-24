@@ -15,3 +15,11 @@ module.exports.getPhoto = function(db, photoID, processResult) {
 		throw error;
 	});
 };
+
+module.exports.setPhoto = function(db, photo, processResult) {
+	db.get('photos').insert({
+		'photo': photo
+	}).then(processResult, function(error) {
+		throw error;
+	});
+};

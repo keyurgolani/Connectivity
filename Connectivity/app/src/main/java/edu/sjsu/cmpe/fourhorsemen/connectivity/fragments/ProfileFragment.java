@@ -2,12 +2,14 @@ package edu.sjsu.cmpe.fourhorsemen.connectivity.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,12 +27,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.MainActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -226,6 +237,20 @@ public class ProfileFragment extends Fragment {
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
                     profilePic.setImageURI(selectedImage);
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    params.put("unique_id", PreferenceHandler.getAccessKey());
+                    params.put("profile_pic", Utilities.encodePhoto(getContext(), selectedImage));
+                    RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_UPDATE_PROFILE, params, new ResponseHandler() {
+                        @Override
+                        public void handleSuccess(JSONObject response) throws Exception {
+                            Snackbar.make(getView(), "Photo Updated Successfully", Snackbar.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void handleError(Exception e) throws Exception {
+
+                        }
+                    });
                     //TODO: Code to send new photo to the database
                 }
 
@@ -234,7 +259,20 @@ public class ProfileFragment extends Fragment {
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
                     profilePic.setImageURI(selectedImage);
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    params.put("unique_id", PreferenceHandler.getAccessKey());
+                    params.put("profile_pic", Utilities.encodePhoto(getContext(), selectedImage));
+                    RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_UPDATE_PROFILE, params, new ResponseHandler() {
+                        @Override
+                        public void handleSuccess(JSONObject response) throws Exception {
+                            Snackbar.make(getView(), "Photo Updated Successfully", Snackbar.LENGTH_SHORT).show();
+                        }
 
+                        @Override
+                        public void handleError(Exception e) throws Exception {
+
+                        }
+                    });
                     //TODO: Code to send new photo to the database
 
                 }

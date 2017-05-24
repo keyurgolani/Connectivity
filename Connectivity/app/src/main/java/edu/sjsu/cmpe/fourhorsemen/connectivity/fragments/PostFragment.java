@@ -120,7 +120,7 @@ public class PostFragment extends Fragment {
         if(profileID != 0) {
             params.put("profile", String.valueOf(profileID));
         }
-        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
+        RequestHandler.HTTPRequest(context, ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws Exception {
                 if(response.getInt("status_code") == 200) {
