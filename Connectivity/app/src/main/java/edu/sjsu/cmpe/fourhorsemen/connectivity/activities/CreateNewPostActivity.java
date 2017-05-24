@@ -66,7 +66,6 @@ public class CreateNewPostActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
-        Log.d("Profile Photo", PreferenceHandler.getProfilePic());
         byte[] decodedString = Base64.decode(PreferenceHandler.getProfilePic(), Base64.DEFAULT);
         user_photo.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
         user_name.setText(PreferenceHandler.getScreenName());
