@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
@@ -35,6 +37,7 @@ public class MyMessageRecyclerViewAdapter extends RecyclerView.Adapter<MyMessage
         TextView screen_name;
         TextView timestamp;
         TextView subject;
+        TextView msg_content;
         ImageView userPhoto;
 
         ViewHolder(View itemView) {
@@ -44,6 +47,7 @@ public class MyMessageRecyclerViewAdapter extends RecyclerView.Adapter<MyMessage
             timestamp = (TextView)itemView.findViewById(R.id.timestamp);
             subject = (TextView)itemView.findViewById(R.id.subject);
             userPhoto = (ImageView)itemView.findViewById(R.id.user_photo);
+            msg_content = (TextView)itemView.findViewById(R.id.message_content);
         }
     }
 
@@ -58,7 +62,8 @@ public class MyMessageRecyclerViewAdapter extends RecyclerView.Adapter<MyMessage
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.screen_name.setText(messages.get(position).getFrom().getScreen_name());
         holder.timestamp.setText(messages.get(position).getTimestamp());
-        holder.subject.setText(messages.get(position).getContent());
+        holder.subject.setText(messages.get(position).getSubject());
+        holder.msg_content.setText(messages.get(position).getContent());
         if(messages.get(position).getFrom().getProfile_pic()!= null) {
             byte[] decodedString = Base64.decode(messages.get(position).getFrom().getProfile_pic(), Base64.DEFAULT);
             holder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
