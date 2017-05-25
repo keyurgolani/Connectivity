@@ -9,13 +9,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Date;
 import java.util.HashMap;
 
 import android.view.MenuItem;

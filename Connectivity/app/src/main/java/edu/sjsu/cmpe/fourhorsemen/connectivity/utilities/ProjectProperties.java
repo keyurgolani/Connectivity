@@ -42,6 +42,8 @@ public class ProjectProperties {
             METHOD_UPDATE_SETTINGS = prop.getProperty("METHOD_UPDATE_SETTINGS");
             METHOD_GET_RECEIVED_REQUEST = prop.getProperty("METHOD_GET_RECEIVED_REQUEST");
             METHOD_GET_SENT_REQUEST = prop.getProperty("METHOD_GET_SENT_REQUEST");
+            METHOD_ACCEPT_FRIEND = prop.getProperty("METHOD_ACCEPT_FRIEND");
+            METHOD_DECLINE_REQUEST = prop.getProperty("METHOD_DECLINE_REQUEST");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,6 +77,8 @@ public class ProjectProperties {
     public static String METHOD_UPDATE_SETTINGS;
     public static String METHOD_GET_RECEIVED_REQUEST;
     public static String METHOD_GET_SENT_REQUEST;
+    public static String METHOD_ACCEPT_FRIEND;
+    public static String METHOD_DECLINE_REQUEST;
 
 
 

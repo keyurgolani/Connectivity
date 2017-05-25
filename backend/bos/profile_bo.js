@@ -249,3 +249,35 @@ module.exports.fetchNewPendingRequest = function(profile_id, processResult) {
 		processResult(newRequest_results);
 	});
 };
+
+module.exports.acceptRequest = function(profile, friend, res) {
+	dao.executeQuery("Update connection_details set pending = 0 where profile = ? and friend = ?", [friend, profile], function(result) {
+		if (result.affectedRows === 1) {
+			res.send({
+				"status_code": 200,
+				"message": "Friend Added"
+			})
+		} else {
+			res.send({
+				"status_code": 401,
+				"message": "Internal Error"
+			})
+		}
+	})
+};
+
+module.exports.declineRequest = function(profile, friend, res) {
+	dao.executeQuery("delete from connection_details where profile = ? and friend = ?", [friend, profile], function(result) {
+		if (result.affectedRows === 1) {
+			res.send({
+				"status_code": 200,
+				"message": "Request Deleted"
+			})
+		} else {
+			res.send({
+				"status_code": 401,
+				"message": "Internal Error"
+			})
+		}
+	})
+};
