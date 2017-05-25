@@ -541,4 +541,27 @@ router.post('/fetchNewPendingRequest', function(req, res, next) {
 	}
 });
 
+
+//Search profile from email
+router.post('/searchProfileFromEmail', function(req, res, next) {
+	if (exists(req.body.email)) {
+		profile_bo.getProfileIDFromEmail(req.body.email, function(friend_profile_id) {
+			profile_bo.fetchProfilefromID(friend_profile_id,function(search_results){
+				res.send({
+					'status_code': 200,
+					'message': search_results
+				});
+			});
+		});
+
+	} else {
+		res.send({
+			'status_code': 400,
+			'message': 'Bad Details'
+		});
+	}
+});
+
+
+
 module.exports = router;

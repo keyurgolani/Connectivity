@@ -249,3 +249,21 @@ module.exports.fetchNewPendingRequest = function(profile_id, processResult) {
 		processResult(newRequest_results);
 	});
 };
+
+
+//Get profile from profile id
+
+module.exports.fetchProfilefromID = function(profile_id, processResult) {
+	dao.executeQuery('select * from profile_details where profile_details.profile_id = ?;', [profile_id], function(sentRequest_results) {
+		processResult(sentRequest_results);
+	});
+};
+
+
+//Get profile id from email
+module.exports.getProfileIDFromEmail = function(friend_email, processResult) {
+	dao.executeQuery('select profile_id from profile_details,account_details where account_details.user_id= profile_details.account and account_details.email = ?', [friend_email], function(email_results) {
+		processResult(email_results[0].profile_id);
+
+		});
+};

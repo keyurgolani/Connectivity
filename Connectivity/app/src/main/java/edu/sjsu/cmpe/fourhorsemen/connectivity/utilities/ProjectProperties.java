@@ -42,6 +42,7 @@ public class ProjectProperties {
             METHOD_UPDATE_SETTINGS = prop.getProperty("METHOD_UPDATE_SETTINGS");
             METHOD_GET_RECEIVED_REQUEST = prop.getProperty("METHOD_GET_RECEIVED_REQUEST");
             METHOD_GET_SENT_REQUEST = prop.getProperty("METHOD_GET_SENT_REQUEST");
+            METHOD_GET_PROFILE_FROM_EMAIL = prop.getProperty("METHOD_GET_PROFILE_FROM_EMAIL");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,6 +76,7 @@ public class ProjectProperties {
     public static String METHOD_UPDATE_SETTINGS;
     public static String METHOD_GET_RECEIVED_REQUEST;
     public static String METHOD_GET_SENT_REQUEST;
+    public static String METHOD_GET_PROFILE_FROM_EMAIL;
 
 
 

@@ -7,11 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import android.view.View.OnKeyListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,6 +29,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MyPostRecyclerViewAdapter;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MySearchedFriendsAdapter;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
@@ -50,6 +55,21 @@ public class SearchFriendsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
         recyclerView=new RecyclerView(this);
+
+        // Set a key listener callback so that users can search by pressing "Enter"
+        searchEmail.setOnKeyListener(new OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_ENTER ) {
+                    if( event.getAction() == KeyEvent.ACTION_DOWN ) {
+                        searchFor(getBaseContext());
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
         searchEmail.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -57,10 +77,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
 
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (searchEmail.getRight() - searchEmail.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-
                         //TODO: Search Code here
-
-
                         return true;
                     }
                 }
@@ -73,9 +90,45 @@ public class SearchFriendsActivity extends AppCompatActivity {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MyPostRecyclerViewAdapter(getSearchedFriends(this),mListener);
+        mAdapter = new MySearchedFriendsAdapter(searchFor(this),mListener);
         recyclerView.setAdapter(mAdapter);
     }
+
+
+    private List<Profile> searchFor(Context context){
+        final List<Profile> profile_list = new ArrayList<Profile>();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("unique_id", PreferenceHandler.getAccessKey());
+        params.put("email", searchEmail.getText().toString());
+
+
+        RequestHandler.HTTPRequest(context, ProjectProperties.METHOD_GET_PROFILE_FROM_EMAIL, params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) throws Exception {
+                if(response.getInt("status_code") == 200) {
+                    JSONArray profile = response.getJSONArray("message");
+                    JSONObject currentObj = profile.getJSONObject(0);
+                    Log.d("search result", currentObj.toString());
+                    Profile prof_object = new Profile();
+//                    prof_object
+//                    profile_list.add(prof_object);
+
+
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getBaseContext(), "No Profile Found.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void handleError(Exception e) throws Exception {
+                e.printStackTrace();
+            }
+        });
+
+        return profile_list;
+    }
+
 
 
     @Override
@@ -89,10 +142,14 @@ public class SearchFriendsActivity extends AppCompatActivity {
     }
 
 
+
+
+
     private List<Post> getSearchedFriends(Context context) {
         final List<Post> personalTimeline = new ArrayList<Post>();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());
+
 
         RequestHandler.HTTPRequest(context, ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
             @Override
