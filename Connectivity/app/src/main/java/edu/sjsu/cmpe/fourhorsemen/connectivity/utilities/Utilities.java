@@ -10,6 +10,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -84,9 +85,10 @@ public class Utilities {
         final InputStream imageStream;
         try {
             imageStream = context.getContentResolver().openInputStream(photoUri);
-            final Bitmap image = BitmapFactory.decodeStream(imageStream);
+            Bitmap image = BitmapFactory.decodeStream(imageStream);
+            final Bitmap photo = Bitmap.createScaledBitmap(image, image.getScaledWidth(DisplayMetrics.DENSITY_260), image.getScaledHeight(DisplayMetrics.DENSITY_300), true);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG,10,baos);
+            photo.compress(Bitmap.CompressFormat.JPEG,100,baos);
             encodedString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -98,7 +100,9 @@ public class Utilities {
         String encodedString = "";
         final InputStream imageStream;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.JPEG,10,baos);
+        final Bitmap image = Bitmap.createScaledBitmap(photo, photo.getScaledWidth(DisplayMetrics.DENSITY_260), photo.getScaledHeight(DisplayMetrics.DENSITY_300), true);
+
+        image.compress(Bitmap.CompressFormat.JPEG,100,baos);
         encodedString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         return encodedString;
     }

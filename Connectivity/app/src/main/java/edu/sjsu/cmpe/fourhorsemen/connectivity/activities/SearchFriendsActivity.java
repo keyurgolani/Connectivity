@@ -70,7 +70,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
         // Set the adapter
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
+//        mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
         recyclerView.setAdapter(mAdapter);
 
     }

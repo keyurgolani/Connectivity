@@ -123,7 +123,7 @@ public class Profile {
                 ", account=" + account +
                 ", f_name='" + f_name + '\'' +
                 ", l_name='" + l_name + '\'' +
-                ", profile_pic='" + profile_pic + '\'' +
+//                ", profile_pic='" + profile_pic + '\'' +
                 ", location=" + location +
                 ", profession='" + profession + '\'' +
                 ", screen_name='" + screen_name + '\'' +

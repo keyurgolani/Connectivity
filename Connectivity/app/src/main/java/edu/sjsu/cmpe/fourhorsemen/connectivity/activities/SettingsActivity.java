@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -109,6 +110,17 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         final MenuItem menuItem = menu.add(Menu.NONE, 420, Menu.NONE, null);
         menuItem.setIcon(R.drawable.ic_logout);
         MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                PreferenceHandler.clearAccessKey();
+                PreferenceHandler.clearProfile();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+        });
         return true;
     }
 
