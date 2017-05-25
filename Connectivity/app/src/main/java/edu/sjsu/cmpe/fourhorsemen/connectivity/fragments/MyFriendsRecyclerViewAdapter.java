@@ -14,20 +14,20 @@ import android.widget.TextView;
 import java.util.List;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
-import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Request;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.FriendsListsFragment.OnListFragmentInteractionListener;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Message} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Request} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  */
 public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriendsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Message> messages;
+    private final List<Request> requests;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyFriendsRecyclerViewAdapter(List<Message> messages, OnListFragmentInteractionListener listener) {
-        this.messages = messages;
+    public MyFriendsRecyclerViewAdapter(List<Request> requests, OnListFragmentInteractionListener listener) {
+        this.requests = requests;
         this.mListener = listener;
     }
 
@@ -59,16 +59,26 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.requestText.setText(messages.get(position).getFrom().getScreen_name());
-        holder.timestamp.setText(messages.get(position).getTimestamp());
-        byte[] decodedString = Base64.decode(messages.get(position).getFrom().getProfile_pic(), Base64.DEFAULT);
+
+        if(requests.get(position).getRequest_type().equals("received")){
+            holder.requestText.setText(requests.get(position).getScreen_name()+" has sent you a friend request.");
+            holder.btnAccept.setVisibility(View.VISIBLE);
+            holder.btnIgnore.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.requestText.setText(requests.get(position).getScreen_name());
+            holder.btnAccept.setVisibility(View.GONE);
+            holder.btnIgnore.setVisibility(View.GONE);
+        }
+        holder.timestamp.setText("");
+        byte[] decodedString = Base64.decode(requests.get(position).getProfile_pic(), Base64.DEFAULT);
         holder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 
     }
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        return requests.size();
     }
 
 }

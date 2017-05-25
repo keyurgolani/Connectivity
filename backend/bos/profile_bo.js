@@ -229,4 +229,18 @@ module.exports.getSettingsFromUniqueID = function(unique_id, settingResults) {
 	dao.executeQuery('select profile_id, user_id, email, pr.* from profile_details p, account_details a, preference_details pr where p.account = a.user_id and p.profile_id = pr.profile and unique_id = ?;', unique_id, function(setting_results) {
 		settingResults(setting_results);
 	});
-}
+};
+
+//Get Sent Friend Request
+module.exports.fetchSentRequest = function(profile_id, processResult) {
+	dao.executeQuery('select friend as request_receiver, screen_name as name from connection_details, profile_details where connection_details.profile = ? and connection_details.pending = 1 and connection_details.friend = profile_details.profile_id;', [profile_id], function(sentRequest_results) {
+		processResult(sentRequest_results);
+	});
+};
+
+//Get new pending request
+module.exports.fetchNewPendingRequest = function(profile_id, processResult) {
+	dao.executeQuery('select profile as request_sender, screen_name as name from connection_details, profile_details where connection_details.profile = profile_details.profile_id and connection_details.friend = ? and pending = 1; ', [profile_id], function(newRequest_results) {
+		processResult(newRequest_results);
+	});
+};

@@ -44,7 +44,8 @@
             android:padding="2dp"
             android:text="21:30"
             android:textSize="12sp"
-            android:textStyle="bold|italic" />
+            android:textStyle="bold|italic"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/btn_accept"
