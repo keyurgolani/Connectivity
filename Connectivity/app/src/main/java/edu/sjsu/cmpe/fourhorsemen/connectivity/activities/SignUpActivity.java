@@ -174,21 +174,21 @@ public class SignUpActivity extends AppCompatActivity {
             etFullName.setError(null);
         }
 
-        if(Character.isDigit(fullName.charAt(0))) {
+        if(fullName == null || Character.isDigit(fullName.charAt(0))) {
             etFullName.setError("starts with alphabet only");
             valid = false;
         } else {
             etFullName.setError(null);
         }
 
-        if (screenName.isEmpty() || screenName.length() < 3) {
+        if (screenName == null || screenName.isEmpty() || screenName.length() < 3) {
             etScreenName.setError("at least 3 characters");
             valid = false;
         } else {
             etScreenName.setError(null);
         }
 
-        if(Character.isDigit(screenName.charAt(0))) {
+        if(screenName.isEmpty() || Character.isDigit(screenName.charAt(0))) {
             etScreenName.setError("starts with alphabet only");
             valid = false;
         } else {
