@@ -98,17 +98,13 @@ public class MessageListsFragment extends Fragment {
         final List<Message> sent = new ArrayList<Message>();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());
-
-
-//        Fetch messages method
         RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_MESSAGES, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws Exception {
                 if(response.getInt("status_code") == 200) {
                     JSONArray sentMessages = response.getJSONObject("message").getJSONArray("from_messages");
-                    Log.d("sentmsg", sentMessages.toString());
                     JSONArray receivedMessages = response.getJSONObject("message").getJSONArray("to_messages");
-                    Log.d("receivedmsg", receivedMessages.toString());
+                    Log.d("Messages", sentMessages.toString());
                     for(int i  = 0; i < sentMessages.length(); i++) {
                         JSONObject currentObj = sentMessages.getJSONObject(i);
                         sent.add(new Message(currentObj.getInt("message_id"),

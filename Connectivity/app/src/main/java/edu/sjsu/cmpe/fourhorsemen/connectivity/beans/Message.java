@@ -68,4 +68,16 @@ public class Message {
     public void setTo(Profile to) {
         this.to = to;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "messageID=" + messageID +
+                ", from=" + from.toString() +
+                ", to=" + to.toString() +
+                ", subject='" + subject + '\'' +
+                ", content='" + content + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                '}';
+    }
 }

@@ -4,6 +4,7 @@ var dao = require('../utils/dao');
 var bcrypt = require("bcrypt");
 var logger = require("../utils/logger");
 var photo_bo = require('./photo_bo');
+var ObjectID = require('mongodb').ObjectID;
 
 
 module.exports.fetchProfile = function(db, params, res) {
@@ -17,15 +18,19 @@ module.exports.fetchProfile = function(db, params, res) {
 	dao.fetchData('*', 'profile_details', queryParams, function(profile_result) {
 		if (profile_result.length > 0) {
 			if (exists(profile_result[0].profile_pic)) {
-				photo_bo.getPhoto(db, profile_result[0].profile_pic, function(photo_result) {
+				db.get('photos').findOne({
+					'_id': new ObjectID(profile_result[0].profile_pic)
+				}).then(function(photo_result) {
 					if (exists(photo_result)) {
-						profile_result[0].profile_pic = photo_result[0].photo;
+						profile_result[0].profile_pic = photo_result.photo;
 					}
 					res.send({
 						"status_code": 200,
 						"message": profile_result
 					});
-				})
+				}, function(error) {
+					throw error;
+				});
 			} else {
 				res.send({
 					"status_code": 200,

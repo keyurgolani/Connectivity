@@ -124,7 +124,7 @@ public class ProfileFragment extends Fragment {
         if (viewPager != null){
             ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
             adapter.addFrag(AboutFragment.newInstance(), "About");
-            adapter.addFrag(PostFragment.newInstanceForProfile(1, Integer.parseInt(PreferenceHandler.getProfileID())), "My Posts");
+            adapter.addFrag(PostFragment.newInstance(1), "My Posts");
             adapter.addFrag(new PostFragment(), "Albums");
             viewPager.setAdapter(adapter);
         }

@@ -160,7 +160,7 @@ router.post('/messages', function(req, res, next) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-					message_bo.getMessages(profile_id, res);
+					message_bo.getMessages(req.db, profile_id, res);
 				})
 			} else {
 				res.send({

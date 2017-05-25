@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,12 +61,17 @@ public class MyMessageRecyclerViewAdapter extends RecyclerView.Adapter<MyMessage
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        Log.d("Message", messages.get(position).toString());
         holder.screen_name.setText(messages.get(position).getFrom().getScreen_name());
         holder.timestamp.setText(messages.get(position).getTimestamp());
         holder.subject.setText(messages.get(position).getSubject());
         holder.msg_content.setText(messages.get(position).getContent());
         if(messages.get(position).getFrom().getProfile_pic()!= null) {
             byte[] decodedString = Base64.decode(messages.get(position).getFrom().getProfile_pic(), Base64.DEFAULT);
+            holder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+        }
+        if(messages.get(position).getTo().getProfile_pic()!= null) {
+            byte[] decodedString = Base64.decode(messages.get(position).getTo().getProfile_pic(), Base64.DEFAULT);
             holder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
         }
     }

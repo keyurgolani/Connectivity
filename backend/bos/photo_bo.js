@@ -9,6 +9,7 @@ var ObjectID = require('mongodb').ObjectID;
 
 
 module.exports.getPhoto = function(db, photoID, processResult) {
+	console.log('photoID', photoID);
 	db.get('photos').findOne({
 		'_id': new ObjectID(photoID)
 	}).then(function(result) {

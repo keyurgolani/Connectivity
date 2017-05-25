@@ -55,6 +55,7 @@ public class Utilities {
             public void handleSuccess(JSONObject response) throws Exception {
                 if(response.getInt("status_code") == 200) {
                     JSONObject profile_array = response.getJSONArray("message").getJSONObject(0);
+                    Log.d("Profile", profile_array.toString());
                     PreferenceHandler.putProfile(
                             profile_array.getString("profile_id"),
                             profile_array.getString("account"),

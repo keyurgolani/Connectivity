@@ -109,7 +109,7 @@ public class MessageFragment extends Fragment {
                 switch (v.getId()){
                     case R.id.create_new_message:
                         Intent intent = new Intent(getContext(), CreateNewMessageActivity.class);
-                        startActivity(intent);
+                        startActivityForResult(intent, 105);
                         break;
                 }
             }
@@ -117,6 +117,15 @@ public class MessageFragment extends Fragment {
 
 
         return root;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        adapter.addFrag(MessageListsFragment.newInstance(MessageListsFragment.INBOX_LIST), "Inbox");
+        adapter.addFrag(MessageListsFragment.newInstance(MessageListsFragment.SENT_LIST), "Sent");
+
+        viewPager.setAdapter(adapter);
     }
 
     static class ViewPagerAdapter extends FragmentPagerAdapter {

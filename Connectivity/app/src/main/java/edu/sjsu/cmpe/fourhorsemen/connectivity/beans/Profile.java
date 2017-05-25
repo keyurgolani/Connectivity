@@ -115,4 +115,21 @@ public class Profile {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "profile=" + profile +
+                ", account=" + account +
+                ", f_name='" + f_name + '\'' +
+                ", l_name='" + l_name + '\'' +
+                ", profile_pic='" + profile_pic + '\'' +
+                ", location=" + location +
+                ", profession='" + profession + '\'' +
+                ", screen_name='" + screen_name + '\'' +
+                ", dob=" + dob +
+                ", gender='" + gender + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                '}';
+    }
 }
