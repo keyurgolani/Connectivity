@@ -42,7 +42,7 @@ public class MessageListsFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter mAdapter;
 
-    private static int messageListType = INBOX_LIST;
+    private int messageListType = INBOX_LIST;
 
 
     /**
@@ -55,8 +55,8 @@ public class MessageListsFragment extends Fragment {
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static MessageListsFragment newInstance(int type) {
-        messageListType = type;
         MessageListsFragment fragment = new MessageListsFragment();
+        fragment.messageListType = type;
         return fragment;
     }
 

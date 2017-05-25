@@ -43,7 +43,7 @@ public class FriendsListsFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter mAdapter;
 
-    private static int friendsListType = RECEIEVED_LIST;
+    private int friendsListType = RECEIEVED_LIST;
 
 
     /**
@@ -56,8 +56,8 @@ public class FriendsListsFragment extends Fragment {
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static FriendsListsFragment newInstance(int type) {
-        friendsListType = type;
         FriendsListsFragment fragment = new FriendsListsFragment();
+        fragment.friendsListType = type;
         return fragment;
     }
 
