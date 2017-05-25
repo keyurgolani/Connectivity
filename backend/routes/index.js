@@ -516,15 +516,56 @@ router.post('/fetchNewPendingRequest', function(req, res, next) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
-					if (exists(profile_id)) {
-						profile_bo.fetchNewPendingRequest(profile_id, function(request_results) {
-							res.send({
-								'status_code': 200,
-								'message': request_results
-							});
+					profile_bo.fetchNewPendingRequest(profile_id, function(request_results) {
+						res.send({
+							'status_code': 200,
+							'message': request_results
 						});
-					}
+					});
+				});
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		});
+	}
+});
 
+router.post('/acceptFriend', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					profile_bo.acceptRequest(profile_id, parseInt(req.body.friend), res)
+				});
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		});
+	}
+});
+
+router.post('/declineRequest', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					profile_bo.declineRequest(profile_id, parseInt(req.body.friend), res)
 				});
 			} else {
 				res.send({

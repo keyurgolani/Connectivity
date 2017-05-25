@@ -42,10 +42,6 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ResponseHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.Utilities;
 
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.WindowManager;
-
 public class CreateNewPostActivity extends AppCompatActivity {
 
     private static String TAG = CreateNewPostActivity.class.getSimpleName();

@@ -92,31 +92,21 @@ public class LoginActivity extends AppCompatActivity {
     //Private Methods
 
     private void doLogin() {
-        Log.d(TAG, "Method Entry: Inside doLogin Method");
-
         password = etPassword.getText().toString();
         email = etEmailID.getText().toString();
-
         if (!validateCredentialInput()) {
             Toast.makeText(getBaseContext(), "Please enter valid details !", Toast.LENGTH_LONG).show();
             btnLogin.setEnabled(true);
             return;
         }
-
         btnLogin.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
-
-        //Authentication logic - Remove the following runnable.
-
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("email", email);
         params.put("password", password);
-
         RequestHandler.HTTPRequest(getApplicationContext(), ProjectProperties.METHOD_SIGNIN, params, new ResponseHandler() {
                     @Override
                     public void handleSuccess(JSONObject response) throws JSONException {
