@@ -42,11 +42,11 @@ public class SearchFriendsActivity extends AppCompatActivity {
 
     private static String TAG = SearchFriendsActivity.class.getSimpleName();
 
-    RecyclerView recyclerView;
-    RecyclerView.Adapter mAdapter;
+    private RecyclerView recyclerView;
+//    RecyclerView.Adapter mAdapter;
     private PostFragment.OnListFragmentInteractionListener mListener;
     @Bind(R.id.search_email) EditText searchEmail;
-
+    private MySearchedFriendsAdapter mAdapter;
 
     public SearchFriendsActivity(){
 
@@ -66,17 +66,15 @@ public class SearchFriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_add_friends);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ButterKnife.bind(this);
-        recyclerView=new RecyclerView(this);
 
-
-        // Set the adapter
+        recyclerView = (RecyclerView) findViewById(R.id.friends_list);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MySearchedFriendsAdapter(searchFor(getBaseContext()),mListener);
-        recyclerView.setAdapter(mAdapter);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ButterKnife.bind(this);
+//        recyclerView=new RecyclerView(this);
+
 
         // Set a key listener callback so that users can search by pressing "Enter"
         searchEmail.setOnKeyListener(new OnKeyListener() {
