@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         FriendsFragment.OnFragmentInteractionListener,
         MessageListsFragment.OnListFragmentInteractionListener,
         NotificationFragment.OnListFragmentInteractionListener,
-        FriendsListsFragment.OnListFragmentInteractionListener{
+        FriendsListsFragment.OnListFragmentInteractionListener {
 
     static final int REQUEST_LOGIN = 0;
     static final int REQUEST_APP_INTRO = 1;
@@ -111,12 +111,9 @@ public class MainActivity extends AppCompatActivity
         if(PreferenceHandler.getAccessKey() == null) {
             requestLogin(getApplicationContext());
         } else {
-
             Utilities.cacheProfile(getApplicationContext());
-
             BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
             //Manually displaying the first fragment - one time only
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, PostFragment.newInstance(1));

@@ -52,7 +52,8 @@
                     android:ems="10"
                     android:hint="Enter Email ID "
                     android:inputType="textAutoComplete"
-                    android:textColorHint="@color/black8" />
+                    android:textColorHint="@color/black8"
+                    android:text=""/>
 
 
             </RelativeLayout>

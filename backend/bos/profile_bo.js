@@ -8,6 +8,7 @@ var ObjectID = require('mongodb').ObjectID;
 
 
 module.exports.fetchProfile = function(db, params, res) {
+	console.log('params', params);
 	var queryParams = {};
 	if (exists(params.profile_id)) {
 		queryParams.profile_id = params.profile_id;
@@ -280,4 +281,20 @@ module.exports.declineRequest = function(profile, friend, res) {
 			})
 		}
 	})
+};
+
+module.exports.searchProfile = function(search, res) {
+	dao.executeQuery('select * from profile_details, account_details where user_id = account and (email = ? or screen_name = ?);', [search, search], function(search_results) {
+		if (search_results.length > 0) {
+			res.send({
+				'status_code': 200,
+				'message': search_results
+			});
+		} else {
+			res.send({
+				'status_code': 204,
+				'message': "No Match"
+			});
+		}
+	});
 };
