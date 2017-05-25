@@ -114,12 +114,9 @@ public class MainActivity extends AppCompatActivity
         if(PreferenceHandler.getAccessKey() == null) {
             requestLogin(getApplicationContext());
         } else {
-
             Utilities.cacheProfile(getApplicationContext());
-
             BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
             //Manually displaying the first fragment - one time only
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, PostFragment.newInstance(1));

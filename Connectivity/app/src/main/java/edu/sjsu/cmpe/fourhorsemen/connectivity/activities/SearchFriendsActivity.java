@@ -2,6 +2,7 @@ package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.MyPostRecyclerViewAdapter;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -37,7 +39,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.Adapter mAdapter;
-
+    private PostFragment.OnListFragmentInteractionListener mListener;
     @Bind(R.id.search_email) EditText searchEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
-
-
+        recyclerView=new RecyclerView(this);
         searchEmail.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -69,10 +70,11 @@ public class SearchFriendsActivity extends AppCompatActivity {
 
         // Set the adapter
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new MyPostRecyclerViewAdapter(getSearchedFriends(this),mListener);
         recyclerView.setAdapter(mAdapter);
-
     }
 
 
@@ -87,7 +89,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
     }
 
 
-    private List<Post> getSearchedFriends(final Context context) {
+    private List<Post> getSearchedFriends(Context context) {
         final List<Post> personalTimeline = new ArrayList<Post>();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());
@@ -103,7 +105,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
                     }
                     mAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(context, "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -115,4 +117,14 @@ public class SearchFriendsActivity extends AppCompatActivity {
         return personalTimeline;
     }
 
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (getBaseContext() instanceof PostFragment.OnListFragmentInteractionListener) {
+            mListener = (PostFragment.OnListFragmentInteractionListener) getBaseContext();
+        } else {
+            throw new RuntimeException(getBaseContext().toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
+    }
 }
