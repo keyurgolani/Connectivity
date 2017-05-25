@@ -22,3 +22,73 @@
 {"@message":"Query: select * from post_details, profile_details where profile_id = profile and profile = '1'","@timestamp":"2017-05-25T20:17:44.340Z","@fields":{"level":"debug"}}
 {"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'tXNrJPmvE5Mf8GsNp6XBisMLh'","@timestamp":"2017-05-25T20:17:48.917Z","@fields":{"level":"debug"}}
 {"@message":"Query: SELECT * FROM profile_details WHERE `profile_id` = '1'","@timestamp":"2017-05-25T20:17:48.917Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:31.947Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:31.974Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:33.824Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:34.203Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:34.302Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:34.834Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:34.844Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:34.853Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:34.867Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:35.723Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:35.758Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:36.328Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:37.364Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:37.389Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:37.401Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:37.415Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:38.232Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:38.266Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:55.568Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:57.478Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:58.035Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:36:59.979Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:37:00.425Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:37:02.928Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:37:58.386Z","@fields":{"level":"debug"}}
+{"@message":"Query: select * from profile_details, account_details where user_id = account and (email = 'naik' or screen_name = 'naik');","@timestamp":"2017-05-25T20:37:58.408Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:02.767Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:02.768Z","@fields":{"level":"debug"}}
+{"@message":"Query: select count(connection_id) as count from connection_details where (profile = 1 and friend = '1' and pending = 0) or (profile = '1' and friend = 1 and pending = 0)","@timestamp":"2017-05-25T20:38:02.770Z","@fields":{"level":"debug"}}
+{"@message":"Query: select count(follow_id) as count from follow_details, preference_details where follow_details.following = preference_details.profile  and public = 1 and follow_details.profile = 1 and following = '1'","@timestamp":"2017-05-25T20:38:02.772Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:02.785Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM profile_details WHERE `profile_id` = '1'","@timestamp":"2017-05-25T20:38:02.792Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:06.391Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:06.392Z","@fields":{"level":"debug"}}
+{"@message":"Query: select count(connection_id) as count from connection_details where (profile = 1 and friend = '1' and pending = 0) or (profile = '1' and friend = 1 and pending = 0)","@timestamp":"2017-05-25T20:38:06.395Z","@fields":{"level":"debug"}}
+{"@message":"Query: select count(follow_id) as count from follow_details, preference_details where follow_details.following = preference_details.profile  and public = 1 and follow_details.profile = 1 and following = '1'","@timestamp":"2017-05-25T20:38:06.397Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:08.713Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT * FROM profile_details WHERE `profile_id` = '1'","@timestamp":"2017-05-25T20:38:08.716Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:18.370Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT public FROM preference_details WHERE `profile` = '1'","@timestamp":"2017-05-25T20:38:18.373Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:18.374Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO follow_details SET `profile` = 1, `following` = '1'","@timestamp":"2017-05-25T20:38:18.376Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:20.000Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:20.003Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO connection_details SET `profile` = 1, `friend` = '1', `pending` = 1","@timestamp":"2017-05-25T20:38:20.006Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:21.741Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT public FROM preference_details WHERE `profile` = '1'","@timestamp":"2017-05-25T20:38:21.744Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:21.747Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO follow_details SET `profile` = 1, `following` = '1'","@timestamp":"2017-05-25T20:38:21.749Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:23.234Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:23.235Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO connection_details SET `profile` = 1, `friend` = '1', `pending` = 1","@timestamp":"2017-05-25T20:38:23.237Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:24.688Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT public FROM preference_details WHERE `profile` = '1'","@timestamp":"2017-05-25T20:38:24.690Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:24.691Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO follow_details SET `profile` = 1, `following` = '1'","@timestamp":"2017-05-25T20:38:24.692Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:26.109Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:26.111Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO connection_details SET `profile` = 1, `friend` = '1', `pending` = 1","@timestamp":"2017-05-25T20:38:26.115Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:31.473Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT public FROM preference_details WHERE `profile` = '1'","@timestamp":"2017-05-25T20:38:31.476Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:31.478Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO follow_details SET `profile` = 1, `following` = '1'","@timestamp":"2017-05-25T20:38:31.479Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:33.735Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT public FROM preference_details WHERE `profile` = '1'","@timestamp":"2017-05-25T20:38:33.737Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:33.738Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO follow_details SET `profile` = 1, `following` = '1'","@timestamp":"2017-05-25T20:38:33.740Z","@fields":{"level":"debug"}}
+{"@message":"Query: SELECT count(user_id) as count FROM account_details WHERE `unique_id` = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:35.096Z","@fields":{"level":"debug"}}
+{"@message":"Query: select profile_id, user_id from profile_details, account_details where account = user_id and unique_id = 'qF6eCGTb4uabnFNhcdmOUjlqn'","@timestamp":"2017-05-25T20:38:35.101Z","@fields":{"level":"debug"}}
+{"@message":"Query: INSERT INTO connection_details SET `profile` = 1, `friend` = '1', `pending` = 1","@timestamp":"2017-05-25T20:38:35.105Z","@fields":{"level":"debug"}}
