@@ -44,18 +44,20 @@ public class PostFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     RecyclerView recyclerView;
     RecyclerView.Adapter mAdapter;
-    private int profileID = 0;
+    private int profileID;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public PostFragment() {
+        Log.d("Post Fragment", "Creating New Instance --> ");
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static PostFragment newInstance(int columnCount) {
+        Log.d("Post Fragment", "Inside Standalone Instance --> ");
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
@@ -64,11 +66,12 @@ public class PostFragment extends Fragment {
     }
 
     @SuppressWarnings("unused")
-    public static PostFragment newInstanceForProfile(int columnCount, int profileID) {
+    public static PostFragment newInstanceForProfile(int columnCount, int profile) {
+        Log.d("Post Fragment", "Inside Profile Instance --> " + profile);
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
-        args.putInt(PROFILE_ID, profileID);
+        args.putInt(PROFILE_ID, profile);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,9 +79,9 @@ public class PostFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            profileID = getArguments().getInt(PROFILE_ID);
         }
     }
 
@@ -86,10 +89,6 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_list, container, false);
-
-        if(savedInstanceState != null) {
-            this.profileID = savedInstanceState.getInt(PROFILE_ID);
-        }
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -100,21 +99,13 @@ public class PostFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            if(profileID != 0) {
-                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext(), profileID), mListener);
-            } else {
-                mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
-            }
+            mAdapter = new MyPostRecyclerViewAdapter(getPersonalTimeline(getContext()), mListener);
             recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
 
     private List<Post> getPersonalTimeline(Context context) {
-        return getPersonalTimeline(context, 0);
-    }
-
-    private List<Post> getPersonalTimeline(Context context, int profileID) {
         final List<Post> personalTimeline = new ArrayList<Post>();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());

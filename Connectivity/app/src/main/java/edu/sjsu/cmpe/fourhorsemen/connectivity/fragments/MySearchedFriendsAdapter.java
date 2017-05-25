@@ -76,7 +76,7 @@ public class MySearchedFriendsAdapter extends RecyclerView.Adapter<MySearchedFri
         holder.screen_name.setText(profiles.get(position).getScreen_name());
         byte[] decodedString = Base64.decode(profiles.get(position).getProfile_pic(), Base64.DEFAULT);
         holder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
-        }
+    }
 
     @Override
     public int getItemCount() {

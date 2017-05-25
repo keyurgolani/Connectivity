@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe.fourhorsemen.connectivity.activities;
 
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +21,28 @@ import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.ProfileFragment;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 
-public class OtherUserProfileActivity extends AppCompatActivity {
+public class OtherUserProfileActivity extends AppCompatActivity implements
+        AboutFragment.OnFragmentInteractionListener,
+        PostFragment.OnListFragmentInteractionListener {
 
     private ViewPager viewPager;
+    private AboutFragment aboutFragment;
+    private PostFragment postFragment;
+    static int profileID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_user_profile);
 
+        profileID = getIntent().getIntExtra("profile", profileID);
+
         viewPager = (ViewPager) findViewById(R.id.tab_viewpager);
         if (viewPager != null){
             ViewPagerAdapter adapter = new ViewPagerAdapter(this.getSupportFragmentManager());
-            adapter.addFrag(AboutFragment.newInstance(), "About");
-            adapter.addFrag(PostFragment.newInstanceForProfile(1, Integer.parseInt(PreferenceHandler.getProfileID())), "My Posts");
-            adapter.addFrag(new PostFragment(), "Albums");
+            adapter.addFrag(AboutFragment.newInstanceForProfile(profileID), "About");
+            adapter.addFrag(PostFragment.newInstanceForProfile(1, profileID), "My Posts");
+            adapter.addFrag(PostFragment.newInstanceForProfile(1, profileID), "Albums");
             viewPager.setAdapter(adapter);
         }
 
@@ -54,6 +65,22 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction() {
+
+    }
+
+    public void setProfileImage(String profile_pic) {
+        ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
+        byte[] decodedString = Base64.decode(profile_pic, Base64.DEFAULT);
+        profilePic.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
     }
 
 

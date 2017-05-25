@@ -79,7 +79,7 @@ public class FriendsListsFragment extends Fragment {
             if(friendsListType == 1){
                 mAdapter = new MyFriendsRecyclerViewAdapter(getRequests(getContext()).first, mListener);
             } else {
-                mAdapter = new MyFriendsRecyclerViewAdapter(getRequests(getContext()).second,mListener);
+                mAdapter = new MyFriendsRecyclerViewAdapter(getRequests(getContext()).second, mListener);
             }
 
             recyclerView.setAdapter(mAdapter);

@@ -126,8 +126,7 @@ router.post('/fetchProfile', function(req, res, next) {
 	if (exists(req.body.unique_id)) {
 		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
 			if (isValid) {
-				if ((exists(req.body.profile_id) && isNum(req.body.profile_id)) ||
-					(exists(req.body.account_id) && isNum(req.body.account_id))) {
+				if (exists(req.body.profile_id) || exists(req.body.account_id)) {
 					profile_bo.fetchProfile(req.db, {
 						'profile_id': req.body.profile_id,
 						'account': req.body.account_id
@@ -213,10 +212,12 @@ router.post('/timeline', function(req, res, next) {
 			if (isValid) {
 				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
 					if (exists(req.body.profile)) {
+						console.log("First");
 						// Will check if the timeline requested is user's own timeline inside the function
 						// Will return results accordingly.
 						timeline_bo.fetchFriendTimeline(req.db, profile_id, req.body.profile, res)
 					} else {
+						console.log("Second");
 						timeline_bo.fetchOwnTimeline(req.db, profile_id, res)
 					}
 				})
@@ -583,18 +584,26 @@ router.post('/declineRequest', function(req, res, next) {
 });
 
 
-//Search profile from email
-router.post('/searchProfileFromEmail', function(req, res, next) {
-	if (exists(req.body.email) && req.body.email.match(email_validator) !== null) {
-		profile_bo.getProfileIDFromEmail(req.body.email, function(friend_profile_id) {
-			profile_bo.fetchProfilefromID(friend_profile_id,function(search_results){
+//Search profile
+router.post('/searchProfile', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				if (exists(req.body.search)) {
+					profile_bo.searchProfile(req.body.search, res);
+				} else {
+					res.send({
+						'status_code': 400,
+						'message': 'Bad Details'
+					});
+				}
+			} else {
 				res.send({
-					'status_code': 200,
-					'message': search_results
+					'status_code': 403,
+					'message': 'Forbidden'
 				});
-			});
+			}
 		});
-
 	} else {
 		res.send({
 			'status_code': 400,

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         FriendsFragment.OnFragmentInteractionListener,
         MessageListsFragment.OnListFragmentInteractionListener,
         NotificationFragment.OnListFragmentInteractionListener,
-        FriendsListsFragment.OnListFragmentInteractionListener{
+        FriendsListsFragment.OnListFragmentInteractionListener {
 
     static final int REQUEST_LOGIN = 0;
     static final int REQUEST_APP_INTRO = 1;

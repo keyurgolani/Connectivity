@@ -17,7 +17,9 @@ import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.OtherUserProfileActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.SettingsActivity;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -31,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+
+import static android.view.View.GONE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,6 +62,7 @@ public class AboutFragment extends Fragment {
     EditText interests;
     Context context;
     private OnFragmentInteractionListener mListener;
+    private int profileID = 0;
 
     public AboutFragment() {
         // Required empty public constructor
@@ -66,6 +71,12 @@ public class AboutFragment extends Fragment {
 
     public static AboutFragment newInstance() {
         AboutFragment fragment = new AboutFragment();
+        return fragment;
+    }
+
+    public static AboutFragment newInstanceForProfile(int profile) {
+        AboutFragment fragment = new AboutFragment();
+        fragment.profileID = profile;
         return fragment;
     }
 
@@ -128,8 +139,51 @@ public class AboutFragment extends Fragment {
         aboutme = (EditText) view.findViewById(R.id.et_about);
         interests = (EditText) view.findViewById(R.id.et_interests);
         btnEdit = (Button)view.findViewById(R.id.btn_edit_profile);
+        if(profileID != 0) {
+            btnEdit.setText("Add Friend");
+            btnSettings.setText("Follow");
+            btnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addFollowFriend(getContext(), true);
+                }
+            });
+
+            btnSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addFollowFriend(getContext(), false);
+                }
+            });
+        }
         doGetProfileDetails(view.getContext());
         return view;
+    }
+
+    public void addFollowFriend(Context context, final boolean isFriend) {
+        HashMap<String, String> params = new HashMap<String, String>();
+        String unique_id = PreferenceHandler.getAccessKey();
+        params.put("unique_id",unique_id);
+        params.put(isFriend ? "friend" : "following", String.valueOf(profileID));
+        String requestMethod = isFriend ? ProjectProperties.METHOD_ADD_FRIEND: ProjectProperties.METHOD_FOLLOW;
+        RequestHandler.HTTPRequest(context, requestMethod, params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) throws JSONException {
+                if(response.getInt("status_code") == 200) {
+                    if(isFriend) {
+                        btnEdit.setText("Request Pending");
+                    } else {
+                        btnEdit.setText("Following");
+                    }
+                }
+            }
+
+            @Override
+            public void handleError(Exception e) {
+                e.printStackTrace();
+
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -154,13 +208,16 @@ public class AboutFragment extends Fragment {
         HashMap<String, String> params = new HashMap<String, String>();
         String unique_id = PreferenceHandler.getAccessKey();
         params.put("unique_id",unique_id);
+        if(profileID != 0) {
+            params.put("profile_id", String.valueOf(profileID));
+        }
         RequestHandler.HTTPRequest(context, ProjectProperties.METHOD_FETCH_PROFILE, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws JSONException {
                 if(response.getInt("status_code") == 200) {
                     JSONObject profile = response.getJSONArray("message").getJSONObject(0);
                     screen_name.setText(profile.getString("screen_name"));
-                    email_id.setText("Not going to show email. Will be removed from here.");
+                    email_id.setText("Email Hidden");
                     if(!profile.getString("location").equals("null"))
                         location.setText(profile.getString("location"));
                     if(!profile.getString("profession").equals("null"))
@@ -169,6 +226,13 @@ public class AboutFragment extends Fragment {
                         aboutme.setText(profile.getString("about_me"));
                     if(!profile.getString("interests").equals("null"))
                         interests.setText(profile.getString("interests"));
+                    if(profileID != 0 && profile.getString("profile_pic") != "0") {
+                        try {
+                            ((OtherUserProfileActivity)getActivity()).setProfileImage(profile.getString("profile_pic"));
+                        } catch(ClassCastException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
 

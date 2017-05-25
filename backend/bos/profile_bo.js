@@ -8,6 +8,7 @@ var ObjectID = require('mongodb').ObjectID;
 
 
 module.exports.fetchProfile = function(db, params, res) {
+	console.log('params', params);
 	var queryParams = {};
 	if (exists(params.profile_id)) {
 		queryParams.profile_id = params.profile_id;
@@ -282,20 +283,18 @@ module.exports.declineRequest = function(profile, friend, res) {
 	})
 };
 
-
-//Get profile from profile id
-
-module.exports.fetchProfilefromID = function(profile_id, processResult) {
-	dao.executeQuery('select * from profile_details where profile_details.profile_id = ?;', [profile_id], function(sentRequest_results) {
-		processResult(sentRequest_results);
+module.exports.searchProfile = function(search, res) {
+	dao.executeQuery('select * from profile_details, account_details where user_id = account and (email = ? or screen_name = ?);', [search, search], function(search_results) {
+		if (search_results.length > 0) {
+			res.send({
+				'status_code': 200,
+				'message': search_results
+			});
+		} else {
+			res.send({
+				'status_code': 204,
+				'message': "No Match"
+			});
+		}
 	});
-};
-
-
-//Get profile id from email
-module.exports.getProfileIDFromEmail = function(friend_email, processResult) {
-	dao.executeQuery('select profile_id from profile_details,account_details where account_details.user_id= profile_details.account and account_details.email = ?', [friend_email], function(email_results) {
-		processResult(email_results[0].profile_id);
-
-		});
 };
