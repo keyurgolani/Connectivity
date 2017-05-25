@@ -30,6 +30,8 @@ public class Utilities {
 
     public static String TAG = Utilities.class.toString();
 
+    public static Context baseContext;
+
     public static int getVersionDiff(String supported, String current) {
         String[] vals1 = supported.split("\\.");
         String[] vals2 = current.split("\\.");
@@ -86,7 +88,7 @@ public class Utilities {
         try {
             imageStream = context.getContentResolver().openInputStream(photoUri);
             Bitmap image = BitmapFactory.decodeStream(imageStream);
-            final Bitmap photo = Bitmap.createScaledBitmap(image, image.getScaledWidth(DisplayMetrics.DENSITY_260), image.getScaledHeight(DisplayMetrics.DENSITY_300), true);
+            final Bitmap photo = Bitmap.createScaledBitmap(image, image.getScaledWidth(DisplayMetrics.DENSITY_LOW), image.getScaledHeight(DisplayMetrics.DENSITY_LOW), true);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             photo.compress(Bitmap.CompressFormat.JPEG,100,baos);
             encodedString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
@@ -100,7 +102,7 @@ public class Utilities {
         String encodedString = "";
         final InputStream imageStream;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final Bitmap image = Bitmap.createScaledBitmap(photo, photo.getScaledWidth(DisplayMetrics.DENSITY_260), photo.getScaledHeight(DisplayMetrics.DENSITY_300), true);
+        final Bitmap image = Bitmap.createScaledBitmap(photo, photo.getScaledWidth(DisplayMetrics.DENSITY_LOW), photo.getScaledHeight(DisplayMetrics.DENSITY_LOW), true);
 
         image.compress(Bitmap.CompressFormat.JPEG,100,baos);
         encodedString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);

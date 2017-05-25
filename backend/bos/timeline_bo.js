@@ -7,6 +7,7 @@ var async = require("async");
 var moment = require('moment');
 var ObjectID = require('mongodb').ObjectID;
 var profile_bo = require('./profile_bo');
+var notification_bo = require('./notification_bo');
 
 
 module.exports.fetchOwnTimeline = function(db, profile, res) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -252,8 +254,8 @@ public class ProfileFragment extends Fragment {
                     RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_UPDATE_PROFILE, params, new ResponseHandler() {
                         @Override
                         public void handleSuccess(JSONObject response) throws Exception {
-                            Utilities.cacheProfile(getContext());
-                            Snackbar.make(getView(), "Photo Updated Successfully", Snackbar.LENGTH_SHORT).show();
+                            Utilities.cacheProfile(Utilities.baseContext);
+                            Toast.makeText(Utilities.baseContext, "Photo Updated Successfully", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -274,8 +276,8 @@ public class ProfileFragment extends Fragment {
                     RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_UPDATE_PROFILE, params, new ResponseHandler() {
                         @Override
                         public void handleSuccess(JSONObject response) throws Exception {
-                            Utilities.cacheProfile(getContext());
-                            Snackbar.make(getView(), "Photo Updated Successfully", Snackbar.LENGTH_SHORT).show();
+                            Utilities.cacheProfile(Utilities.baseContext);
+                            Toast.makeText(Utilities.baseContext, "Photo Updated Successfully", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
