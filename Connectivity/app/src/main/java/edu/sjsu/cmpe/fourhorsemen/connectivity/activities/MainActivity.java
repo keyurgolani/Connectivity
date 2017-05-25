@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity
         ProjectProperties.init(getBaseContext());
         PreferenceHandler.initSharedPreferences(getApplicationContext());
         PreferenceHandler.putVersion("1.0.0");
+        Utilities.baseContext = getBaseContext();
         // Check for app backward compatibility
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("version", PreferenceHandler.getVersion());
