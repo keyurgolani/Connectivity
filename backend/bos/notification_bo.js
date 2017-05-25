@@ -25,5 +25,7 @@ module.exports.notify = function(profile, text, friend) {
 		'profile': profile,
 		'friend': friend,
 		'text': text
+	}, function(result) {
+		// Do Nothing!
 	})
 };
