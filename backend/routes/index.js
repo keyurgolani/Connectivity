@@ -274,7 +274,6 @@ router.post('/savePhoto', function(req, res, next) {
 						'photo': req.body.photo
 					})
 					.then(function(photo_result) {
-
 						console.log(photo_result._id);
 						res.send({
 							'status_code': 200,
@@ -442,7 +441,6 @@ router.post('/updateSettings', function(req, res, next) {
 							'profile_id': profile_id,
 							'preference': req.body.preference,
 							'value': req.body.preference_value
-
 						}, res);
 					}
 				});
@@ -478,5 +476,69 @@ router.post('/getSettings', function(req, res, next) {
 
 });
 
+
+//fetch friends request that are sent by a profile
+
+router.post('/fetchSentRequest', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					if (exists(profile_id)) {
+						profile_bo.fetchSentRequest(profile_id, function(request_results) {
+							res.send({
+								'status_code': 200,
+								'message': request_results
+							});
+						});
+					}
+				});
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		});
+	}
+});
+
+
+//fetch friends request that are received by profile and are pending
+
+router.post('/fetchNewPendingRequest', function(req, res, next) {
+	if (exists(req.body.unique_id)) {
+		accounts_bo.isUniqueIDValid(req.body.unique_id, function(isValid) {
+			if (isValid) {
+				profile_bo.getIDFromUniqueID(req.body.unique_id, function(user_id, profile_id) {
+					if (exists(profile_id)) {
+						profile_bo.fetchNewPendingRequest(profile_id, function(request_results) {
+							res.send({
+								'status_code': 200,
+								'message': request_results
+							});
+						});
+					}
+
+				});
+			} else {
+				res.send({
+					'status_code': 403,
+					'message': 'Forbidden'
+				});
+			}
+		});
+	} else {
+		res.send({
+			'status_code': 403,
+			'message': 'Forbidden'
+		});
+	}
+});
 
 module.exports = router;

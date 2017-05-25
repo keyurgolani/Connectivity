@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.util.List;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Message;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Request;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.PreferenceHandler;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.ProjectProperties;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.utilities.RequestHandler;
@@ -74,11 +76,10 @@ public class FriendsListsFragment extends Fragment {
             Context context = view.getContext();
             recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
             if(friendsListType == 1){
-                mAdapter = new MyFriendsRecyclerViewAdapter(getMessages(getContext()).first, mListener);
+                mAdapter = new MyFriendsRecyclerViewAdapter(getRequests(getContext()).second, mListener);
             } else {
-                mAdapter = new MyFriendsRecyclerViewAdapter(getMessages(getContext()).second,mListener);
+                mAdapter = new MyFriendsRecyclerViewAdapter(getRequests(getContext()).first,mListener);
             }
 
             recyclerView.setAdapter(mAdapter);
@@ -87,38 +88,32 @@ public class FriendsListsFragment extends Fragment {
     }
 
 
-    private Pair<List<Message>, List<Message>> getMessages(Context context) {
-        final List<Message> received = new ArrayList<Message>();
-        final List<Message> sent = new ArrayList<Message>();
+
+
+
+    private Pair<List<Request>, List<Request>> getRequests(Context context) {
+        final List<Request> received = new ArrayList<Request>();
+        final List<Request> sent = new ArrayList<Request>();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());
-        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_FETCH_MESSAGES, params, new ResponseHandler() {
+
+
+        //sent request
+        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_GET_SENT_REQUEST, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws Exception {
                 if(response.getInt("status_code") == 200) {
-                    JSONArray sentMessages = response.getJSONObject("message").getJSONArray("from_messages");
-                    JSONArray receivedMessages = response.getJSONObject("message").getJSONArray("to_messages");
-                    for(int i  = 0; i < sentMessages.length(); i++) {
-                        JSONObject currentObj = sentMessages.getJSONObject(i);
-                        sent.add(new Message(currentObj.getInt("message_id"),
-                                new Profile(),
-                                new Profile(currentObj.getInt("to"),
-                                        currentObj.getString("profile_pic"),
-                                        currentObj.getString("screen_name")),
-                                currentObj.getString("subject"),
-                                currentObj.getString("message"),
-                                currentObj.getString("timestamp")));
-                    }
-                    for(int i  = 0; i < receivedMessages.length(); i++) {
-                        JSONObject currentObj = receivedMessages.getJSONObject(i);
-                        received.add(new Message(currentObj.getInt("message_id"),
-                                new Profile(currentObj.getInt("from"),
-                                        currentObj.getString("profile_pic"),
-                                        currentObj.getString("screen_name")),
-                                new Profile(),
-                                currentObj.getString("subject"),
-                                currentObj.getString("message"),
-                                currentObj.getString("timestamp")));
+                    JSONArray sentRequest = response.getJSONArray("message");
+                    for(int i  = 0; i < sentRequest.length(); i++) {
+                        JSONObject currentObj = sentRequest.getJSONObject(i);
+
+                        //Creating a request object
+                        Request req_object = new Request();
+                        req_object.setProfile(currentObj.getString("request_receiver"));
+                        req_object.setScreen_name(currentObj.getString("name"));
+                        req_object.setRequest_type("sent");
+
+                        sent.add(req_object);
                     }
                     mAdapter.notifyDataSetChanged();
                 } else {
@@ -131,8 +126,49 @@ public class FriendsListsFragment extends Fragment {
                 e.printStackTrace();
             }
         });
-        return new Pair<List<Message>, List<Message>>(received, sent);
+
+
+        //received request
+        RequestHandler.HTTPRequest(getContext(), ProjectProperties.METHOD_GET_RECEIVED_REQUEST, params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) throws Exception {
+                if(response.getInt("status_code") == 200) {
+                     JSONArray receivedMessages = response.getJSONArray("message");
+
+                    for(int i  = 0; i < receivedMessages.length(); i++) {
+                        JSONObject currentObj = receivedMessages.getJSONObject(i);
+
+                        //Creating a request object
+                        Request req_object = new Request();
+                        req_object.setProfile(currentObj.getString("request_sender"));
+                        req_object.setScreen_name(currentObj.getString("name"));
+                        req_object.setRequest_type("received");
+                        received.add(req_object);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void handleError(Exception e) throws Exception {
+                e.printStackTrace();
+            }
+        });
+
+
+
+        return new Pair<List<Request>, List<Request>>(received, sent);
     }
+
+
+
+
+
+
+
+
 
 
     @Override

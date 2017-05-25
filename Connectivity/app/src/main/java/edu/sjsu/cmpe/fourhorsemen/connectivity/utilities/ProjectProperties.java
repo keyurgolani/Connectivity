@@ -40,6 +40,9 @@ public class ProjectProperties {
             METHOD_GET_NOTIFICATIONS = prop.getProperty("METHOD_GET_NOTIFICATIONS");
             METHOD_GET_SETTINGS = prop.getProperty("METHOD_GET_SETTINGS");
             METHOD_UPDATE_SETTINGS = prop.getProperty("METHOD_UPDATE_SETTINGS");
+            METHOD_GET_RECEIVED_REQUEST = prop.getProperty("METHOD_GET_RECEIVED_REQUEST");
+            METHOD_GET_SENT_REQUEST = prop.getProperty("METHOD_GET_SENT_REQUEST");
+
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -70,6 +73,10 @@ public class ProjectProperties {
     public static String METHOD_GET_NOTIFICATIONS;
     public static String METHOD_GET_SETTINGS;
     public static String METHOD_UPDATE_SETTINGS;
+    public static String METHOD_GET_RECEIVED_REQUEST;
+    public static String METHOD_GET_SENT_REQUEST;
+
+
 
     public static String getBaseURL() {
         return "http://" + host + ":" + port + "/";
