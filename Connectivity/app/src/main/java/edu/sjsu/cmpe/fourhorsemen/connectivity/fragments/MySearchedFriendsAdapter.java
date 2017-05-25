@@ -9,6 +9,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,30 +45,33 @@ public class MySearchedFriendsAdapter extends RecyclerView.Adapter<MySearchedFri
         CardView cv;
         TextView screen_name;
         TextView timestamp;
-        TextView subject;
-        TextView msg_content;
         ImageView userPhoto;
+        Button btnAccept;
+        Button btnIgnore;
+
 
         ViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.cv_message);
-            screen_name = (TextView)itemView.findViewById(R.id.sn_label);
+            cv = (CardView)itemView.findViewById(R.id.cv_friends);
+            screen_name = (TextView)itemView.findViewById(R.id.friend_req_text);
             timestamp = (TextView)itemView.findViewById(R.id.timestamp);
-            subject = (TextView)itemView.findViewById(R.id.subject);
             userPhoto = (ImageView)itemView.findViewById(R.id.user_photo);
-            msg_content = (TextView)itemView.findViewById(R.id.message_content);
+            btnAccept = (Button) itemView.findViewById(R.id.btn_accept);
+            btnIgnore = (Button) itemView.findViewById(R.id.btn_ignore);
         }
     }
 
     @Override
     public MySearchedFriendsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_message_card, parent, false);
+                .inflate(R.layout.fragment_friends_card, parent, false);
         return new MySearchedFriendsAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final MySearchedFriendsAdapter.ViewHolder holder, int position) {
+        holder.btnAccept.setVisibility(View.GONE);
+        holder.btnIgnore.setVisibility(View.GONE);
         holder.timestamp.setText(profiles.get(position).getTimestamp());
         holder.screen_name.setText(profiles.get(position).getScreen_name());
         byte[] decodedString = Base64.decode(profiles.get(position).getProfile_pic(), Base64.DEFAULT);

@@ -46,6 +46,20 @@ public class SearchFriendsActivity extends AppCompatActivity {
     RecyclerView.Adapter mAdapter;
     private PostFragment.OnListFragmentInteractionListener mListener;
     @Bind(R.id.search_email) EditText searchEmail;
+
+
+    public SearchFriendsActivity(){
+
+    }
+
+    public static SearchFriendsActivity newInstance() {
+        SearchFriendsActivity fragment = new SearchFriendsActivity();
+        return fragment;
+    }
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,13 +70,23 @@ public class SearchFriendsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         recyclerView=new RecyclerView(this);
 
+
+        // Set the adapter
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new MySearchedFriendsAdapter(searchFor(getBaseContext()),mListener);
+        recyclerView.setAdapter(mAdapter);
+
         // Set a key listener callback so that users can search by pressing "Enter"
         searchEmail.setOnKeyListener(new OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if( keyCode == KeyEvent.KEYCODE_ENTER ) {
                     if( event.getAction() == KeyEvent.ACTION_DOWN ) {
-                        searchFor(getBaseContext());
+
+                        mAdapter = new MySearchedFriendsAdapter(searchFor(getBaseContext()),mListener);
+                        recyclerView.setAdapter(mAdapter);
                     }
                     return true;
                 }
@@ -87,11 +111,11 @@ public class SearchFriendsActivity extends AppCompatActivity {
 
         // Set the adapter
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MySearchedFriendsAdapter(searchFor(this),mListener);
-        recyclerView.setAdapter(mAdapter);
+//        final LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        recyclerView.setLayoutManager(layoutManager);
+//        mAdapter = new MySearchedFriendsAdapter(searchFor(this),mListener);
+//        recyclerView.setAdapter(mAdapter);
     }
 
 
@@ -110,8 +134,11 @@ public class SearchFriendsActivity extends AppCompatActivity {
                     JSONObject currentObj = profile.getJSONObject(0);
                     Log.d("search result", currentObj.toString());
                     Profile prof_object = new Profile();
-//                    prof_object
-//                    profile_list.add(prof_object);
+                    prof_object.setProfile(currentObj.getInt("profile_id"));
+                    prof_object.setScreen_name(currentObj.getString("screen_name"));
+                    prof_object.setProfile_pic(currentObj.getString("profile_pic"));
+                    prof_object.setTimestamp(currentObj.getString("timestamp"));
+                    profile_list.add(prof_object);
 
 
                     mAdapter.notifyDataSetChanged();

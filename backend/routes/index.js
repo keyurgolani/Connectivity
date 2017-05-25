@@ -544,7 +544,7 @@ router.post('/fetchNewPendingRequest', function(req, res, next) {
 
 //Search profile from email
 router.post('/searchProfileFromEmail', function(req, res, next) {
-	if (exists(req.body.email)) {
+	if (exists(req.body.email) && req.body.email.match(email_validator) !== null) {
 		profile_bo.getProfileIDFromEmail(req.body.email, function(friend_profile_id) {
 			profile_bo.fetchProfilefromID(friend_profile_id,function(search_results){
 				res.send({
