@@ -65,8 +65,8 @@ module.exports.fetchFriendTimeline = function(db, profile, friend, res) {
 		dao.executeQuery('select count(connection_id) as count from connection_details where (profile = ? and friend = ? and pending = 0) or (profile = ? and friend = ? and pending = 0)', [profile, friend, friend, profile], function(connection_result) {
 			if (connection_result[0].count > 0) {
 				dao.executeQuery('select * from post_details, profile_details where profile_id = profile and profile = ?', [friend], function(post_result) {
-					for (var i = 0; i < timeline_result.length; i++) {
-						timeline_result[i].timestamp = moment(timeline_result[i].timestamp, "YYYY-MM-DDTHH:mm:ss.SSSZ").fromNow();
+					for (var i = 0; i < post_result.length; i++) {
+						post_result[i].timestamp = moment(post_result[i].timestamp, "YYYY-MM-DDTHH:mm:ss.SSSZ").fromNow();
 					}
 					res.send({
 						'status_code': 200,
@@ -77,12 +77,12 @@ module.exports.fetchFriendTimeline = function(db, profile, friend, res) {
 				dao.executeQuery('select count(follow_id) as count from follow_details, preference_details where follow_details.following = preference_details.profile  and public = 1 and follow_details.profile = ? and following = ?', [profile, friend], function(follow_result) {
 					if (follow_result[0].count > 0) {
 						dao.executeQuery('select * from post_details, profile_details where profile_id = profile and profile = ?', [friend], function(post_result) {
-							for (var i = 0; i < timeline_result.length; i++) {
-								timeline_result[i].timestamp = moment(timeline_result[i].timestamp, "YYYY-MM-DDTHH:mm:ss.SSSZ").fromNow();
+							for (var i = 0; i < follow_result.length; i++) {
+								follow_result[i].timestamp = moment(follow_result[i].timestamp, "YYYY-MM-DDTHH:mm:ss.SSSZ").fromNow();
 							}
 							res.send({
 								'status_code': 200,
-								'message': post_result
+								'message': follow_result
 							})
 						})
 					} else {

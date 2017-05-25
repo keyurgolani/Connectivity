@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import edu.sjsu.cmpe.fourhorsemen.connectivity.R;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.CreateNewPostActivity;
+import edu.sjsu.cmpe.fourhorsemen.connectivity.activities.OtherUserProfileActivity;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Post;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.beans.Profile;
 import edu.sjsu.cmpe.fourhorsemen.connectivity.fragments.PostFragment.OnListFragmentInteractionListener;
@@ -69,13 +70,24 @@ public class MySearchedFriendsAdapter extends RecyclerView.Adapter<MySearchedFri
     }
 
     @Override
-    public void onBindViewHolder(final MySearchedFriendsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final MySearchedFriendsAdapter.ViewHolder holder, final int position) {
         holder.btnAccept.setVisibility(View.GONE);
         holder.btnIgnore.setVisibility(View.GONE);
         holder.timestamp.setText(profiles.get(position).getTimestamp());
         holder.screen_name.setText(profiles.get(position).getScreen_name());
         byte[] decodedString = Base64.decode(profiles.get(position).getProfile_pic(), Base64.DEFAULT);
         holder.userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(holder.cv.getContext(), OtherUserProfileActivity.class);
+                intent.putExtra("profile",profiles.get(position).getProfile());
+                holder.cv.getContext().startActivity(intent);
+
+            }
+        });
+
     }
 
     @Override

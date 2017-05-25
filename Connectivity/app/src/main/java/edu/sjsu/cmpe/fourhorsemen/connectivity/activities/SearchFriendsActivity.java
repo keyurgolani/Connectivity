@@ -42,11 +42,11 @@ public class SearchFriendsActivity extends AppCompatActivity {
 
     private static String TAG = SearchFriendsActivity.class.getSimpleName();
 
-    RecyclerView recyclerView;
-    RecyclerView.Adapter mAdapter;
+    private RecyclerView recyclerView;
+//    RecyclerView.Adapter mAdapter;
     private PostFragment.OnListFragmentInteractionListener mListener;
     @Bind(R.id.search_email) EditText searchEmail;
-
+    private MySearchedFriendsAdapter mAdapter;
 
     public SearchFriendsActivity(){
 
@@ -66,17 +66,15 @@ public class SearchFriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_add_friends);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ButterKnife.bind(this);
-        recyclerView=new RecyclerView(this);
 
-
-        // Set the adapter
+        recyclerView = (RecyclerView) findViewById(R.id.friends_list);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MySearchedFriendsAdapter(new ArrayList<Profile>(),mListener);
-        recyclerView.setAdapter(mAdapter);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ButterKnife.bind(this);
+//        recyclerView=new RecyclerView(this);
+
 
         // Set a key listener callback so that users can search by pressing "Enter"
         searchEmail.setOnKeyListener(new OnKeyListener() {
@@ -84,6 +82,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if( keyCode == KeyEvent.KEYCODE_ENTER ) {
                     if( event.getAction() == KeyEvent.ACTION_DOWN ) {
+
                         mAdapter = new MySearchedFriendsAdapter(searchFor(getBaseContext()),mListener);
                         recyclerView.setAdapter(mAdapter);
                     }
@@ -93,20 +92,20 @@ public class SearchFriendsActivity extends AppCompatActivity {
             }
         });
 
-//        searchEmail.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                final int DRAWABLE_RIGHT = 2;
-//
-//                if(event.getAction() == MotionEvent.ACTION_UP) {
-//                    if(event.getRawX() >= (searchEmail.getRight() - searchEmail.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-//                        //TODO: Search Code here
-//                        return true;
-//                    }
-//                }
-//                return false;
-//            }
-//        });
+        searchEmail.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (searchEmail.getRight() - searchEmail.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        //TODO: Search Code here
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
         // Set the adapter
 
@@ -123,20 +122,21 @@ public class SearchFriendsActivity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("unique_id", PreferenceHandler.getAccessKey());
         params.put("search", searchEmail.getText().toString());
-
-
         RequestHandler.HTTPRequest(context, ProjectProperties.METHOD_SEARCH_PROFILE, params, new ResponseHandler() {
             @Override
             public void handleSuccess(JSONObject response) throws Exception {
                 if(response.getInt("status_code") == 200) {
                     JSONArray profile = response.getJSONArray("message");
                     JSONObject currentObj = profile.getJSONObject(0);
+                    Log.d("search result", currentObj.toString());
                     Profile prof_object = new Profile();
                     prof_object.setProfile(currentObj.getInt("profile_id"));
                     prof_object.setScreen_name(currentObj.getString("screen_name"));
                     prof_object.setProfile_pic(currentObj.getString("profile_pic"));
                     prof_object.setTimestamp(currentObj.getString("timestamp"));
                     profile_list.add(prof_object);
+
+
                     mAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getBaseContext(), "No Profile Found.", Toast.LENGTH_SHORT).show();
@@ -148,6 +148,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+
         return profile_list;
     }
 
@@ -167,34 +168,34 @@ public class SearchFriendsActivity extends AppCompatActivity {
 
 
 
-//    private List<Post> getSearchedFriends(Context context) {
-//        final List<Post> personalTimeline = new ArrayList<Post>();
-//        HashMap<String, String> params = new HashMap<String, String>();
-//        params.put("unique_id", PreferenceHandler.getAccessKey());
-//
-//
-//        RequestHandler.HTTPRequest(context, ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
-//            @Override
-//            public void handleSuccess(JSONObject response) throws Exception {
-//                if(response.getInt("status_code") == 200) {
-//                    JSONArray posts = response.getJSONArray("message");
-//                    for(int i  = 0; i < posts.length(); i++) {
-//                        JSONObject currentObj = posts.getJSONObject(i);
-//                        personalTimeline.add(new Post(currentObj.getInt("post_id"), currentObj.getString("photo"), currentObj.getString("post"), new Profile(currentObj.getInt("profile"), currentObj.getString("profile_pic"), currentObj.getString("screen_name")), currentObj.getString("timestamp")));
-//                    }
-//                    mAdapter.notifyDataSetChanged();
-//                } else {
-//                    Toast.makeText(getBaseContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void handleError(Exception e) throws Exception {
-//                e.printStackTrace();
-//            }
-//        });
-//        return personalTimeline;
-//    }
+    private List<Post> getSearchedFriends(Context context) {
+        final List<Post> personalTimeline = new ArrayList<Post>();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("unique_id", PreferenceHandler.getAccessKey());
+
+
+        RequestHandler.HTTPRequest(context, ProjectProperties.METHOD_FETCH_TIMELINE, params, new ResponseHandler() {
+            @Override
+            public void handleSuccess(JSONObject response) throws Exception {
+                if(response.getInt("status_code") == 200) {
+                    JSONArray posts = response.getJSONArray("message");
+                    for(int i  = 0; i < posts.length(); i++) {
+                        JSONObject currentObj = posts.getJSONObject(i);
+                        personalTimeline.add(new Post(currentObj.getInt("post_id"), currentObj.getString("photo"), currentObj.getString("post"), new Profile(currentObj.getInt("profile"), currentObj.getString("profile_pic"), currentObj.getString("screen_name")), currentObj.getString("timestamp")));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getBaseContext(), "Internal Error. Please try again later.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void handleError(Exception e) throws Exception {
+                e.printStackTrace();
+            }
+        });
+        return personalTimeline;
+    }
 
     @Override
     public void onAttachFragment(Fragment fragment) {
