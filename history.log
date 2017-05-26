@@ -1,0 +1,693 @@
+commit 6da8a630ce320aa347fde69aad666d5efd9dd82e
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 22:21:23 2017 -0700
+
+    Removed duplicate photos
+
+commit 0f843dc2defc17d63c894c93fa9fd62ebb330ccb
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 17:26:04 2017 -0700
+
+    Screenshots added
+
+commit 4aaa02f5422368db5f5e415c74f1e19b4c759783
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 17:25:24 2017 -0700
+
+    SQL Query Update
+
+commit 712420e69b1b9f7f7873f27e760fc8b1f4f447cc
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 17:18:34 2017 -0700
+
+    Icons Changes
+
+commit e959ab24e9d4a7c26ad61f46740f0a98fa48f2ed
+Merge: b77d735 31660ae
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 15:13:49 2017 -0700
+
+    Merge pull request #41 from keyurgolani/friends_module
+    
+    Friends module
+
+commit 31660ae5549fed28b5d74188d8b15393c12354fb
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 15:13:12 2017 -0700
+
+    Final Fixes and Demo Screenshots Taken
+
+commit e433245bb8b8b9a94bfe64766a2d189fe9990184
+Merge: 78e1827 9317541
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 14:09:27 2017 -0700
+
+    Conflicts resolved.
+
+commit 78e1827f45d8016640d29cdccffdbc0b75e64672
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 14:08:43 2017 -0700
+
+    Small fixes on profile picture upload
+
+commit 9317541f19887aa8488df643ba49bdeabd9b5054
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Thu May 25 14:07:59 2017 -0700
+
+    Rest Call fetchusertimeline
+
+commit b77d73550554a47dcef7481f1597a3e971e444fe
+Merge: 40d97e0 3bd6926
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 13:24:16 2017 -0700
+
+    Merge pull request #40 from keyurgolani/friends_module
+    
+    Friends module
+
+commit 3bd6926ade127db040d45951825ecec2903694a4
+Merge: c098492 c441129
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 13:23:11 2017 -0700
+
+    Friend Timeline query crash fixed. Merged previous conflict
+
+commit c098492c40b7ec23c841647d3c953bee570a3486
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 12:49:01 2017 -0700
+
+    Opening other people's profile
+
+commit c44112966c12f71b63745fe89980f334ad04cc32
+Merge: b6415be 0ee1d0e
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Thu May 25 12:41:48 2017 -0700
+
+    resolving issues.
+
+commit b6415be066496e21020fa15ef53fd30bdf09ed9f
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Thu May 25 12:33:13 2017 -0700
+
+    Show searched friend fixed.
+
+commit 0ee1d0e0706059a275c2f9de521eb188f107d14b
+Merge: 6c4c830 40d97e0
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 09:50:11 2017 -0700
+
+    Merged with Master
+
+commit 6c4c8306c38f74f0d32edd4379e6b56a829713c3
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Thu May 25 03:22:17 2017 -0700
+
+    Search Friend updated.Needs Fix.
+
+commit 609b6053199ab2fa631af2d2c85b8b9beaa169a9
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Thu May 25 02:18:44 2017 -0700
+
+    Search profile rest call
+
+commit 40d97e0b02d1ae00c0d9372b80f8dd1e7eac9426
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 01:09:36 2017 -0700
+
+    Update TODOs.txt
+
+commit efb514d7a57c07f3884cf34804d8060c80368698
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Thu May 25 01:03:46 2017 -0700
+
+    Friend Request Accept and Decline Done
+
+commit 25610993fe2af2b08157b08e58bb4d97026a7e0b
+Merge: 72aae68 0ed8143
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Wed May 24 23:46:03 2017 -0700
+
+    resolving conflict
+
+commit 72aae689414855b6c1d329a9372c2760deda96dd
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Wed May 24 23:29:29 2017 -0700
+
+    Merging remote branch
+
+commit 0ed8143e35ad56e3935d3971e2f0c25a6f653608
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 23:27:31 2017 -0700
+
+    Fixed Notification On Message Backend
+
+commit 114b034935b6b144c18a8353195f9cf7bcdec80d
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 21:02:54 2017 -0700
+
+    Message Tabs Fix
+
+commit 634ee207b1fd8173e62397982d58ed9ba2de6a1a
+Merge: 86063b5 472aa95
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 20:52:54 2017 -0700
+
+    Conflicts Resolved
+
+commit 86063b5f99bd1a3251d2793cd1efe1f2987ccb3c
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 20:47:14 2017 -0700
+
+    Done with Image Displaying Optimization. Resolved issue of OutOfMemoryError
+
+commit 472aa95fce534de8dcf575bee727c8978548d575
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Wed May 24 20:45:48 2017 -0700
+
+    Friend Request Module Completed.
+
+commit 8e6a3add9958d5c1703cb79d364b6faa10afa292
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 17:29:59 2017 -0700
+
+    Photo Showing in Messages sent and received. And Messages refreshing after sending message
+
+commit e13f62dcf03198616b6b1acbc225c21ee1483c50
+Merge: ded81ea ea6d834
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 16:19:21 2017 -0700
+
+    Merge pull request #39 from keyurgolani/backend_bug_fix
+    
+    Backend bug fix
+
+commit ea6d834b1a0b29f4aa2f55bf0636a96e1492ce15
+Merge: 93be379 ded81ea
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 16:19:16 2017 -0700
+
+    Merge branch 'master' into backend_bug_fix
+
+commit ded81ea83854bf2aaeb5fce9993d321b98139c7d
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 16:17:52 2017 -0700
+
+    Uploading photos in posts and displaying on timeline
+
+commit 93be37963bac3317dfa627870293a218283bd707
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Wed May 24 15:00:21 2017 -0700
+
+    Subject and content bug fix.
+
+commit 1f0166e774f8b8207ddde0c10958033f8eacb7f2
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Wed May 24 14:43:04 2017 -0700
+
+    Display Sent and Received Message.
+
+commit b6f257b0fd9b185a7b2d9ca1524f990772b51696
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 12:47:20 2017 -0700
+
+    Timeline population fixed
+
+commit 026942d283653af88505c57ef67d268c130a3251
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 12:16:41 2017 -0700
+
+    Profile Photo Routing Fixed
+
+commit c5beeef7c917ac7add4533364a754ebcc9817490
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Wed May 24 03:25:28 2017 -0700
+
+    Mainly worked on Photo Upload Rest Calls
+    
+    Changed some backend logic to match client changes. Enabled large request body. Some other changes in client
+
+commit 587e520c6b4eb6d98b6e22ac1fa80dcbdda92cfd
+Merge: 4f8e4b2 ba57126
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Tue May 23 15:35:26 2017 -0700
+
+    Merge branch 'master' of https://github.com/keyurgolani/Connectivity
+    
+    # Conflicts:
+    #       Connectivity/app/src/main/assets/properties.properties
+    #       backend/logs/logging.log
+
+commit 4f8e4b2bad080a845ffca564a6f7b2549fefe859
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Tue May 23 15:33:46 2017 -0700
+
+    last commit
+
+commit aa2ae145eb2a1c508980609bba3856bf0e5c1cf0
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Tue May 23 11:38:03 2017 -0700
+
+    logout button added in settings menu
+
+commit ba5712664c9660bee56e9ac1b668c9a3b6173106
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Mon May 22 20:01:20 2017 -0700
+
+    Adding TODOs.txt
+
+commit 940c0c74c83d834d9de833b0566e6b5ab2753b06
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Mon May 22 11:57:30 2017 -0700
+
+    upload profile pic from camera or gallery UI done
+
+commit 89033312b2b0a4fbc682e9d2bbf5508da4208f65
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Mon May 22 11:24:52 2017 -0700
+
+    create Post with picture UI done
+
+commit 6d28eca1ba26a7c1c0393649480cd3ae57def7aa
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Mon May 22 10:15:10 2017 -0700
+
+    Change profile picture UI done
+
+commit d717cb8e98717383b7ff37320f0ea815fd4fcd88
+Merge: 2ded789 6043ec7
+Author: Ekta Sorathia <ektasorathia@gmail.com>
+Date:   Sun May 21 11:55:52 2017 -0700
+
+    Merge pull request #38 from keyurgolani/send_message_fixes
+    
+    Send Message Fixed
+
+commit 6043ec7f2ba70f1fc1262b00d949cc3273d11da5
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Sun May 21 11:54:06 2017 -0700
+
+    Send Message Fixed
+
+commit 2ded789e244fef566672a5b954c759d7cf6d520b
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sun May 21 01:39:06 2017 -0700
+
+    Fixed crashing profile fragment and signup issue after change in preference sql
+
+commit 1ccd3892c22ad7f7b65631c0fce75396364b9891
+Merge: ddd0ef9 3e45476
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sun May 21 01:20:22 2017 -0700
+
+    Conflicts resolved
+
+commit ddd0ef9e3fb345992f424cb8f86c36c569ae55de
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sun May 21 01:10:05 2017 -0700
+
+    Stashing
+
+commit 3e454767eedad07cc4ccd87d27c3d688defd879a
+Merge: f174446 93dbfe6
+Author: Ekta Sorathia <ektasorathia@gmail.com>
+Date:   Sun May 21 00:56:57 2017 -0700
+
+    Merge pull request #37 from keyurgolani/send_message
+    
+    Send message
+
+commit 93dbfe68ab972b5d361e66e6fb7eabb98c5f3232
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Sun May 21 00:56:07 2017 -0700
+
+    Send messade completed
+
+commit ad4aaeba69c381670df46dc18f0b9c80fb4575e5
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sun May 21 00:15:17 2017 -0700
+
+    temp user profile navigation
+
+commit fdcd79aaf5b11270ed48d1b02887740de651110d
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 21:19:00 2017 -0700
+
+    temp user profile navigation
+
+commit f17444640e3c5a96e364748b9153aae5d0c8607c
+Merge: 6242231 1a94e5b
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 20:31:17 2017 -0700
+
+    Merge branch 'friends_tab'
+
+commit 1a94e5ba1e25a51f6ffa8e723374589a0fd74c34
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 20:29:28 2017 -0700
+
+    Friends tab created
+
+commit 62422311cd7bffb6d2eb7672cb11635f73a31c14
+Merge: 9db784e 7bc40f0
+Author: Ekta Sorathia <ektasorathia@gmail.com>
+Date:   Sat May 20 20:13:28 2017 -0700
+
+    Merge pull request #36 from keyurgolani/profile_fixes
+    
+    Display profile fixes.
+
+commit 7bc40f06da412ed3095532df1ff9925ea695e354
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Sat May 20 20:12:47 2017 -0700
+
+    Display profile fixes.
+
+commit 9db784e0267a443c11fa6899498a085b5fc9604b
+Merge: ee5b02b a6c99bc
+Author: Ekta Sorathia <ektasorathia@gmail.com>
+Date:   Sat May 20 19:56:16 2017 -0700
+
+    Merge pull request #35 from keyurgolani/setting_branch
+    
+    Update settings rest API
+
+commit a6c99bce968fab94aea388940f80ede5d23bbea3
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Sat May 20 19:53:24 2017 -0700
+
+    Update settings rest API
+
+commit ee5b02b6fc954f127b6f0af4905c6a1e0dbd89cf
+Merge: 940e8ff 19d4fae
+Author: Ekta Sorathia <ektasorathia@gmail.com>
+Date:   Sat May 20 19:51:58 2017 -0700
+
+    Merge pull request #34 from keyurgolani/setting_branch
+    
+    Settings Updated.
+
+commit 19d4fae1c80bb1132c7aaa2ea7e50c7dbd951290
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Sat May 20 19:50:43 2017 -0700
+
+    Settings Updated.
+
+commit 940e8ffcd05ea923a0c4352c57a326fe403b431c
+Merge: a05587c b2fd3d5
+Author: Ekta Sorathia <ektasorathia@gmail.com>
+Date:   Sat May 20 16:47:36 2017 -0700
+
+    Merge pull request #33 from keyurgolani/notification_branch
+    
+    notification added on message. #ToDo testing.
+
+commit b2fd3d5a6e226f97eb4008aa90444d66a13c07fa
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Sat May 20 16:46:44 2017 -0700
+
+    notification added on message. ToDo testing.
+
+commit a05587c758634f80106208b9a64b06b5f9e9a749
+Merge: 274e477 3dd6655
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 15:57:11 2017 -0700
+
+    Merge branch 'settings_ui'
+
+commit 274e47792fbd0a942cfbda507d05c6a9921da010
+Merge: 0977f0b e5c2668
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 15:57:04 2017 -0700
+
+    Merge branch 'master' of https://github.com/keyurgolani/Connectivity
+    
+    # Conflicts:
+    #       Connectivity/app/src/main/assets/properties.properties
+    #       backend/logs/logging.log
+
+commit 3dd6655b03118f23bd5180a91eaee6dd75e9a7ff
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 15:52:42 2017 -0700
+
+    Settings UI Done
+
+commit e5c266858be85cb8341cbe96b5e32eddc152dd1d
+Merge: 5d40814 5da9653
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 15:22:41 2017 -0700
+
+    Merge pull request #32 from keyurgolani/backend
+    
+    Backend
+
+commit 5da9653786d33d080e9743af9edcd29c86343a65
+Merge: 174e1ff 5d40814
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 15:22:21 2017 -0700
+
+    Conflicts resolved
+
+commit 174e1ffaf77a557254c618dbc3a12c1385668807
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 15:19:45 2017 -0700
+
+    Notifying on friend's post
+
+commit 5d408140fa46b7cf8d4fddb76b87415821826e3e
+Merge: aa4076d 225a9b7
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 14:55:39 2017 -0700
+
+    Merge pull request #31 from keyurgolani/rest_changes
+    
+    Profile Population done
+
+commit 225a9b74f3fed612ed98dac998bc3e2d684a3060
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 14:55:07 2017 -0700
+
+    Profile Population done
+
+commit a46dea9a668e1de6ca37e83a2c3a1a635c0f6a6b
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Sat May 20 14:29:10 2017 -0700
+
+    Add Single Notification Method.
+
+commit aa4076d3225b8e58b61e26eebadf60db32f0ae96
+Merge: 6dff107 400dc44
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 14:24:12 2017 -0700
+
+    Merge pull request #29 from keyurgolani/rest_changes
+    
+    Signup asctivity updated with the screen name.
+
+commit 400dc446b89e968b6ebb5c3bd782d3059f6587ba
+Merge: 294dfae 6dff107
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 14:24:06 2017 -0700
+
+    Merge branch 'master' into rest_changes
+
+commit 6dff107644bf3e8b18aec29ccfbae2fa8836318f
+Merge: a66dad5 cf74690
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 14:17:42 2017 -0700
+
+    Merge pull request #30 from keyurgolani/timeline_profilepic_fix
+    
+    Timeline shows photo and screenname now. Also added method to fetch photo from photoid
+
+commit cf74690eff21528b0d1e6813bfdcef080ada930e
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 14:17:12 2017 -0700
+
+    Timeline shows photo and screenname now. Also added method to fetch photo from photoid
+
+commit 294dfaed2cbe11b2f9b6a147defe79ae04319f79
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Sat May 20 13:53:00 2017 -0700
+
+    Signup asctivity updated with the screen name.
+
+commit 6b6c3f48c1270c2e80c477de35beeb4cc4b7ad7f
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Sat May 20 13:48:18 2017 -0700
+
+    Fetch Notification Receivers.
+
+commit a66dad5d0b331aa705e22d12d4ac97bb9e93a760
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 11:26:15 2017 -0700
+
+    deleted properties file backend from github
+
+commit 0977f0bd69f51e258ca0e7e4236d798cc613cd72
+Merge: d6cdcaa 5319321
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 11:15:56 2017 -0700
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       Connectivity/app/src/main/assets/properties.properties
+
+commit d6cdcaa621ba06360bbcff88c9ba88fb8338e271
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 11:15:03 2017 -0700
+
+    Messages UI done
+
+commit 531932170374fdd4620bae08c5286023fc844346
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 10:50:31 2017 -0700
+
+    deleted properties file from github android
+
+commit a3238f0d1283a30eb416c0f085dbf1a5038af1bb
+Merge: fa873ba 5c9a8ac
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 09:49:28 2017 -0700
+
+    Merge branch 'msg_ui'
+    
+    # Conflicts:
+    #       backend/logs/logging.log
+
+commit 6e2078a0af322e8f88a74cd0b0b4c91df21550a9
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Sat May 20 03:41:59 2017 -0700
+
+    Update Settings Call Done
+
+commit fa873ba31c785e4e3dc0da73a8653e776fab34d0
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 02:25:41 2017 -0700
+
+    Profile Update backend fixed, backend and front end wired and tested. Profile Details cached and displaying at places
+
+commit 2a45f7d0bb2a3f0d55a531b3e8bead336acffa16
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 01:35:42 2017 -0700
+
+    Minor bug fix
+
+commit 5c9a8acf1f6c2ef2acc5e3d7b64d08b666cd7e51
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Sat May 20 01:34:05 2017 -0700
+
+    Messages UI done
+
+commit a51373b2b88063c72edbf6ae2430787c52e766a7
+Merge: 25ab777 fef7020
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 01:18:18 2017 -0700
+
+    Merge branch 'master' of https://github.com/keyurgolani/Connectivity
+
+commit 25ab7770ab2f96e1d3044ba16ced7fc077d98f08
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 01:18:09 2017 -0700
+
+    Fix Create Post Crash Issue
+
+commit fef702048cdacf05dfb165acf82b84d05b270d64
+Merge: 72a3000 57ba8fb
+Author: Ekta Sorathia <ektasorathia@gmail.com>
+Date:   Sat May 20 01:17:23 2017 -0700
+
+    Merge pull request #28 from keyurgolani/edit_profile
+    
+    Edit Profile completed. To be tested
+
+commit 57ba8fb2b63a99e81f98facb8644ff117ca36423
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Sat May 20 01:16:58 2017 -0700
+
+    Edit Profile completed. To be tested
+
+commit 72a30005bc5f3aa06ef1361e4e2d881f4f27948f
+Merge: aa14cbf ccad8c2
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 00:53:26 2017 -0700
+
+    Merge pull request #27 from keyurgolani/profile_backend_method
+    
+    Profile backend method
+
+commit ccad8c27ca928d55bb3cf99465e497cadc6ce330
+Merge: ffe9dff aa14cbf
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 00:52:50 2017 -0700
+
+    Conflicts Resolved
+
+commit ffe9dffeee83905a31107f260c07b3a26a9a7d74
+Merge: 81040f2 2fc6f7a
+Author: Keyur Golani <keyurrgolani@gmail.com>
+Date:   Sat May 20 00:52:02 2017 -0700
+
+    Caching profile and showing profile pic and screen name at places
+
+commit aa14cbf6f0c15e46e01334e354ffaa9b29fcbc1f
+Merge: 81040f2 057a0be
+Author: Ekta Sorathia <ektasorathia@gmail.com>
+Date:   Fri May 19 23:51:38 2017 -0700
+
+    Merge pull request #26 from keyurgolani/display_profile_details
+    
+    Fetch Profile details Done on Android.
+
+commit 057a0be4e112b359ae6697eed5f8d0cea7fba971
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Fri May 19 23:51:19 2017 -0700
+
+    Fetch Profile details Done on Android.
+
+commit 2fc6f7a82acc3826eced7d8d94284824de92d357
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Fri May 19 22:08:23 2017 -0700
+
+    Save Profile - SharedPreferences
+
+commit 81040f290f116cf27a9360f781f6307715efddc9
+Merge: 55eca81 80c2458
+Author: Ekta Sorathia <ektasorathia@gmail.com>
+Date:   Fri May 19 20:20:07 2017 -0700
+
+    Merge pull request #25 from keyurgolani/add_post_fixes
+    
+    removed onTouch Listener on add new post.
+
+commit 80c245841aff83bbd6e9a0365c1a71c64031f89d
+Author: ekta2803 <ektasorathia@gmail.com>
+Date:   Fri May 19 20:19:36 2017 -0700
+
+    removed onTouch Listener on add new post.
+
+commit 55eca81c4fc7d540a3a717e5d4f3df7218a57596
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Fri May 19 20:01:51 2017 -0700
+
+    About screen done - Merged to master
+
+commit 13b143cf2725bbc72383d9d61de96682405b0938
+Merge: f60a0bb 9fa55ca
+Author: Gaurav Chodwadia <gauravchodwadia@gmail.com>
+Date:   Fri May 19 19:54:38 2017 -0700
+
+    Merge branch 'profile_UI_new'
+    
+    # Conflicts:
+    #       Connectivity/app/src/main/assets/properties.properties
+    #       Connectivity/app/src/main/java/edu/sjsu/cmpe/fourhorsemen/connectivity/activities/MainActivity.java
+    #       Connectivity/app/src/main/java/edu/sjsu/cmpe/fourhorsemen/connectivity/fragments/PostFragment.java
+    #       Connectivity/app/src/main/java/edu/sjsu/cmpe/fourhorsemen/connectivity/fragments/ProfileFragment.java
+    #       backend/logs/logging.log
+
+commit abebf1cca489f74fe2d75a67200c583db7f64d04
+Author: Rushin Naik <naikrushin@gmail.com>
+Date:   Fri May 19 19:43:54 2017 -0700
+
+    Preload Profile call.
