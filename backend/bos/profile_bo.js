@@ -284,7 +284,7 @@ module.exports.declineRequest = function(profile, friend, res) {
 };
 
 module.exports.searchProfile = function(search, res) {
-	dao.executeQuery('select * from profile_details, account_details where user_id = account and (email = ? or screen_name = ?);', [search, search], function(search_results) {
+	dao.executeQuery('select * from profile_details, account_details, preference_details where (user_id = account and email = ? and preference_details.profile = profile_details.profile_id) or (user_id = account and screen_name like ? and preference_details.profile = profile_details.profile_id and preference_details.public = 1);', [search, search + "%"], function(search_results) {
 		if (search_results.length > 0) {
 			res.send({
 				'status_code': 200,
@@ -297,4 +297,4 @@ module.exports.searchProfile = function(search, res) {
 			});
 		}
 	});
-};
+};;
