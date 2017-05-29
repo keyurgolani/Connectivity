@@ -42,7 +42,7 @@ An Android Application for Social Media and Connectivity
 
 ## History
 
-[History File](commits/master)
+[History File](https://github.com/keyurgolani/Connectivity/commits/master)
 
 ## Credits
 
