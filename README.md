@@ -42,7 +42,7 @@ An Android Application for Social Media and Connectivity
 
 ## History
 
-[History File](history.log)
+[History File](commits/master)
 
 ## Credits
 
