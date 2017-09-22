@@ -22,16 +22,21 @@ module.exports.fetchOwnTimeline = function(db, profile, res) {
 				photo_ids.push(new ObjectID(timeline_result[i].photo))
 			}
 		}
+
+		var photo_set = []
+		for (var k = 0; k < photo_ids.length; k++) {
+			if (photo_set.indexOf(photo_ids[k]) == -1) {
+				photo_set.push(photo_ids[k])
+			}
+		}
 		db.get("photos").find({
 			'_id': {
-				$in: photo_ids
+				$in: photo_set
 			}
 		}).then(function(results) {
 			photo_results = {};
-			for (var j = 0; j < photo_ids.length; j++) {
-				if (exists(results[j])) {
-					photo_results[photo_ids[j]] = results[j].photo;
-				}
+			for (var j = 0; j < results.length; j++) {
+				photo_results[results[j]._id] = results[j].photo
 			}
 			for (var k = 0; k < timeline_result.length; k++) {
 				if (exists(photo_results[timeline_result[k].profile_pic])) {
@@ -63,18 +68,21 @@ module.exports.fetchFriendTimeline = function(db, profile, friend, res) {
 				if (timeline_result[i].photo != 0 && photo_ids.indexOf(timeline_result[i].photo) === -1) {
 					photo_ids.push(new ObjectID(timeline_result[i].photo))
 				}
-
+			}
+			var photo_set = []
+			for (var k = 0; k < photo_ids.length; k++) {
+				if (photo_set.indexOf(photo_ids[k]) == -1) {
+					photo_set.push(photo_ids[k])
+				}
 			}
 			db.get("photos").find({
 				'_id': {
-					$in: photo_ids
+					$in: photo_set
 				}
 			}).then(function(results) {
 				photo_results = {};
-				for (var j = 0; j < photo_ids.length; j++) {
-					if (exists(results[j])) {
-						photo_results[photo_ids[j]] = results[j].photo;
-					}
+				for (var j = 0; j < results.length; j++) {
+					photo_results[results[j]._id] = results[j].photo
 				}
 				for (var k = 0; k < timeline_result.length; k++) {
 					if (exists(photo_results[timeline_result[k].profile_pic])) {
